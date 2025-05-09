@@ -34,7 +34,7 @@ Develop a Minimum Viable Product (MVP) of the KhaRom mobile AI chat application,
     -   [x] Create `codebaseSummary.md` (Completed 2025-05-09)
 -   [ ] **Task 0.3:** Setup Project Repositories & Structure
     -   [x] Initialize Git repository on GitHub. (Includes initial commit of docs & README, 2025-05-09)
-    -   [x] Set up React Native (Expo Bare) project structure. (SDK 50 based, then `npm audit fix --force` applied, 0 vulnerabilities. Stability to be verified. 2025-05-09)
+    -   [x] Set up React Native (Expo Bare) project structure. (Aligned to SDK 51, 3 low vulnerabilities, runnable. 2025-05-09)
     -   [ ] Set up Next.js API project structure.
     -   [ ] Configure ESLint and Prettier for both projects.
 
