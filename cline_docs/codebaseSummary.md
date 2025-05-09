@@ -1,31 +1,44 @@
-# Codebase Summary: KhaRom MVP (Initial State)
+# Codebase Summary: KhaRom MVP (Post Mobile App Setup)
 
 This document provides a high-level overview of the KhaRom MVP project structure and will be updated as development progresses.
 
 ## Project Structure Overview
-The project is divided into two main parts: a React Native (Expo Bare) mobile application for the frontend and a Next.js application for the backend API proxy.
+The project is structured as a monorepo with distinct applications/packages.
+- **`mobile-app/`**: Contains the React Native (Expo SDK 51, Bare workflow) mobile application. This is the primary frontend.
+- **`api-server/` (Planned)**: Will contain the Next.js application for the backend API proxy.
+- **Root Level**: Contains documentation (`cline_docs/`, `memory-bank/`), configuration (`.clinerules/`), and the main `README.md`.
 
-**Defined Project Structure (from `.clinerules/clinerules.md`):**
+**Interpreted Project Structure (based on `.clinerules/clinerules.md` and current setup):**
 ```
-/src
-  /app              # Next.js API Routes (e.g., /api/chat)
-  /components       # Reusable React Native components
-  /screens          # Mobile app screens
-  /navigation       # React Navigation configuration
-  /hooks            # Custom React hooks
-  /services         # API services (Gemini proxy calls)
-  /constants        # App-wide constants
-  /locales          # i18next translation files (Thai/EN)
-/assets             # Static assets (images, fonts)
-.clinerules         # Cline configuration folder
-/cline_docs         # Cline project context
-/memory-bank        # Cline Memory Bank folder
+/mobile-app/            # React Native Expo SDK 51 project
+  /src/
+    /components/
+    /screens/
+    /navigation/
+    /hooks/
+    /services/
+    /constants/
+    /locales/
+  /assets/
+  App.tsx
+  package.json
+  ...
+/api-server/ (Planned)  # Next.js API project
+  /src/
+    /app/api/           # Next.js API Routes (e.g., /chat)
+  package.json
+  ...
+/cline_docs/
+/memory-bank/
+/.clinerules/
+README.md
+...
 ```
-*(Note: This structure is planned. The actual directories will be created during project scaffolding.)*
+*(Note: The `api-server/` structure is illustrative until created.)*
 
 ## Key Components and Their Interactions (Planned)
 
-### React Native Mobile App (`/src` within Expo project)
+### React Native Mobile App (`mobile-app/` - Expo SDK 51)
 -   **`App.tsx` (or main entry):** Root component, initializes navigation and global providers (e.g., i18next).
 -   **Navigation (`/src/navigation`):**
     -   `AppNavigator`: Manages screen transitions (e.g., between ChatScreen and potential future screens like Settings).
@@ -67,14 +80,24 @@ The project is divided into two main parts: a React Native (Expo Bare) mobile ap
 -   **Google Gemini API:** Core external service for AI text generation.
 -   **React Navigation:** For screen navigation in the mobile app.
 -   **i18next & react-i18next:** For localization.
--   **Expo SDK & related libraries:** For mobile app development.
--   **Next.js & related libraries:** For backend API development.
+-   **Expo SDK 51 & related libraries:**
+    -   `expo: "~51.0.14"`
+    -   `react: "18.2.0"`
+    -   `react-native: "0.73.6"`
+    -   `expo-status-bar: "~1.12.1"`
+-   **Next.js & related libraries:** (To be added when `api-server` is set up)
 -   **@google/generative-ai (or similar):** Node.js SDK for interacting with Gemini API from the backend.
 
-*(Specific versions and a more detailed list will be maintained in `package.json` files for each project and potentially summarized here as they are finalized.)*
+*(Other dependencies will be added as features are implemented.)*
 
 ## Recent Significant Changes
--   **2025-05-09:** Project initialized. This `codebaseSummary.md` created as a baseline. No code exists yet.
+-   **2025-05-09:** Project initialized, initial documentation (`cline_docs`, `memory-bank`, `README.md`) created and committed.
+-   **2025-05-09:** `mobile-app` (React Native Expo) project scaffolded.
+    - Initial attempt with `expo-template-bare-typescript` resulted in an older SDK, critical vulnerabilities, and Metro bundler errors.
+    - Re-scaffolded `mobile-app` using `blank-typescript@sdk-50` template, then `expo prebuild --clean`.
+    - Dependencies manually aligned to Expo SDK 51 (`expo: ~51.0.14`, `react-native: 0.73.6`).
+    - Metro bundler error resolved; `npm start` is functional.
+    - Vulnerabilities reduced to 3 low severity.
 
 ## User Feedback Integration and Its Impact on Development (Planned)
 -   The thumbs-up/down feedback on AI replies is a core MVP feature.

@@ -1,9 +1,9 @@
 # System Patterns
 
 ## System Architecture Overview
-The KhaRom application will consist of two main parts:
-1.  **React Native (Expo Bare) Mobile Application:** The user-facing client application responsible for UI, user input, and displaying AI responses.
-2.  **Next.js API Backend:** A simple backend acting as a secure proxy to the Google Gemini API. This backend will handle API key management and communication with the AI service.
+The KhaRom application will consist of two main parts, likely in separate subdirectories (e.g., `mobile-app` and `api-server`) within the main project root:
+1.  **React Native (Expo Bare SDK 51) Mobile Application:** The user-facing client application, located in `mobile-app/`. Responsible for UI, user input, and displaying AI responses.
+2.  **Next.js API Backend:** A simple backend acting as a secure proxy to the Google Gemini API. This will handle API key management and communication with the AI service. (To be created, e.g., in `api-server/`).
 
 ```mermaid
 graph LR
@@ -16,7 +16,7 @@ graph LR
 ```
 
 ## Key Technical Decisions & Justifications
--   **React Native (Expo Bare):** Chosen for cross-platform mobile development capabilities and alignment with project brief. The "Bare" workflow allows for more native module flexibility if needed, though initial focus is Expo Go compatibility.
+-   **React Native (Expo Bare SDK 51):** Chosen for cross-platform mobile development. Now using Expo SDK 51 for better stability and fewer vulnerabilities. The "Bare" workflow (achieved via `expo prebuild`) allows for native module flexibility. Expo Go compatibility remains a key focus.
 -   **Next.js for API Proxy:** Selected for its ease of creating API routes and serverless deployment capabilities (Vercel/Railway). It simplifies backend setup for a focused task like proxying.
 -   **Tailwind CSS:** For styling in the Next.js part (if any UI is built there, primarily for API though) and potentially for React Native via compatible libraries if desired, though native styling or StyleSheet will be the default for React Native components.
 -   **Google Gemini:** The core AI engine for generating Thai chat messages, as specified.
@@ -25,7 +25,7 @@ graph LR
 -   **Environment-Protected API Keys:** Critical for security. API keys will be managed on Vercel/Railway, not in client code.
 
 ## Design Patterns (Initial Thoughts for React Native App)
--   **Component-Based Architecture:** Standard React pattern. Reusable UI components will be organized in `/src/components`.
+-   **Component-Based Architecture:** Standard React pattern. For the `mobile-app`, reusable UI components will be organized in `mobile-app/src/components`.
 -   **State Management:**
     -   For simple local state: React's `useState` and `useReducer`.
     -   For global state (e.g., UI language, potentially user session if added post-MVP): React Context API initially. If complexity grows, consider Zustand or Redux Toolkit.
@@ -50,17 +50,19 @@ graph LR
 ## Project Structure (from .clinerules/clinerules.md)
 ```
 /src
-  /app              # Next.js API Routes (e.g., /api/chat)
-  /components       # Reusable React Native components
-  /screens          # Mobile app screens
-  /navigation       # React Navigation configuration
-  /hooks            # Custom React hooks
-  /services         # API services (Gemini proxy calls)
-  /constants        # App-wide constants
-  /locales          # i18next translation files (Thai/EN)
-/assets             # Static assets (images, fonts)
-.clinerules         # Cline configuration folder
-/cline_docs         # Cline project context
-/memory-bank        # Cline Memory Bank folder
+  /app              # Next.js API Routes (e.g., /api/chat) - This will be inside the Next.js project's src, e.g., api-server/src/app
+  /components       # Reusable React Native components - This will be inside mobile-app/src/components
+  /screens          # Mobile app screens - This will be inside mobile-app/src/screens
+  /navigation       # React Navigation configuration - This will be inside mobile-app/src/navigation
+  /hooks            # Custom React hooks - This will be inside mobile-app/src/hooks
+  /services         # API services (Gemini proxy calls) - This will be inside mobile-app/src/services
+  /constants        # App-wide constants - This will be inside mobile-app/src/constants
+  /locales          # i18next translation files (Thai/EN) - This will be inside mobile-app/src/locales
+/assets             # Static assets (images, fonts) - Each sub-project (mobile-app, api-server) might have its own assets folder, or a shared top-level one. For mobile-app, it's typically mobile-app/assets.
+.clinerules         # Cline configuration folder (Root level)
+/cline_docs         # Cline project context (Root level)
+/memory-bank        # Cline Memory Bank folder (Root level)
+/mobile-app         # React Native Expo project
+/api-server         # Next.js API project (Planned)
 ```
-This structure will be adhered to for organizing the codebase.
+This structure clarifies that the specific `/src` subdirectories from `.clinerules` will reside within their respective application sub-projects (`mobile-app`, `api-server`).

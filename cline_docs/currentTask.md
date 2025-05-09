@@ -14,20 +14,20 @@ The next sub-task is: "Set up Next.js API project structure."
     -   Task 0.3.2 "Set up React Native (Expo Bare) project structure" is now considered complete and stable.
 -   **Relevant Document:** `cline_docs/projectRoadmap.md` (Task 0.3).
 
-## Action Item for User: Commit `mobile-app` Final Changes
-Before we set up the Next.js project, please commit the latest changes to the `mobile-app` directory (which now has a stable SDK 51 setup with resolved Metro issues and 0 critical/high vulnerabilities) to your Git repository:
+## Action Item for User: Commit All Project Setup Changes
+Before we set up the Next.js project, please commit all recent changes (stable `mobile-app` and updated documentation) to your Git repository:
 1.  Open your terminal in the project root: `d:/Eiat_Folder/MyProjects/MyOtherProjects/kharom-ai-powered-dating-buddy-mvp`
 2.  Execute the following commands:
     ```bash
-    git add mobile-app/
-    git commit -m "feat: Stabilize mobile-app with Expo SDK 51, 0 critical/high vulnerabilities"
+    git add mobile-app/ cline_docs/ memory-bank/ README.md
+    git commit -m "feat: Setup mobile-app (Expo SDK 51), update all documentation"
     git push origin main
     ```
-    *(This commit will include the updated `package.json`, `package-lock.json`, and any other changes from the successful dependency installations and prebuild.)*
+    *(This commit includes the stable `mobile-app` structure, updated `package.json`, `package-lock.json`, and all revised `cline_docs` and `memory-bank` files.)*
 
 Please confirm once this is done.
 
-## Next Steps for Task 0.3 (after `mobile-app` commit)
+## Next Steps for Task 0.3 (after this commit)
 1.  **Next.js API Project Setup:**
     *   Provide commands to initialize a new Next.js project (e.g., in `api-server` or `backend`).
     *   Guide on initial project structure (`/src/app/api` as per `.clinerules`).

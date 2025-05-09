@@ -1,9 +1,10 @@
 # Tech Context
 
 ## Core Technologies
--   **React Native (Expo Bare Workflow):**
+-   **React Native (Expo Bare Workflow - SDK 51):**
     -   **Language:** TypeScript
     -   **Purpose:** Mobile application development for iOS (primary focus on Expo Go compatibility) and Android.
+    -   **Current Status:** Successfully set up with Expo SDK 51. 3 low severity vulnerabilities remain (deferred).
 -   **Next.js (v14+ with App Router):**
     -   **Language:** TypeScript
     -   **Purpose:** Backend API proxy to Google Gemini. Will host API routes under `/src/app/api/`.
@@ -36,15 +37,16 @@
 
 ## Key Dependencies (Initial List - To Be Expanded)
 
-### React Native (Expo) App:
--   `expo`
--   `react`
--   `react-native`
--   `typescript`
--   `i18next`
--   `react-i18next`
--   `react-navigation` (and its various packages like `@react-navigation/native`, `@react-navigation/stack`)
--   Potentially UI component libraries compatible with Expo Go (e.g., `react-native-paper`, or custom components styled with `StyleSheet`).
+### React Native (Expo) App (SDK 51):
+-   `expo: "~51.0.14"`
+-   `react: "18.2.0"`
+-   `react-native: "0.73.6"`
+-   `expo-status-bar: "~1.12.1"`
+-   `typescript: "^5.1.3"` (from package.json)
+-   `i18next` (to be added)
+-   `react-i18next` (to be added)
+-   `react-navigation` (and its various packages, to be added)
+-   Other `expo-*` packages will be aligned with SDK 51 as they are added.
 
 ### Next.js API Backend:
 -   `next`
