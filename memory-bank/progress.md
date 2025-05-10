@@ -70,8 +70,11 @@
     - [x] Document production URL
 
 ### Phase 2: Core Chat UI & Logic (React Native)
--   [ ] **Task 2.1:** Implement Chat Screen UI (Message Input, List).
--   [ ] **Task 2.2:** Develop `MessageItem` component.
+-   [x] **Task 2.1:** Implement Chat Screen UI (Message Input, List). (Completed 2025-05-10)
+    -   [x] Created `ChatScreen.tsx`, `MessageList.tsx`, `MessageBubble.tsx`, `MessageInput.tsx`.
+    -   [x] Integrated components and updated `App.tsx`.
+    -   [x] Started Expo dev server.
+-   [ ] **Task 2.2:** Develop `MessageItem` component. (Note: `MessageBubble.tsx` created, may fulfill this.)
 -   [ ] **Task 2.3:** Integrate API service for Gemini proxy.
 -   [ ] **Task 2.4:** Implement loading states and basic error display.
 -   [ ] **Task 2.5:** Ensure Expo Go iOS compatibility.
@@ -101,6 +104,10 @@
       1. Use external terminal for server testing
       2. Monitor server logs through Vercel/Railway once deployed
       3. Consider implementing additional logging mechanisms
+-   **Expo Go Preview with iPhone Hotspot:** Potential connectivity issues when using the same iPhone for hotspot and Expo Go preview.
+    -   **Workarounds:**
+        1.  Use a shared external Wi-Fi network for PC and iPhone.
+        2.  Troubleshoot PC firewall and try explicit IP for Expo server if hotspot is necessary.
 
 ## Evolution of Project Decisions
 -   **2025-05-09:**

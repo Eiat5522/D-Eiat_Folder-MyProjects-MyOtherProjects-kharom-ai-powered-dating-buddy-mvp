@@ -47,13 +47,14 @@ README.md
     -   `AppNavigator`: Manages screen transitions (e.g., between ChatScreen and potential future screens like Settings).
     -   Uses `react-navigation`.
 -   **Screens (`/src/screens`):**
-    -   `ChatScreen.tsx`: The primary screen for user interaction. Hosts message input, message list, and AI responses.
+    -   (Currently, `ChatScreen.tsx` is in `/src/components/`. It might be moved to `/src/screens/` later if more screens are added.)
 -   **Components (`/src/components`):**
-    -   `MessageInput.tsx`: Handles user text input and send action.
-    -   `MessageList.tsx`: Renders the list of chat messages.
-    -   `MessageItem.tsx`: Displays individual chat bubbles (user and AI), timestamps, and feedback options (thumbs-up/down, retry).
-    -   `LanguageToggle.tsx`: UI element to switch app language (Thai/English).
-    -   `LoadingIndicator.tsx`: Visual feedback during AI processing.
+    -   `ChatScreen.tsx`: (Created 2025-05-10) Main screen container for the chat interface. Renders `MessageList` and `MessageInput`.
+    -   `MessageList.tsx`: (Created 2025-05-10) Displays a list of messages using `FlatList`. Renders `MessageBubble` for each message. Currently uses mock data.
+    -   `MessageBubble.tsx`: (Created 2025-05-10) Styles and displays individual chat messages for both user and AI, including text and timestamp. Serves a similar purpose to the planned `MessageItem.tsx`.
+    -   `MessageInput.tsx`: (Created 2025-05-10) Provides a multiline text input field and a send button. Includes basic logic for input handling and a placeholder for send functionality.
+    -   (Planned) `LanguageToggle.tsx`: UI element to switch app language (Thai/English).
+    -   (Planned) `LoadingIndicator.tsx`: Visual feedback during AI processing.
 -   **Services (`/src/services`):**
     -   `GeminiApiService.ts`: Encapsulates logic for making API calls to the Next.js backend proxy. Handles request formatting and response parsing.
 -   **Hooks (`/src/hooks`):**
@@ -110,15 +111,19 @@ README.md
     -   Created `api-server/src/app/api/chat/route.ts` with a basic POST handler and placeholder response.
     -   Defined `ChatRequestBody` and `ChatResponseBody` TypeScript interfaces.
     -   Updated `api-server/package.json` to include `lint` and `lint:fix` scripts.
--   **2025-05-09:** Project initialized, initial documentation (`cline_docs`, `memory-bank`, `README.md`) created and committed.
--   **2025-05-09:** `mobile-app` (React Native Expo) project scaffolded.
-    - Initial attempt with `expo-template-bare-typescript` resulted in an older SDK, critical vulnerabilities, and Metro bundler errors.
-    - Re-scaffolded `mobile-app` using `blank-typescript@sdk-50` template, then `expo prebuild --clean`.
-    - Dependencies manually aligned to Expo SDK 51 (`expo: ~51.0.14`, `react-native: 0.73.6`).
-    - Metro bundler error resolved; `npm start` is functional.
-    - Vulnerabilities reduced to 3 low severity.
--   **2025-05-10:** `api-server` (Next.js v15.3.2) project created.
--   **2025-05-10:** ESLint and Prettier configured for both `mobile-app` and `api-server`.
+-   **2025-05-10 (Task 2.1 - Chat UI Implementation):**
+    -   Created `ChatScreen.tsx`, `MessageList.tsx`, `MessageBubble.tsx`, and `MessageInput.tsx` in `mobile-app/src/components/`.
+    -   Integrated these components for a basic chat UI structure.
+    -   Updated `mobile-app/App.tsx` to render `ChatScreen`.
+    -   Started Expo development server for `mobile-app`.
+-   **2025-05-10 (Phase 1 Completion):**
+    -   Completed Task 1.2 (Gemini Integration), Task 1.3 (Error Handling), and Task 1.4 (Vercel Deployment) for `api-server`.
+    -   Production API endpoint deployed and verified: `https://d-eiat-folder-my-projects-my-other-projects-eiat5522s-projects.vercel.app/api/chat`.
+-   **2025-05-09 & Earlier (Project Setup):**
+    -   Project initialized, initial documentation (`cline_docs`, `memory-bank`, `README.md`) created.
+    -   `mobile-app` (React Native Expo SDK 51) project scaffolded and stabilized.
+    -   `api-server` (Next.js v15.3.2) project created.
+    -   ESLint and Prettier configured for both projects.
 
 ## User Feedback Integration and Its Impact on Development (Planned)
 -   The thumbs-up/down feedback on AI replies is a core MVP feature.

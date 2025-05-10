@@ -41,12 +41,12 @@ Develop a Minimum Viable Product (MVP) of the KhaRom mobile AI chat application,
 ### Phase 1: Backend API Proxy (Next.js)
 -   [x] **Task 1.1:** Develop `/api/chat` endpoint. (Completed 2025-05-10)
 -   [x] **Task 1.2:** Implement secure proxy to Google Gemini. (Completed 2025-05-10)
--   [ ] **Task 1.3:** Implement error handling for Gemini calls.
--   [ ] **Task 1.4:** Deploy to Vercel/Railway.
+-   [x] **Task 1.3:** Implement error handling for Gemini calls. (Completed 2025-05-10)
+-   [x] **Task 1.4:** Deploy to Vercel. (Completed 2025-05-10)
 
 ### Phase 2: Core Chat UI & Logic (React Native)
--   [ ] **Task 2.1:** Implement Chat Screen UI (Message Input, List).
--   [ ] **Task 2.2:** Develop `MessageItem` component.
+-   [x] **Task 2.1:** Implement Chat Screen UI (Message Input, List). (Completed 2025-05-10)
+-   [ ] **Task 2.2:** Develop `MessageItem` component. (Note: `MessageBubble.tsx` created, which serves a similar purpose to `MessageItem`. This task might be considered partially complete or can be re-evaluated.)
 -   [ ] **Task 2.3:** Integrate API service for Gemini proxy.
 -   [ ] **Task 2.4:** Implement loading states and basic error display.
 -   [ ] **Task 2.5:** Ensure Expo Go iOS compatibility.
@@ -72,6 +72,9 @@ Develop a Minimum Viable Product (MVP) of the KhaRom mobile AI chat application,
 -   **Task 0.3:** Setup Project Repositories & Structure (Completed 2025-05-10)
 -   **Task 1.1:** Develop `/api/chat` endpoint. (Completed 2025-05-10)
 -   **Task 1.2:** Implement secure proxy to Google Gemini. (Completed 2025-05-10)
+-   **Task 1.3:** Implement error handling for Gemini calls. (Completed 2025-05-10)
+-   **Task 1.4:** Deploy to Vercel. (Completed 2025-05-10)
+-   **Task 2.1:** Implement Chat Screen UI (Message Input, List). (Completed 2025-05-10)
 
 ## Future Considerations (Post-MVP)
 -   User accounts and message history.
