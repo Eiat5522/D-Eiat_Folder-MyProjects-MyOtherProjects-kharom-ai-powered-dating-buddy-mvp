@@ -1,8 +1,8 @@
 # Active Context
 
 ## Current Work Focus
-- Continuing **Phase 1: Backend API Proxy (Next.js)** from `projectRoadmap.md`.
-- Starting **Task 1.4: Deploy to Vercel/Railway** after completing Task 1.3.
+- Completing **Phase 1: Backend API Proxy (Next.js)** from `projectRoadmap.md`.
+- Finishing **Task 1.4: Deploy to Vercel** with deployment instructions created.
 
 ## Recent Changes
 - All core Memory Bank files created and maintained up-to-date.
@@ -15,7 +15,6 @@
         - Implemented specific error type checking with appropriate HTTP status codes
         - Added content safety block detection and handling
         - Enhanced error logging for debugging
-        - Mapped different error types to user-friendly messages
         - Types of errors handled:
             - Authentication/Permission (401)
             - Rate Limiting (429)
@@ -23,23 +22,33 @@
             - Service Unavailability (503)
             - Internal Errors (500)
             - Content Safety Blocks (400)
-    - Previous tasks (1.2 and earlier) remain stable.
+    - **Task 1.4 "Deploy to Vercel" in progress:**
+        - Created `userInstructions/04_deploy_to_vercel.md` with complete deployment guide
+        - Verified `.gitignore` configuration for environment files
+        - Prepared deployment plan with emphasis on environment variable security
+        - Selected Vercel as the deployment platform
+    - Previous tasks (1.3 and earlier) remain stable.
 
 ## Next Steps
-1.  **Task 1.4: Deploy to Vercel/Railway**
-    * Choose between Vercel and Railway based on features/pricing
-    * Set up deployment pipeline
-    * Configure environment variables
+1.  **Complete Task 1.4: Deploy to Vercel**
+    * Follow the deployment guide in `userInstructions/04_deploy_to_vercel.md`
+    * Configure environment variables in Vercel
     * Deploy the API server
-    * Test deployed endpoints
-    * Update documentation with deployment details
+    * Test the deployed endpoint
+    * Document the production URL
+2.  Proceed to **Phase 2: Core Chat UI & Logic** after successful deployment
 
 ## Active Decisions & Considerations
 - **Expo Go Compatibility:** All development choices must prioritize smooth operation within Expo Go on iOS. This is a primary constraint.
 - **MVP Scope:** Focus strictly on core features: AI chat, language toggle, and UX feedback. Avoid scope creep.
 - **Thai-Only AI:** The AI interaction is exclusively in Thai, even if the UI is in English. This needs to be clear in the UX.
-- **Security:** API keys for Google Gemini must be environment-protected and not exposed in the client-side code. The `.env.local` file in `api-server` must be in `.gitignore`.
-- **Error Handling:** Now using structured error responses with specific status codes and user-friendly messages while maintaining detailed server-side logging.
+- **Security:** API keys for Google Gemini must be environment-protected and not exposed in the client-side code. Using Vercel's environment variable system for production.
+- **Error Handling:** Using structured error responses with specific status codes and user-friendly messages while maintaining detailed server-side logging.
+- **Deployment Strategy:** Using Vercel for:
+    - Automatic deployments from Git
+    - Secure environment variable management
+    - Edge network deployment
+    - Built-in monitoring and logging
 
 ## Important Patterns & Preferences
 - **API Error Handling Pattern:** 
@@ -51,6 +60,11 @@
 - **Response Structure:**
     - Success: `{ reply: string, error: null }`
     - Error: `{ reply: null, error: string, blocked?: boolean, blockReason?: string }`
+- **Deployment Pattern:**
+    - Environment variables stored securely in Vercel
+    - Automatic deployments on Git push
+    - Production builds optimized by Vercel
+    - Edge network distribution
 
 ## Learnings & Project Insights
 - Initial `expo-template-bare-typescript` led to an older SDK (likely ~41) with many critical vulnerabilities and a persistent Metro bundler error (`Cannot find module 'metro/src/ModuleGraph/worker/importLocationsPlugin'`).

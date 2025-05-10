@@ -1,7 +1,7 @@
 # Project Progress
 
 ## Current Status: Phase 1 In Progress (As of 2025-05-10)
-- **Overall:** KhaRom MVP Phase 0 (Project Initialization & Setup) is complete. Phase 1 (Backend API Proxy) is underway.
+- **Overall:** KhaRom MVP Phase 0 (Project Initialization & Setup) is complete. Phase 1 (Backend API Proxy) is nearing completion.
 - **Task 1.1 (Develop /api/chat endpoint): Completed.**
     - Basic placeholder API endpoint created at `api-server/src/app/api/chat/route.ts`.
     - Lint scripts updated in `api-server/package.json`.
@@ -15,7 +15,12 @@
     - Added content safety block detection.
     - Enhanced error logging for debugging.
     - Added user-friendly error messages.
-- **Memory Bank & `cline_docs`:** All documentation updated to reflect completion through Task 1.3.
+- **Task 1.4 (Deploy to Vercel): In Progress.**
+    - Created deployment guide in `userInstructions/04_deploy_to_vercel.md`
+    - Verified .gitignore configuration for environment files
+    - Selected Vercel as deployment platform
+    - Prepared environment variable transition plan
+- **Memory Bank & `cline_docs`:** All documentation updated to reflect completion through Task 1.3 and progress on 1.4.
 - **Git Repository:** Local Git repo up-to-date with Task 1.3 completion.
 - **Mobile App (`mobile-app`):**
     - React Native (Expo SDK 51) project structure stable.
@@ -23,8 +28,8 @@
 - **Next.js API Backend (`api-server`):**
     - Next.js v15.3.2 project structure created in `api-server/`.
     - ESLint and Prettier configured.
-    - Basic `/api/chat` endpoint implemented.
-    - Gemini integration complete with error handling.
+    - API endpoint implemented with error handling.
+    - Ready for Vercel deployment.
 
 ## What Works
 -   **Project Definition:** Clear understanding of MVP scope, features, users, and constraints.
@@ -37,6 +42,7 @@
     - Comprehensive error handling and logging
     - Content safety checks implemented
     - User-friendly error messages with appropriate HTTP status codes
+    - Deployment documentation prepared
 
 ## What's Left to Build (High-Level MVP Goals)
 
@@ -53,21 +59,26 @@
 -   [x] **Task 1.1:** Develop `/api/chat` endpoint. (Completed 2025-05-10)
 -   [x] **Task 1.2:** Implement secure proxy to Google Gemini. (Completed 2025-05-10)
 -   [x] **Task 1.3:** Implement error handling for Gemini calls. (Completed 2025-05-10)
--   [ ] **Task 1.4:** Deploy to Vercel/Railway.
+-   [ ] **Task 1.4:** Deploy to Vercel. (In Progress - 2025-05-10)
+    - [x] Create deployment documentation
+    - [x] Verify environment configuration
+    - [ ] Complete Vercel deployment
+    - [ ] Test deployed endpoint
+    - [ ] Document production URL
 
-### Phase 2: Core Chat Functionality (React Native App)
+### Phase 2: Core Chat UI & Logic (React Native)
 -   [ ] **Task 2.1:** Implement Chat Screen UI (Message Input, List).
 -   [ ] **Task 2.2:** Develop `MessageItem` component.
 -   [ ] **Task 2.3:** Integrate API service for Gemini proxy.
 -   [ ] **Task 2.4:** Implement loading states and basic error display.
 -   [ ] **Task 2.5:** Ensure Expo Go iOS compatibility.
 
-### Phase 3: Language Toggle & Localization (React Native App)
+### Phase 3: Language Toggle & Localization (React Native)
 -   [ ] **Task 3.1:** Integrate i18next.
 -   [ ] **Task 3.2:** Create initial Thai/English translation files.
 -   [ ] **Task 3.3:** Implement UI language toggle.
 
-### Phase 4: UX Feedback Mechanisms (React Native App)
+### Phase 4: UX Feedback Mechanisms (React Native)
 -   [ ] **Task 4.1:** Add thumbs-up/down to `MessageItem`.
 -   [ ] **Task 4.2:** Implement retry mechanism.
 -   [ ] **Task 4.3:** Refine user-facing error messages.
@@ -108,3 +119,7 @@
         - Content safety handling
         - Enhanced logging
         - User-friendly messages
+    - Started Task 1.4: Vercel deployment
+        - Created deployment guide
+        - Verified environment configuration
+        - Selected Vercel as platform
