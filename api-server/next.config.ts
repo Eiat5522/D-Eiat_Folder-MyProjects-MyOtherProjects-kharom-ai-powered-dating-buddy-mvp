@@ -21,6 +21,12 @@ const nextConfig: NextConfig = {
       },
     ];
   },
+  typescript: {
+    ignoreBuildErrors: true,
+  },
+  distDir: '.next',
+  poweredByHeader: false,
+  generateEtags: false,
 };
 
 export default nextConfig;

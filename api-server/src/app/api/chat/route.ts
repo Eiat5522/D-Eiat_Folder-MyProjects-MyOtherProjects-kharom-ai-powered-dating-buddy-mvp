@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from 'next/server';
+import { NextResponse } from 'next/server';
 import { BlockReason, GoogleGenerativeAI } from '@google/generative-ai';
 
 export interface ChatRequestBody {
@@ -87,10 +87,9 @@ if (!GEMINI_API_KEY) {
 const genAI = new GoogleGenerativeAI(GEMINI_API_KEY || '');
 const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash-latest' }); // Using flash for potentially faster chat
 
-export const runtime = 'edge';
 export const dynamic = 'force-dynamic';
 
-export async function POST(request: NextRequest) {
+export async function POST(request: Request) {
   // Check API key first
   if (!GEMINI_API_KEY) {
     console.error('GEMINI_API_KEY is not configured');
