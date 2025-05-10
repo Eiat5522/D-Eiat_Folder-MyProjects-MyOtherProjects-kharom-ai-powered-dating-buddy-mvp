@@ -1,67 +1,65 @@
 # Project Progress
 
-## Current Status: Project Setup In Progress (As of 2025-05-09)
-- **Overall:** KhaRom MVP project initialization phase ongoing.
-- **Memory Bank:** Core documentation files created and updated.
-- **Knowledge Graph:** Initialized with core entities and relationships.
-- **Git Repository:** Local Git repo initialized, initial docs committed. Remote GitHub repository linked. `README.md` created and pushed.
+## Current Status: Phase 1 In Progress (As of 2025-05-10)
+- **Overall:** KhaRom MVP Phase 0 (Project Initialization & Setup) is complete. Phase 1 (Backend API Proxy) is underway.
+- **Task 1.1 (Develop /api/chat endpoint): Completed.**
+    - Basic placeholder API endpoint created at `api-server/src/app/api/chat/route.ts`.
+    - Lint scripts updated in `api-server/package.json`.
+- **Memory Bank & `cline_docs`:** All documentation updated to reflect completion of Task 1.1.
+- **Git Repository:** Local Git repo up-to-date with Task 1.1 completion.
 - **Mobile App (`mobile-app`):**
-    - React Native (Expo SDK 51) project structure created using `blank-typescript@sdk-50` template, then `expo prebuild --clean`.
-    - Dependencies aligned to SDK 51, resulting in 3 low severity vulnerabilities (deferred).
-    - Metro bundler (`npm start`) is confirmed working.
-- **Next.js API Backend:** Not yet started.
+    - React Native (Expo SDK 51) project structure stable.
+    - ESLint and Prettier configured.
+- **Next.js API Backend (`api-server`):**
+    - Next.js v15.3.2 project structure created in `api-server/`.
+    - ESLint and Prettier configured.
+    - Basic `/api/chat` endpoint implemented.
 
 ## What Works
 -   **Project Definition:** Clear understanding of MVP scope, features, users, and constraints.
--   **Core Documentation:** Memory Bank and `cline_docs` established and reflect current project state.
--   **Version Control:** Basic Git setup with initial project files pushed to GitHub.
--   **Mobile App Foundation:** The `mobile-app` (React Native Expo SDK 51) project is scaffolded, dependencies are installed, and the development server (`expo start`) runs successfully.
+-   **Core Documentation:** Memory Bank and `cline_docs` established and updated.
+-   **Version Control:** Basic Git setup with initial project files pushed to GitHub; user has committed Phase 0 and Task 1.1 completion.
+-   **Mobile App Foundation:** The `mobile-app` (React Native Expo SDK 51) project is scaffolded, runnable, and has linting/formatting configured.
+-   **API Server Foundation:** The `api-server` (Next.js v15.3.2) project is scaffolded, has linting/formatting configured, and includes a basic working `/api/chat` endpoint.
 
 ## What's Left to Build (High-Level MVP Goals)
 
-### Phase 0: Foundation & Setup (Ongoing)
+### Phase 0: Foundation & Setup (Completed 2025-05-10)
 -   [x] Initialize Git repository on GitHub. (Includes initial commit of docs & README)
 -   [x] Initialize Knowledge Graph with core entities.
 -   [x] Set up React Native (Expo Bare SDK 51) project structure (`mobile-app`).
     -   [x] Successfully scaffolded and Metro bundler is operational.
-    -   [ ] Commit current stable `mobile-app` state to Git.
--   [ ] Set up Next.js API project structure (`api-server` or similar).
--   [ ] Configure ESLint and Prettier for both projects.
+    -   [x] User committed stable `mobile-app` state to Git.
+-   [x] Set up Next.js API project structure (`api-server`).
+-   [x] Configure ESLint and Prettier for both projects.
+
+### Phase 1: Backend API Proxy (Next.js) (Current Phase)
+-   [x] **Task 1.1:** Develop `/api/chat` endpoint. (Completed 2025-05-10)
+-   [ ] **Task 1.2:** Implement secure proxy to Google Gemini.
+-   [ ] **Task 1.3:** Implement error handling for Gemini calls.
+-   [ ] **Task 1.4:** Deploy to Vercel/Railway.
 
 ### Phase 2: Core Chat Functionality (React Native App)
--   [ ] Implement basic UI for Chat Screen (Message Input, Message List).
--   [ ] Develop `MessageItem` component to display messages.
--   [ ] Integrate API service to call the Next.js proxy.
--   [ ] Implement loading indicators during AI processing.
--   [ ] Implement basic error handling and display for API calls.
--   [ ] Ensure functionality within Expo Go on iOS.
+-   [ ] **Task 2.1:** Implement Chat Screen UI (Message Input, List).
+-   [ ] **Task 2.2:** Develop `MessageItem` component.
+-   [ ] **Task 2.3:** Integrate API service for Gemini proxy.
+-   [ ] **Task 2.4:** Implement loading states and basic error display.
+-   [ ] **Task 2.5:** Ensure Expo Go iOS compatibility.
 
-### Phase 3: Next.js API Proxy (Backend)
--   [ ] Create `/api/chat` endpoint in Next.js.
--   [ ] Implement secure proxy logic to call Google Gemini API.
-    -   [ ] Manage API key via environment variables.
-    -   [ ] Ensure request/response structures are defined.
--   [ ] Basic error handling for Gemini API calls.
--   [ ] Deploy initial version to Vercel/Railway for testing.
+### Phase 3: Language Toggle & Localization (React Native App)
+-   [ ] **Task 3.1:** Integrate i18next.
+-   [ ] **Task 3.2:** Create initial Thai/English translation files.
+-   [ ] **Task 3.3:** Implement UI language toggle.
 
-### Phase 4: Language Toggle & Localization (React Native App)
--   [ ] Integrate i18next with React Native app.
--   [ ] Create initial translation files (`/src/locales/en.json`, `/src/locales/th.json`) for UI elements.
--   [ ] Implement UI component for language switching.
--   [ ] Ensure UI text updates correctly based on selected language.
--   [ ] Test thoroughly in Expo Go.
+### Phase 4: UX Feedback Mechanisms (React Native App)
+-   [ ] **Task 4.1:** Add thumbs-up/down to `MessageItem`.
+-   [ ] **Task 4.2:** Implement retry mechanism.
+-   [ ] **Task 4.3:** Refine user-facing error messages.
 
-### Phase 5: UX Feedback (React Native App)
--   [ ] Add thumbs-up/thumbs-down buttons to `MessageItem` for AI responses.
--   [ ] Implement logic to capture feedback (initially, this might just be a console log or simple state update; backend storage is post-MVP).
--   [ ] Implement a "Retry" mechanism for failed message sends or unsatisfactory AI responses.
--   [ ] Refine error messages to be user-friendly and localized.
-
-### Phase 6: Testing, Refinement & Deployment Prep
--   [ ] Comprehensive testing in Expo Go on iOS.
--   [ ] Address any compatibility issues or bugs.
--   [ ] Code review and cleanup.
--   [ ] Prepare for EAS Build (if applicable for a more formal TestFlight release).
+### Phase 5: Testing & Refinement
+-   [ ] **Task 5.1:** Comprehensive testing in Expo Go.
+-   [ ] **Task 5.2:** Bug fixing and performance optimization.
+-   [ ] **Task 5.3:** Code reviews.
 
 ## Known Issues
 -   **`mobile-app`:** Contains 3 low severity vulnerabilities (deferred for MVP).
@@ -72,3 +70,6 @@
 -   **2025-05-09:** Project initiated. Initial plan to use `expo-template-bare-typescript` for `mobile-app`.
 -   **2025-05-09:** Encountered critical vulnerabilities and Metro bundler errors with the initial `mobile-app` setup (based on an older Expo SDK).
 -   **2025-05-09:** Decision made to re-scaffold `mobile-app` using `blank-typescript@sdk-50` template, then `expo prebuild`, and align dependencies to Expo SDK 51. This resolved critical vulnerabilities (leaving 3 low) and fixed the Metro bundler error.
+-   **2025-05-10:** `api-server` (Next.js v15.3.2) project created in `api-server/` directory.
+-   **2025-05-10:** ESLint and Prettier configured for both `mobile-app` and `api-server`. Phase 0 completed.
+-   **2025-05-10:** Task 1.1 (Develop `/api/chat` endpoint) completed. Basic placeholder API created. Lint scripts added to `api-server`.

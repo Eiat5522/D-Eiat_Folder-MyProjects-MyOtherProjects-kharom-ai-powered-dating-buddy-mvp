@@ -1,0 +1,10 @@
+node_modules/
+coverage/
+dist/
+package-lock.json
+yarn.lock
+android/
+ios/
+.expo/
+web-build/
+# Add any other files or directories to ignore

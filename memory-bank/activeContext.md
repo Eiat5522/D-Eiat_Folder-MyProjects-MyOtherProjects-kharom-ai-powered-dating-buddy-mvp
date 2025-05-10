@@ -1,32 +1,43 @@
 # Active Context
 
 ## Current Work Focus
-- Completing **Task 0.3: Setup Project Repositories & Structure** from `projectRoadmap.md`.
-- The React Native `mobile-app` (Expo SDK 51) is now set up and runnable.
-- Next is to commit `mobile-app`, then set up the Next.js API project.
+- Starting **Phase 1: Backend API Proxy (Next.js)** from `projectRoadmap.md`.
+- Specifically focusing on **Task 1.2: Implement secure proxy to Google Gemini**.
 
 ## Recent Changes
-- All core Memory Bank files (`projectbrief.md`, `productContext.md`, `systemPatterns.md`, `techContext.md`, `progress.md`) created and updated to reflect current project status.
+- All core Memory Bank files (`projectbrief.md`, `productContext.md`, `systemPatterns.md`, `techContext.md`, `progress.md`) created and updated to reflect initial project status (as of 2025-05-09).
 - Knowledge Graph initialized.
 - `cline_docs` folder initialized with `projectRoadmap.md`, `currentTask.md`, `techStack.md`, `codebaseSummary.md`.
 - Local Git repository initialized, `README.md` created, and initial documentation pushed to GitHub.
-- `mobile-app` (React Native Expo) successfully re-scaffolded using Expo SDK 51 (`blank-typescript@sdk-50` template + `expo prebuild`).
-    - Metro bundler error resolved.
-    - Project is runnable (`npm start` works).
-    - Vulnerabilities reduced to 3 low severity after aligning dependencies to SDK 51.
+- `mobile-app` (React Native Expo) successfully re-scaffolded using Expo SDK 51.
+- **(New as of 2025-05-10):**
+    - `api-server` (Next.js v15.3.2) project created in `api-server/` directory.
+    - ESLint and Prettier configured for `mobile-app` (React Native/Expo).
+    - ESLint and Prettier configured for `api-server` (Next.js), including Tailwind CSS plugin for Prettier.
+    - Task 0.3 "Setup Project Repositories & Structure" marked as complete in `projectRoadmap.md`.
+    - **Task 1.1 "Develop /api/chat endpoint" completed:**
+        - Created `api-server/src/app/api/chat/route.ts` with a basic POST handler.
+        - Defined `ChatRequestBody` and `ChatResponseBody` TypeScript interfaces.
+        - Updated `api-server/package.json` with `lint` and `lint:fix` scripts.
+        - Assumed successful manual testing of the placeholder endpoint.
+        - Committed changes to Git.
+    - All `cline_docs` and `memory-bank` files updated to reflect completion of Task 1.1.
 
 ## Next Steps
-1.  User to commit the current stable state of `mobile-app` to GitHub.
-2.  Set up the Next.js API project structure (e.g., in an `api-server` subdirectory).
-3.  Configure ESLint and Prettier for both `mobile-app` and the Next.js project.
-4.  Mark Task 0.3 in `projectRoadmap.md` as complete.
-5.  Proceed to **Phase 1: Backend API Proxy (Next.js)**.
+1.  **Task 1.2: Implement secure proxy to Google Gemini**
+    *   Install Google Gemini SDK in `api-server`.
+    *   Guide user on setting up `GEMINI_API_KEY` environment variable.
+    *   Modify `api-server/src/app/api/chat/route.ts` to call Gemini API.
+    *   Implement error handling for Gemini calls.
+    *   Manually test the endpoint with actual Gemini integration.
+    *   Commit changes.
+2.  Proceed with subsequent tasks in **Phase 1: Backend API Proxy (Next.js)** as outlined in `projectRoadmap.md` (Task 1.3: Error handling, Task 1.4: Deploy).
 
 ## Active Decisions & Considerations
 - **Expo Go Compatibility:** All development choices must prioritize smooth operation within Expo Go on iOS. This is a primary constraint.
 - **MVP Scope:** Focus strictly on core features: AI chat, language toggle, and UX feedback. Avoid scope creep.
 - **Thai-Only AI:** The AI interaction is exclusively in Thai, even if the UI is in English. This needs to be clear in the UX.
-- **Security:** API keys for Google Gemini must be environment-protected and not exposed in the client-side code.
+- **Security:** API keys for Google Gemini must be environment-protected and not exposed in the client-side code. The `.env.local` file in `api-server` must be in `.gitignore`.
 
 ## Important Patterns & Preferences (To Be Developed)
 - *This section will be populated as development progresses and patterns emerge.*
@@ -34,6 +45,7 @@
     - Consistent component structure for React Native.
     - Clear separation of concerns for API services.
     - Robust error handling and user feedback mechanisms.
+    - Secure handling of API keys and environment variables.
 
 ## Learnings & Project Insights
 - Initial `expo-template-bare-typescript` led to an older SDK (likely ~41) with many critical vulnerabilities and a persistent Metro bundler error (`Cannot find module 'metro/src/ModuleGraph/worker/importLocationsPlugin'`).
@@ -48,3 +60,4 @@
 - Explicitly specifying SDK versions for templates (e.g., `blank-typescript@sdk-50`) and then aligning dependencies carefully seems more robust than relying on `@latest` for complex templates like `bare-typescript`.
 - The `npx expo install --fix` command failed when `node_modules` was empty due to invoking a legacy global `expo-cli`. Running `npm install` first is necessary for `npx expo` commands to use the project's local Expo CLI.
 - Mobile hotspot connections can be unreliable for `npm install` operations, potentially causing `ECONNRESET` errors.
+- Ensuring `lint:fix` scripts are present in `package.json` is crucial for maintaining code quality efficiently.

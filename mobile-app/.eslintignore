@@ -1,0 +1,10 @@
+node_modules/
+coverage/
+android/
+ios/
+dist/
+.expo/
+web-build/
+babel.config.js
+metro.config.js
+# Add any other files or directories to ignore

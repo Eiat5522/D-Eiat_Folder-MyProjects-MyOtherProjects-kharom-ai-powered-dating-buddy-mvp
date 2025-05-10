@@ -1,41 +1,35 @@
-# Current Task: Setup Project Repositories & Structure (Phase 0 - Task 0.3)
+# Current Task: Implement secure proxy to Google Gemini (Phase 1 - Task 1.2)
 
 ## Current Objective
-Continue with **Task 0.3** from `projectRoadmap.md`: Setup Project Repositories & Structure.
-The React Native (Expo SDK 51) project `mobile-app` has been successfully set up and verified to be runnable (Metro bundler starts, QR code visible). It has 3 low severity vulnerabilities.
-The next sub-task is: "Set up Next.js API project structure."
+Start **Task 1.2** from `projectRoadmap.md`: Implement secure proxy to Google Gemini.
+This is the second task in **Phase 1: Backend API Proxy (Next.js)**.
 
 ## Context
 -   **Overall Project:** KhaRom MVP development.
--   **Current Phase:** Phase 0: Project Initialization & Setup.
--   **Previous Step:**
-    -   `mobile-app` directory re-created and dependencies aligned to Expo SDK 51.
-    -   `npm start` confirmed working for `mobile-app`.
-    -   Task 0.3.2 "Set up React Native (Expo Bare) project structure" is now considered complete and stable.
--   **Relevant Document:** `cline_docs/projectRoadmap.md` (Task 0.3).
+-   **Current Phase:** Phase 1: Backend API Proxy (Next.js).
+-   **Previous Step (Task 1.1 - Completed 2025-05-10):**
+    -   Developed the basic `/api/chat` endpoint in `api-server/src/app/api/chat/route.ts`.
+    -   Implemented a placeholder POST handler with basic request/response TypeScript types.
+    -   Manually tested the endpoint.
+    -   Committed the initial API route structure.
+    -   Updated `api-server/package.json` with `lint:fix` script.
+-   **Relevant Document:** `cline_docs/projectRoadmap.md` (Task 1.2).
 
-## Action Item for User: Commit All Project Setup Changes
-Before we set up the Next.js project, please commit all recent changes (stable `mobile-app` and updated documentation) to your Git repository:
-1.  Open your terminal in the project root: `d:/Eiat_Folder/MyProjects/MyOtherProjects/kharom-ai-powered-dating-buddy-mvp`
-2.  Execute the following commands:
-    ```bash
-    git add mobile-app/ cline_docs/ memory-bank/ README.md
-    git commit -m "feat: Setup mobile-app (Expo SDK 51), update all documentation"
-    git push origin main
-    ```
-    *(This commit includes the stable `mobile-app` structure, updated `package.json`, `package-lock.json`, and all revised `cline_docs` and `memory-bank` files.)*
-
-Please confirm once this is done.
-
-## Next Steps for Task 0.3 (after this commit)
-1.  **Next.js API Project Setup:**
-    *   Provide commands to initialize a new Next.js project (e.g., in `api-server` or `backend`).
-    *   Guide on initial project structure (`/src/app/api` as per `.clinerules`).
-    *   Mark "Set up Next.js API project structure" as complete in `projectRoadmap.md`.
-    *   Instruct user to commit the new Next.js project directory.
-2.  **Linters & Formatters:**
-    *   Provide guidance for setting up ESLint and Prettier in both `mobile-app` and the Next.js project.
-    *   Mark "Configure ESLint and Prettier for both projects" as complete.
-    *   Instruct user to commit configurations.
-3.  Once all sub-tasks for Task 0.3 are done, update `projectRoadmap.md` to mark Task 0.3 as fully complete.
-4.  Proceed to **Phase 1: Backend API Proxy (Next.js)**.
+## Next Steps for Task 1.2
+1.  **Install Google Gemini SDK:**
+    *   Add the official Google AI SDK for Node.js (e.g., `@google/generative-ai`) to the `api-server` project.
+2.  **Environment Variable Setup (Guidance):**
+    *   Provide instructions for the user to set up the `GEMINI_API_KEY` environment variable locally (e.g., in a `.env.local` file for the `api-server`). Emphasize that this file should be in `.gitignore`.
+3.  **Modify API Handler (`route.ts`):**
+    *   Update the `POST` handler in `api-server/src/app/api/chat/route.ts`.
+    *   Initialize the Gemini client using the API key from the environment variable.
+    *   Take the `prompt` from the request body.
+    *   Send the prompt to the Gemini API (ensure it's configured for Thai responses if possible at this stage, or note this for future refinement).
+    *   Return the actual Gemini response (or an error) in the `ChatResponseBody` structure.
+4.  **Error Handling:**
+    *   Implement more specific error handling for Gemini API calls (e.g., API errors, rate limits, invalid requests).
+5.  **Testing (Manual):**
+    *   Run the `api-server` development server with the environment variable set.
+    *   Use a tool like Postman or curl to send a POST request to `http://localhost:3000/api/chat`.
+    *   Verify that a real AI response is received from Gemini.
+6.  Commit the changes.

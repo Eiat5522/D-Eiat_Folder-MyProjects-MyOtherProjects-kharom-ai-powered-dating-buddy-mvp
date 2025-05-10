@@ -1,9 +1,9 @@
 # System Patterns
 
 ## System Architecture Overview
-The KhaRom application will consist of two main parts, likely in separate subdirectories (e.g., `mobile-app` and `api-server`) within the main project root:
-1.  **React Native (Expo Bare SDK 51) Mobile Application:** The user-facing client application, located in `mobile-app/`. Responsible for UI, user input, and displaying AI responses.
-2.  **Next.js API Backend:** A simple backend acting as a secure proxy to the Google Gemini API. This will handle API key management and communication with the AI service. (To be created, e.g., in `api-server/`).
+The KhaRom application consists of two main parts in separate subdirectories (`mobile-app` and `api-server`) within the main project root:
+1.  **React Native (Expo Bare SDK 51) Mobile Application:** The user-facing client application, located in `mobile-app/`. Responsible for UI, user input, and displaying AI responses. ESLint and Prettier are configured.
+2.  **Next.js API Backend (v15.3.2):** A simple backend acting as a secure proxy to the Google Gemini API, located in `api-server/`. This will handle API key management and communication with the AI service. ESLint and Prettier are configured.
 
 ```mermaid
 graph LR
@@ -32,6 +32,12 @@ graph LR
 -   **Service Layer:** API calls to the Next.js backend will be encapsulated in a services module (`/src/services`) to separate concerns.
 -   **Navigation:** React Navigation will be used for screen transitions (`/src/navigation`).
 -   **Hooks:** Custom hooks (`/src/hooks`) will be created for reusable logic (e.g., managing API call state, localization).
+
+## Development Tooling
+-   **Linters & Formatters:**
+    -   **ESLint & Prettier:** Configured for both `mobile-app` (React Native/Expo) and `api-server` (Next.js) to enforce code style, catch errors, and improve code quality.
+    -   `mobile-app` uses `@react-native/eslint-config`, `simple-import-sort`, and Prettier. Configuration files: `.eslintrc.js`, `.prettierrc.js`, `.eslintignore`, `.prettierignore`.
+    -   `api-server` uses Next.js's default ESLint setup (flat config `eslint.config.mjs`) extended with Prettier and `prettier-plugin-tailwindcss`. Configuration files: `eslint.config.mjs`, `.prettierrc.js`.
 
 ## Component Relationships (Conceptual - To Be Refined)
 -   `App.tsx` (or main entry point) -> `AppNavigator`
@@ -62,7 +68,13 @@ graph LR
 .clinerules         # Cline configuration folder (Root level)
 /cline_docs         # Cline project context (Root level)
 /memory-bank        # Cline Memory Bank folder (Root level)
-/mobile-app         # React Native Expo project
-/api-server         # Next.js API project (Planned)
+/mobile-app         # React Native Expo project (ESLint/Prettier configured)
+  .eslintrc.js
+  .prettierrc.js
+  ...
+/api-server         # Next.js API project (v15.3.2, ESLint/Prettier configured)
+  eslint.config.mjs
+  .prettierrc.js
+  ...
 ```
 This structure clarifies that the specific `/src` subdirectories from `.clinerules` will reside within their respective application sub-projects (`mobile-app`, `api-server`).

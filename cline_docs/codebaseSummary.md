@@ -4,8 +4,8 @@ This document provides a high-level overview of the KhaRom MVP project structure
 
 ## Project Structure Overview
 The project is structured as a monorepo with distinct applications/packages.
-- **`mobile-app/`**: Contains the React Native (Expo SDK 51, Bare workflow) mobile application. This is the primary frontend.
-- **`api-server/` (Planned)**: Will contain the Next.js application for the backend API proxy.
+- **`mobile-app/`**: Contains the React Native (Expo SDK 51, Bare workflow) mobile application. This is the primary frontend. ESLint and Prettier are configured.
+- **`api-server/`**: Contains the Next.js (v15.3.2) application for the backend API proxy. ESLint and Prettier are configured.
 - **Root Level**: Contains documentation (`cline_docs/`, `memory-bank/`), configuration (`.clinerules/`), and the main `README.md`.
 
 **Interpreted Project Structure (based on `.clinerules/clinerules.md` and current setup):**
@@ -22,11 +22,15 @@ The project is structured as a monorepo with distinct applications/packages.
   /assets/
   App.tsx
   package.json
+  .eslintrc.js
+  .prettierrc.js
   ...
-/api-server/ (Planned)  # Next.js API project
+/api-server/            # Next.js API project (v15.3.2)
   /src/
     /app/api/           # Next.js API Routes (e.g., /chat)
   package.json
+  eslint.config.mjs
+  .prettierrc.js
   ...
 /cline_docs/
 /memory-bank/
@@ -34,7 +38,6 @@ The project is structured as a monorepo with distinct applications/packages.
 README.md
 ...
 ```
-*(Note: The `api-server/` structure is illustrative until created.)*
 
 ## Key Components and Their Interactions (Planned)
 
@@ -63,9 +66,10 @@ README.md
     -   `colors.ts`, `typography.ts`: Theme-related constants.
 
 ### Next.js API Proxy (`/src/app/api` within Next.js project)
--   **`chat/route.ts` (or similar for App Router):**
-    -   Handles POST requests from the React Native app.
-    -   Securely calls the Google Gemini API with the user's prompt.
+-   **`chat/route.ts`:**
+    -   **Status:** Basic placeholder implemented (Task 1.1 completed 2025-05-10).
+    -   Handles POST requests from the React Native app (currently with placeholder logic).
+    -   (Planned) Securely calls the Google Gemini API with the user's prompt.
     -   Manages the Gemini API key (via environment variables).
     -   Returns the AI-generated Thai response or an error.
 
@@ -85,12 +89,27 @@ README.md
     -   `react: "18.2.0"`
     -   `react-native: "0.73.6"`
     -   `expo-status-bar: "~1.12.1"`
--   **Next.js & related libraries:** (To be added when `api-server` is set up)
--   **@google/generative-ai (or similar):** Node.js SDK for interacting with Gemini API from the backend.
+-   **Next.js & related libraries (in `api-server/`):**
+    -   `next: "15.3.2"`
+    -   `react: "^19.0.0"`
+    -   `typescript: "^5"`
+    -   `tailwindcss: "^4"`
+-   **ESLint & Prettier (Dev Dependencies):** Configured in both `mobile-app` and `api-server` with relevant plugins for React Native, Next.js, TypeScript, and Tailwind CSS.
+-   **@google/generative-ai (or similar):** Node.js SDK for interacting with Gemini API from the backend (to be added to `api-server`).
 
 *(Other dependencies will be added as features are implemented.)*
 
+## Development Tooling
+-   **Linters & Formatters:**
+    -   **ESLint & Prettier:** Configured for both `mobile-app` (React Native/Expo) and `api-server` (Next.js) to enforce code style, catch errors, and improve code quality.
+    -   `mobile-app` uses `@react-native/eslint-config`, `simple-import-sort`, and Prettier.
+    -   `api-server` uses Next.js's default ESLint setup (flat config `eslint.config.mjs`) extended with Prettier and `prettier-plugin-tailwindcss`. Lint scripts (`lint`, `lint:fix`) added to `package.json`.
+
 ## Recent Significant Changes
+-   **2025-05-10 (Task 1.1):**
+    -   Created `api-server/src/app/api/chat/route.ts` with a basic POST handler and placeholder response.
+    -   Defined `ChatRequestBody` and `ChatResponseBody` TypeScript interfaces.
+    -   Updated `api-server/package.json` to include `lint` and `lint:fix` scripts.
 -   **2025-05-09:** Project initialized, initial documentation (`cline_docs`, `memory-bank`, `README.md`) created and committed.
 -   **2025-05-09:** `mobile-app` (React Native Expo) project scaffolded.
     - Initial attempt with `expo-template-bare-typescript` resulted in an older SDK, critical vulnerabilities, and Metro bundler errors.
@@ -98,6 +117,8 @@ README.md
     - Dependencies manually aligned to Expo SDK 51 (`expo: ~51.0.14`, `react-native: 0.73.6`).
     - Metro bundler error resolved; `npm start` is functional.
     - Vulnerabilities reduced to 3 low severity.
+-   **2025-05-10:** `api-server` (Next.js v15.3.2) project created.
+-   **2025-05-10:** ESLint and Prettier configured for both `mobile-app` and `api-server`.
 
 ## User Feedback Integration and Its Impact on Development (Planned)
 -   The thumbs-up/down feedback on AI replies is a core MVP feature.

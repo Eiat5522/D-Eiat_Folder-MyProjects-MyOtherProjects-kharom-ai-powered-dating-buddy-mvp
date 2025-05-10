@@ -16,12 +16,13 @@ This document outlines the key technology choices and architectural decisions fo
     -   **Justification:** Robust and widely-used library for internationalization, supporting the Thai/English UI toggle requirement.
 
 ### Backend API (Proxy)
--   **Framework:** Next.js (v14+ with App Router)
+-   **Framework:** Next.js (App Router)
+    -   **Current Version:** Next.js 15.3.2 (from `create-next-app`)
     -   **Justification:** Specified for its ease of creating API routes (`/src/app/api/*`) and suitability for serverless deployment (Vercel/Railway). Simplifies backend setup for the focused task of proxying requests to Google Gemini.
 -   **Language:** TypeScript
     -   **Justification:** Consistent with frontend; provides type safety for API request/response handling.
 -   **Styling (if any backend UI):** Tailwind CSS
-    -   **Justification:** As per `.clinerules`. Primarily for API routes, but if any admin/status pages are built, Tailwind will be used.
+    -   **Justification:** As per `.clinerules`. Primarily for API routes, but if any admin/status pages are built, Tailwind will be used. Configured with `prettier-plugin-tailwindcss`.
 
 ### AI Service
 -   **Provider:** Google Gemini
@@ -36,9 +37,20 @@ This document outlines the key technology choices and architectural decisions fo
     -   **Justification:** Specified for their seamless integration with Next.js, serverless capabilities, and ease of environment variable management for API keys. Automatic deployments on merge to `main` branch will be configured.
 
 ## Version Control
--   **System:** Git
--   **Hosting:** GitHub
+    -   **System:** Git
+    -   **Hosting:** GitHub
     -   **Justification:** Industry standard for collaborative software development. Workflow will involve feature branches and pull requests.
+
+## Linters & Formatters
+-   **Purpose:** Maintain code quality, consistency, and adherence to best practices across both `mobile-app` and `api-server`.
+-   **`mobile-app` (React Native / Expo):**
+    -   **ESLint:** Configured with `@react-native/eslint-config`, `@typescript-eslint/parser`, `eslint-plugin-simple-import-sort`, and integrated with Prettier. Key plugins: `@typescript-eslint`, `simple-import-sort`, `prettier`, `react`, `react-hooks`, `jsx-a11y`.
+    -   **Prettier:** Standard configuration for code formatting.
+    -   **Files:** `.eslintrc.js`, `.prettierrc.js`, `.eslintignore`, `.prettierignore`.
+-   **`api-server` (Next.js):**
+    -   **ESLint:** Default Next.js setup (using flat config `eslint.config.mjs`), extended with `plugin:prettier/recommended`.
+    -   **Prettier:** Standard configuration, includes `prettier-plugin-tailwindcss`.
+    -   **Files:** `eslint.config.mjs`, `.prettierrc.js`. (Next.js handles ignores well by default, specific ignore files can be added if needed).
 
 ## Key Architectural Decisions
 -   **Decoupled Frontend and Backend:** The React Native app and Next.js API are separate entities, communicating via HTTP requests. This promotes separation of concerns.

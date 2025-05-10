@@ -32,14 +32,14 @@ Develop a Minimum Viable Product (MVP) of the KhaRom mobile AI chat application,
     -   [x] Create `currentTask.md`
     -   [x] Create `techStack.md`
     -   [x] Create `codebaseSummary.md` (Completed 2025-05-09)
--   [ ] **Task 0.3:** Setup Project Repositories & Structure
+-   [x] **Task 0.3:** Setup Project Repositories & Structure (Completed 2025-05-10)
     -   [x] Initialize Git repository on GitHub. (Includes initial commit of docs & README, 2025-05-09)
     -   [x] Set up React Native (Expo Bare) project structure. (Aligned to SDK 51, 3 low vulnerabilities, runnable. 2025-05-09)
-    -   [ ] Set up Next.js API project structure.
-    -   [ ] Configure ESLint and Prettier for both projects.
+    -   [x] Set up Next.js API project structure. (Completed 2025-05-10)
+    -   [x] Configure ESLint and Prettier for both projects. (Completed 2025-05-10)
 
 ### Phase 1: Backend API Proxy (Next.js)
--   [ ] **Task 1.1:** Develop `/api/chat` endpoint.
+-   [x] **Task 1.1:** Develop `/api/chat` endpoint. (Completed 2025-05-10)
 -   [ ] **Task 1.2:** Implement secure proxy to Google Gemini.
 -   [ ] **Task 1.3:** Implement error handling for Gemini calls.
 -   [ ] **Task 1.4:** Deploy to Vercel/Railway.
@@ -69,6 +69,8 @@ Develop a Minimum Viable Product (MVP) of the KhaRom mobile AI chat application,
 ## Completed Tasks
 -   **Task 0.1:** Initialize Memory Bank (All sub-tasks completed on 2025-05-09)
 -   **Task 0.2:** Initialize `cline_docs` (All sub-tasks completed on 2025-05-09)
+-   **Task 0.3:** Setup Project Repositories & Structure (Completed 2025-05-10)
+-   **Task 1.1:** Develop `/api/chat` endpoint. (Completed 2025-05-10)
 
 ## Future Considerations (Post-MVP)
 -   User accounts and message history.
