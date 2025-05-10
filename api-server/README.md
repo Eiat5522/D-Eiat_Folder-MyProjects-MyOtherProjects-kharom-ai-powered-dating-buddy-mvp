@@ -1,36 +1,93 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# KhaRom API Server (Next.js)
 
-## Getting Started
+This directory contains the Next.js backend API for the KhaRom project. It acts as a secure proxy to the Google Gemini API, handling AI-powered chat message generation.
 
-First, run the development server:
+## ✨ Features
+-   Securely proxies requests to the Google Gemini API.
+-   Manages the `GEMINI_API_KEY` via environment variables.
+-   Provides the `/api/chat` endpoint for the mobile application.
+-   Includes robust error handling and content safety checks.
+-   Deployed on Vercel.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## 🛠️ Tech Stack
+-   **Framework:** Next.js (v15.3.2 with App Router)
+-   **Language:** TypeScript
+-   **AI Service:** Google Gemini
+-   **Deployment:** Vercel
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 🚀 Getting Started
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Prerequisites
+-   Node.js (LTS version recommended)
+-   npm or yarn
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### Setup Instructions
 
-## Learn More
+1.  **Navigate to the `api-server` directory:**
+    ```bash
+    cd api-server 
+    # (If you are in the project root)
+    ```
 
-To learn more about Next.js, take a look at the following resources:
+2.  **Install dependencies:**
+    ```bash
+    npm install
+    # or
+    # yarn install
+    ```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+3.  **Set up Environment Variables:**
+    -   Create a file named `.env.local` in the `api-server/` directory.
+    -   Add your Google Gemini API key to this file:
+        ```env
+        GEMINI_API_KEY=YOUR_GEMINI_API_KEY
+        ```
+    -   Replace `YOUR_GEMINI_API_KEY` with your actual key. This file is gitignored and should not be committed.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+4.  **Run the development server:**
+    ```bash
+    npm run dev
+    # or
+    # yarn dev
+    ```
+    The API server will start, typically on `http://localhost:3000`.
 
-## Deploy on Vercel
+## API Endpoint
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### `/api/chat`
+-   **Method:** `POST`
+-   **Description:** Receives a user's message prompt and returns an AI-generated Thai chat response from Google Gemini.
+-   **Request Body:**
+    ```json
+    {
+      "prompt": "Your message prompt here"
+    }
+    ```
+-   **Success Response (200 OK):**
+    ```json
+    {
+      "reply": "AI-generated Thai message",
+      "error": null
+    }
+    ```
+-   **Error Response (e.g., 400, 401, 429, 500, 503):**
+    ```json
+    {
+      "reply": null,
+      "error": "User-friendly error message",
+      "blocked": boolean, // Optional: true if content was blocked
+      "blockReason": "Reason for block" // Optional: reason if content was blocked
+    }
+    ```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## ⚙️ Configuration
+-   **ESLint & Prettier:** Configured for code linting and formatting. Use `npm run lint` or `npm run lint:fix`.
+-   **TypeScript:** Strict mode enabled for better code quality.
+
+## 🌐 Deployment
+-   This API is automatically deployed to **Vercel** upon pushes to the `main` branch of the GitHub repository.
+-   The `GEMINI_API_KEY` environment variable must be configured in the Vercel project settings for the deployed application to function.
+-   **Production Endpoint:** `https://d-eiat-folder-my-projects-my-other-projects-eiat5522s-projects.vercel.app/api/chat`
+
+## 🤝 Contributing
+Refer to the main project `README.md` in the root directory for overall project contribution guidelines.

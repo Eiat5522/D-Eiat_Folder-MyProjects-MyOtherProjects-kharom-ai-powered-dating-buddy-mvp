@@ -31,44 +31,93 @@ Thai-speaking singles (18–35) looking for assistance in:
 ### AI Service
 -   **Provider:** Google Gemini
 
-## 🚀 Getting Started (Planned - Post Setup)
+## 🚀 Getting Started
 
-*(Instructions on how to run the React Native app and potentially the Next.js backend locally will be added here once the project structures are set up.)*
+### Prerequisites
+- Node.js (LTS version recommended)
+- npm or yarn
+- Expo CLI (`npm install -g expo-cli`)
+- Git
+
+### Setup Instructions
 
 1.  **Clone the repository:**
     ```bash
     git clone https://github.com/YOUR_USERNAME/kharom-ai-powered-dating-buddy-mvp.git
     cd kharom-ai-powered-dating-buddy-mvp
     ```
-2.  **Setup Frontend (React Native - Expo):**
-    ```bash
-    # Navigate to frontend directory (once created)
-    # yarn install
-    # expo start
-    ```
-3.  **Setup Backend (Next.js API):**
-    ```bash
-    # Navigate to backend directory (once created)
-    # yarn install
-    # yarn dev
-    ```
+    *(Replace `YOUR_USERNAME` with the actual GitHub username/organization if known, otherwise leave as is for the user to fill)*
 
-## 📁 Project Structure (Planned)
+2.  **Setup Backend (Next.js API - `api-server/`):**
+    ```bash
+    cd api-server
+    npm install 
+    # or yarn install
+    ```
+    - Create a `.env.local` file in the `api-server/` directory.
+    - Add your Google Gemini API key to this file:
+      ```env
+      GEMINI_API_KEY=YOUR_GEMINI_API_KEY
+      ```
+    - To run the backend development server:
+      ```bash
+      npm run dev
+      # or yarn dev
+      ```
+    The API will be available at `http://localhost:3000`. The chat endpoint is `http://localhost:3000/api/chat`.
+    The deployed production API is at: `https://d-eiat-folder-my-projects-my-other-projects-eiat5522s-projects.vercel.app/api/chat`
+
+3.  **Setup Frontend (React Native - Expo - `mobile-app/`):**
+    ```bash
+    cd ../mobile-app 
+    # (ensure you are in the mobile-app directory)
+    npm install
+    # or yarn install
+    ```
+    - To run the frontend development server:
+      ```bash
+      npm start
+      # or yarn start
+      # or expo start
+      ```
+    - Follow the instructions in the terminal to open the app in Expo Go on your iOS device (ensure your device and PC are on the same Wi-Fi network for best results).
+
+## 📊 Project Status
+- **Phase 0: Project Initialization & Setup:** ✅ Completed
+- **Phase 1: Backend API Proxy (Next.js):** ✅ Completed
+- **Phase 2: Core Chat UI & Logic (React Native):** ⏳ In Progress (Task 2.1 Completed)
+- **Phase 3: Localization (React Native):** 📋 Planned
+- **Phase 4: UX Feedback Mechanisms (React Native):** 📋 Planned
+- **Phase 5: Testing & Refinement:** 📋 Planned
+
+## 📁 Project Structure
 ```
-/src
-  /app              # Next.js API Routes (e.g., /api/chat)
-  /components       # Reusable React Native components
-  /screens          # Mobile app screens
-  /navigation       # React Navigation configuration
-  /hooks            # Custom React hooks
-  /services         # API services (Gemini proxy calls)
-  /constants        # App-wide constants
-  /locales          # i18next translation files (Thai/EN)
-/assets             # Static assets (images, fonts)
-.clinerules         # Cline configuration folder
-/cline_docs         # Cline project context
-/memory-bank        # Cline Memory Bank folder
-README.md           # This file
+/kharom-ai-powered-dating-buddy-mvp/
+  ├── README.md                     # This file
+  ├── api-server/                   # Next.js API Proxy
+  │   ├── README.md                 # API Server specific README
+  │   ├── package.json
+  │   ├── next.config.ts
+  │   ├── .env.local.example        # Example for environment variables
+  │   └── src/
+  │       └── app/
+  │           └── api/
+  │               └── chat/
+  │                   └── route.ts  # Gemini API proxy endpoint
+  ├── mobile-app/                   # React Native (Expo) Mobile Application
+  │   ├── README.md                 # Mobile App specific README (to be created)
+  │   ├── package.json
+  │   ├── app.json                  # Expo configuration
+  │   ├── App.tsx                   # Main app component
+  │   └── src/
+  │       ├── components/
+  │       ├── screens/
+  │       ├── navigation/
+  │       ├── services/
+  │       └── ...                   # Other standard React Native directories
+  ├── cline_docs/                   # Cline's project documentation
+  ├── memory-bank/                  # Cline's memory and context files
+  └── userInstructions/             # Step-by-step guides for user actions
 ```
 
 ## 📝 Development Priority: Expo Go iOS App Compatibility
