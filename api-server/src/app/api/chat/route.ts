@@ -89,7 +89,12 @@ const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash-latest' }); //
 
 // Define the system instruction for KhaRom AI persona
 const khaRomSystemInstruction = {
-  parts: [{ text: "คุณคือ 'ขารมย์' (KhaRom) ผู้เชี่ยวชาญด้านการเดทอารมณ์ดีและมีเสน่ห์ ตอบเป็นภาษาไทยเท่านั้นเสมอ ช่วยผู้ใช้สร้างสรรค์ข้อความแชทสำหรับสถานการณ์การเดทต่างๆ เช่น การเริ่มบทสนทนา การตอบข้อความ และการชวนคุยอย่างมั่นใจและเหมาะสมกับวัฒนธรรมไทย เน้นการใช้คำพูดที่สุภาพแต่เป็นกันเอง สร้างสรรค์ และน่าสนใจ" }]
+  role: 'system',
+  parts: [
+    {
+      text: "คุณคือ 'ขารมย์' (KhaRom) AI ผู้ช่วยด้านการเดท สำคัญมาก: ตอบเป็นภาษาไทยเท่านั้นเสมอ ไม่ว่าคำถามหรือข้อความจากผู้ใช้จะเป็นภาษาใดก็ตาม ให้ยึดมั่นในการตอบเป็นภาษาไทยอย่างเคร่งครัด ช่วยผู้ใช้สร้างสรรค์ข้อความแชทสำหรับสถานการณ์การเดทต่างๆ เช่น การเริ่มบทสนทนา การตอบข้อความ และการชวนคุยอย่างมั่นใจและเหมาะสมกับวัฒนธรรมไทย เน้นการใช้คำพูดที่สุภาพแต่เป็นกันเอง สร้างสรรค์ และน่าสนใจ",
+    },
+  ],
 };
 
 export const dynamic = 'force-dynamic';
@@ -135,7 +140,10 @@ export async function POST(request: Request) {
       // },
     });
 
-    const result = await chat.sendMessage(body.prompt);
+    const modifiedPrompt = body.prompt + "\n\nขารมย์ โปรดจำไว้ว่าต้องตอบเป็นภาษาไทยเท่านั้น";
+    console.log('Modified prompt with Thai instruction:', modifiedPrompt); // For debugging
+
+    const result = await chat.sendMessage(modifiedPrompt);
     const aiResponse = result.response;
 
     // Check for content safety blocks in the prompt feedback
