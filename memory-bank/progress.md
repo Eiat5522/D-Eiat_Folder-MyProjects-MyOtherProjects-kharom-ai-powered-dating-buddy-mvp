@@ -1,7 +1,7 @@
 # Project Progress
 
-## Current Status: Phase 1 In Progress (As of 2025-05-10)
-- **Overall:** KhaRom MVP Phase 0 (Project Initialization & Setup) is complete. Phase 1 (Backend API Proxy) is nearing completion.
+## Current Status: Phase 1 Completed (As of 2025-05-10)
+- **Overall:** KhaRom MVP Phase 0 (Project Initialization & Setup) and Phase 1 (Backend API Proxy) are complete. Ready to begin Phase 2 (Core Chat UI & Logic).
 - **Task 1.1 (Develop /api/chat endpoint): Completed.**
     - Basic placeholder API endpoint created at `api-server/src/app/api/chat/route.ts`.
     - Lint scripts updated in `api-server/package.json`.
@@ -15,11 +15,14 @@
     - Added content safety block detection.
     - Enhanced error logging for debugging.
     - Added user-friendly error messages.
-- **Task 1.4 (Deploy to Vercel): In Progress.**
+- **Task 1.4 (Deploy to Vercel): Completed.**
     - Created deployment guide in `userInstructions/04_deploy_to_vercel.md`
-    - Verified .gitignore configuration for environment files
-    - Selected Vercel as deployment platform
-    - Prepared environment variable transition plan
+    - Successfully deployed to production environment
+    - Production URL: https://d-eiat-folder-my-projects-my-other-projects-eiat5522s-projects.vercel.app
+    - API endpoint verified and working
+    - Status page added for server verification
+    - Environment variables properly configured
+    - Successful test response from Gemini integration
 - **Memory Bank & `cline_docs`:** All documentation updated to reflect completion through Task 1.3 and progress on 1.4.
 - **Git Repository:** Local Git repo up-to-date with Task 1.3 completion.
 - **Mobile App (`mobile-app`):**
@@ -55,16 +58,16 @@
 -   [x] Set up Next.js API project structure (`api-server`).
 -   [x] Configure ESLint and Prettier for both projects.
 
-### Phase 1: Backend API Proxy (Next.js) (Current Phase)
+### Phase 1: Backend API Proxy (Next.js) (Completed 2025-05-10)
 -   [x] **Task 1.1:** Develop `/api/chat` endpoint. (Completed 2025-05-10)
 -   [x] **Task 1.2:** Implement secure proxy to Google Gemini. (Completed 2025-05-10)
 -   [x] **Task 1.3:** Implement error handling for Gemini calls. (Completed 2025-05-10)
--   [ ] **Task 1.4:** Deploy to Vercel. (In Progress - 2025-05-10)
+-   [x] **Task 1.4:** Deploy to Vercel. (Completed - 2025-05-10)
     - [x] Create deployment documentation
     - [x] Verify environment configuration
-    - [ ] Complete Vercel deployment
-    - [ ] Test deployed endpoint
-    - [ ] Document production URL
+    - [x] Complete Vercel deployment
+    - [x] Test deployed endpoint
+    - [x] Document production URL
 
 ### Phase 2: Core Chat UI & Logic (React Native)
 -   [ ] **Task 2.1:** Implement Chat Screen UI (Message Input, List).
@@ -119,7 +122,9 @@
         - Content safety handling
         - Enhanced logging
         - User-friendly messages
-    - Started Task 1.4: Vercel deployment
+    - Completed Task 1.4: Vercel deployment
         - Created deployment guide
-        - Verified environment configuration
-        - Selected Vercel as platform
+        - Configured and deployed to Vercel
+        - Successfully tested API endpoint
+        - Documented production URL
+    - Phase 1 (Backend API Proxy) completed and verified working
