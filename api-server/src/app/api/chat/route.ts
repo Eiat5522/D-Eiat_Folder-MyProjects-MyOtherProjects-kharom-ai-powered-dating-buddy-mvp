@@ -87,21 +87,30 @@ if (!GEMINI_API_KEY) {
 const genAI = new GoogleGenerativeAI(GEMINI_API_KEY || '');
 const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash-latest' }); // Using flash for potentially faster chat
 
+export const runtime = 'edge';
+export const dynamic = 'force-dynamic';
+
 export async function POST(request: NextRequest) {
+  // Check API key first
+  if (!GEMINI_API_KEY) {
+    console.error('GEMINI_API_KEY is not configured');
+    return new Response(
+      JSON.stringify({
+        reply: null,
+        error: 'AI service is not configured',
+      }),
+      { 
+        status: 500,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      }
+    );
+  }
+
   try {
     const body = (await request.json()) as ChatRequestBody;
     console.log('Received prompt:', body.prompt);
-
-    if (!GEMINI_API_KEY) {
-      console.error(
-        'GEMINI_API_KEY is not configured, cannot call Gemini API.'
-      );
-      const errorResponseBody: ChatResponseBody = {
-        reply: null,
-        error: 'AI service is not configured.',
-      };
-      return NextResponse.json(errorResponseBody, { status: 500 });
-    }
 
     if (!body.prompt) {
       const errorResponseBody: ChatResponseBody = {
