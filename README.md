@@ -85,7 +85,7 @@ Thai-speaking singles (18–35) looking for assistance in:
 ## 📊 Project Status
 - **Phase 0: Project Initialization & Setup:** ✅ Completed
 - **Phase 1: Backend API Proxy (Next.js):** ✅ Completed
-- **Phase 2: Core Chat UI & Logic (React Native):** ⏳ In Progress (Task 2.1 Completed)
+- **Phase 2: Core Chat UI & Logic (React Native):** ✅ Largely Completed (Core chat flow functional)
 - **Phase 3: Localization (React Native):** 📋 Planned
 - **Phase 4: UX Feedback Mechanisms (React Native):** 📋 Planned
 - **Phase 5: Testing & Refinement:** 📋 Planned

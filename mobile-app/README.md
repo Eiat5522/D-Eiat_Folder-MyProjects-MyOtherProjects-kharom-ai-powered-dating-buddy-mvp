@@ -1,6 +1,6 @@
 # KhaRom Mobile Application (React Native - Expo)
 
-This directory contains the React Native (Expo SDK 51) mobile application for the KhaRom project. This is the user-facing client application.
+This directory contains the React Native (Expo SDK 53) mobile application for the KhaRom project. This is the user-facing client application.
 
 ## ✨ Features (MVP)
 -   AI-Powered Chat Interface (receives Thai-only AI responses).
@@ -9,9 +9,11 @@ This directory contains the React Native (Expo SDK 51) mobile application for th
 -   Primary testing and compatibility focus on Expo Go for iOS.
 
 ## 🛠️ Tech Stack
--   **Framework:** React Native (Expo Bare Workflow - SDK 51)
+-   **Framework:** React Native (Expo Bare Workflow - SDK 53)
 -   **Language:** TypeScript
 -   **Styling:** React Native `StyleSheet` API
+-   **Icons:** Inline SVGs with `react-native-svg`, `@expo/vector-icons`
+-   **Key Libraries:** `react-native-safe-area-context`
 -   **Navigation:** React Navigation (to be added)
 -   **Localization:** i18next (to be added)
 -   **State Management:** React Context API (initially), `useState`, `useReducer`.
@@ -60,10 +62,10 @@ This directory contains the React Native (Expo SDK 51) mobile application for th
 -   **Expo Configuration:** `app.json` contains project-specific settings for Expo.
 
 ## 📁 Key Directories (within `mobile-app/src/`)
--   **`components/`:** Reusable UI components (e.g., `ChatScreen.tsx`, `MessageBubble.tsx`).
+-   **`components/`:** Reusable UI components (`ChatScreen.tsx`, `MessageBubble.tsx`, `MessageInput.tsx`, `MessageList.tsx`).
 -   **`screens/`:** (Planned) Top-level screen components.
 -   **`navigation/`:** (Planned) React Navigation setup.
--   **`services/`:** (Planned) API service modules for interacting with the backend.
+-   **`services/`:** API service modules (`GeminiApiService.ts`).
 -   **`hooks/`:** (Planned) Custom React hooks.
 -   **`locales/`:** (Planned) i18next translation files.
 -   **`constants/`:** (Planned) App-wide constants.

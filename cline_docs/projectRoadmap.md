@@ -49,13 +49,13 @@ Develop a Minimum Viable Product (MVP) of the KhaRom mobile AI chat application,
     -   [x] Created `ChatScreen.tsx`, `MessageList.tsx`, `MessageBubble.tsx`, `MessageInput.tsx`.
     -   [x] Integrated components and updated `App.tsx`.
     -   [x] Successfully upgraded `mobile-app` to Expo SDK 53 and confirmed preview in Expo Go.
--   [ ] **Task 2.1.1 (Sub-task):** Incrementally re-add necessary UI/UX dependencies:
-    -   [ ] `react-native-safe-area-context`
-    -   [ ] `react-native-gesture-handler` (if needed)
-    -   [ ] `react-native-reanimated` (if needed)
--   [ ] **Task 2.2:** Develop/Refine `MessageItem`/`MessageBubble.tsx` component.
--   [ ] **Task 2.3:** Integrate API service for Gemini proxy.
--   [ ] **Task 2.4:** Implement loading states and basic error display.
+-   [x] **Task 2.1.1 (Sub-task):** Incrementally re-add necessary UI/UX dependencies:
+    -   [x] `react-native-safe-area-context` (Integrated 2025-05-10)
+    -   [ ] `react-native-gesture-handler` (Deferred 2025-05-10, to be added if needed for MVP)
+    -   [ ] `react-native-reanimated` (Deferred 2025-05-10, to be added if needed for MVP)
+-   [x] **Task 2.2:** Develop/Refine `MessageItem`/`MessageBubble.tsx` component (Feedback icons added 2025-05-10).
+-   [x] **Task 2.3:** Integrate API service for Gemini proxy (Implemented 2025-05-10).
+-   [x] **Task 2.4:** Implement loading states and basic error display (Basic implementation 2025-05-10).
 -   [ ] **Task 2.5:** Ensure Expo Go iOS compatibility (Ongoing).
 
 ### Phase 3: Localization (React Native)
@@ -82,6 +82,10 @@ Develop a Minimum Viable Product (MVP) of the KhaRom mobile AI chat application,
 -   **Task 1.3:** Implement error handling for Gemini calls. (Completed 2025-05-10)
 -   **Task 1.4:** Deploy to Vercel. (Completed 2025-05-10)
 -   **Task 2.1:** Implement Chat Screen UI (Message Input, List). (Completed 2025-05-10)
+-   **Task 2.1.1:** `react-native-safe-area-context` integration. (Completed 2025-05-10)
+-   **Task 2.2:** Refine `MessageBubble.tsx` (Feedback icons). (Completed 2025-05-10)
+-   **Task 2.3:** Integrate API service. (Completed 2025-05-10)
+-   **Task 2.4:** Basic loading/error states. (Completed 2025-05-10)
 
 ## Future Considerations (Post-MVP)
 -   User accounts and message history.

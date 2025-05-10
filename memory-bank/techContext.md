@@ -41,15 +41,17 @@
 -   `react: "19.0.0"`
 -   `react-native: "0.79.2"`
 -   `expo-status-bar: "^2.2.3"`
+-   `react-native-safe-area-context`: (version managed by `npx expo install`)
+-   `react-native-svg`: (Used for icons, `npx expo install` attempted, `package.json` update issue)
+-   `@expo/vector-icons`: (Used in MessageInput)
 -   `typescript: "^5.8.3"` (from package.json devDependencies)
 -   **Dev Dependencies (ESLint/Prettier):**
     -   `@babel/core: "^7.20.0"`
     -   `@types/react: "~19.0.10"`
     -   (Other ESLint/Prettier related devDependencies as previously configured, assuming they are compatible or will be updated as needed)
--   **To be added incrementally:**
-    -   `react-native-safe-area-context`
-    -   `react-native-gesture-handler`
-    -   `react-native-reanimated`
+-   **To be added incrementally (or as needed):**
+    -   `react-native-gesture-handler` (Deferred)
+    -   `react-native-reanimated` (Deferred)
     -   `i18next`
     -   `react-i18next`
     -   `react-navigation` packages

@@ -42,21 +42,20 @@ README.md
 ## Key Components and Their Interactions (Planned)
 
 ### React Native Mobile App (`mobile-app/` - Expo SDK 53)
--   **`App.tsx` (or main entry):** Root component, initializes navigation and global providers (e.g., i18next).
--   **Navigation (`/src/navigation`):**
-    -   `AppNavigator`: Manages screen transitions (e.g., between ChatScreen and potential future screens like Settings).
+-   **`App.tsx` (or main entry):** Root component, initializes `SafeAreaProvider` and renders `ChatScreen`.
+-   **Navigation (`/src/navigation`):** (Planned, not yet implemented)
+    -   `AppNavigator`: Manages screen transitions.
     -   Uses `react-navigation`.
--   **Screens (`/src/screens`):**
-    -   (Currently, `ChatScreen.tsx` is in `/src/components/`. It might be moved to `/src/screens/` later if more screens are added.)
+-   **Screens (`/src/screens`):** (Planned, `ChatScreen` currently in `/src/components/`)
 -   **Components (`/src/components`):**
-    -   `ChatScreen.tsx`: (Created 2025-05-10) Main screen container for the chat interface. Renders `MessageList` and `MessageInput`.
-    -   `MessageList.tsx`: (Created 2025-05-10) Displays a list of messages using `FlatList`. Renders `MessageBubble` for each message. Currently uses mock data.
-    -   `MessageBubble.tsx`: (Created 2025-05-10) Styles and displays individual chat messages for both user and AI, including text and timestamp. Serves a similar purpose to the planned `MessageItem.tsx`.
-    -   `MessageInput.tsx`: (Created 2025-05-10) Provides a multiline text input field and a send button. Includes basic logic for input handling and a placeholder for send functionality.
-    -   (Planned) `LanguageToggle.tsx`: UI element to switch app language (Thai/English).
-    -   (Planned) `LoadingIndicator.tsx`: Visual feedback during AI processing.
+    -   `ChatScreen.tsx`: (Updated 2025-05-10) Main screen container. Manages message state, API calls via `GeminiApiService`, loading/error states. Renders `MessageList` and `MessageInput`.
+    -   `MessageList.tsx`: (Updated 2025-05-10) Displays a list of messages from props using `FlatList`. Renders `MessageBubble` for each message. Passes `onFeedback` to `MessageBubble`.
+    -   `MessageBubble.tsx`: (Updated 2025-05-10) Styles and displays individual chat messages. Includes thumbs-up/down SVG icons for AI messages and calls `onFeedback` prop.
+    -   `MessageInput.tsx`: (Updated 2025-05-10) Provides text input and send button. Calls `onSend` prop. UI disabled when `disabled` prop is true.
+    -   (Planned) `LanguageToggle.tsx`.
+    -   (Implemented within `ChatScreen.tsx`) Basic `ActivityIndicator` for loading.
 -   **Services (`/src/services`):**
-    -   `GeminiApiService.ts`: Encapsulates logic for making API calls to the Next.js backend proxy. Handles request formatting and response parsing.
+    -   `GeminiApiService.ts`: (Created 2025-05-10) Encapsulates logic for making API calls to the Next.js backend proxy.
 -   **Hooks (`/src/hooks`):**
     -   `useLocalization.ts` (example): Custom hook to simplify access to i18next functions.
     -   `useApi.ts` (example): Generic hook for managing API call state (loading, error, data).
@@ -74,23 +73,26 @@ README.md
     -   Manages the Gemini API key (via environment variables).
     -   Returns the AI-generated Thai response or an error.
 
-## Data Flow (Planned)
-1.  **User Input:** User types a message in `MessageInput` on `ChatScreen`.
-2.  **API Request:** `ChatScreen` (via `GeminiApiService`) sends a POST request with the prompt to the Next.js `/api/chat` endpoint.
-3.  **Backend Processing:** The Next.js API route validates the request, calls the Google Gemini API, and awaits the response.
-4.  **API Response:** Gemini returns a Thai message; Next.js relays this back to the React Native app.
-5.  **UI Update:** `ChatScreen` receives the response (or error) and updates the `MessageList` via state changes.
+## Data Flow (Implemented for Core Chat)
+1.  **User Input:** User types a message in `MessageInput` (within `ChatScreen`).
+2.  **Local Update & API Request:** `ChatScreen`'s `handleSendMessage` adds user message to local state, sets loading state, then calls `GeminiApiService.sendMessageToAI`.
+3.  **Backend Processing:** `GeminiApiService` sends POST to Next.js `/api/chat`. Next.js API calls Google Gemini.
+4.  **API Response:** Gemini returns response; Next.js relays to `GeminiApiService`.
+5.  **UI Update:** `ChatScreen` receives response/error from service. Adds AI message to state or sets error state. Loading state cleared. `MessageList` re-renders.
 
 ## External Dependencies
 -   **Google Gemini API:** Core external service for AI text generation.
--   **React Navigation:** For screen navigation in the mobile app.
--   **i18next & react-i18next:** For localization.
--   **Expo SDK 53 & related libraries (core minimal set):**
+-   **React Navigation:** (Planned for future navigation).
+-   **i18next & react-i18next:** (Planned for localization).
+-   **Expo SDK 53 & related libraries:**
     -   `expo: "^53.0.0"`
     -   `react: "19.0.0"`
     -   `react-native: "0.79.2"`
     -   `expo-status-bar: "^2.2.3"`
-    -   (Other dependencies like `react-native-safe-area-context` to be added incrementally)
+    -   `react-native-safe-area-context` (version managed by `npx expo install`)
+    -   `react-native-svg` (used for icons, `package.json` update was problematic but functionally working)
+    -   `@expo/vector-icons` (used in `MessageInput`)
+    -   (Other dependencies like `react-native-gesture-handler`, `react-native-reanimated` deferred)
 -   **Next.js & related libraries (in `api-server/`):**
     -   `next: "15.3.2"`
     -   `react: "^19.0.0"`
@@ -108,10 +110,19 @@ README.md
     -   `api-server` uses Next.js's default ESLint setup (flat config `eslint.config.mjs`) extended with Prettier and `prettier-plugin-tailwindcss`. Lint scripts (`lint`, `lint:fix`) added to `package.json`.
 
 ## Recent Significant Changes
--   **2025-05-10 (SDK 53 Upgrade & Continued Phase 2):**
+-   **2025-05-10 (Core Chat Flow Implementation - Phase 2):**
+    -   Implemented `GeminiApiService.ts` for backend communication.
+    -   Updated `ChatScreen.tsx` for message state management, API calls, loading/error handling.
+    -   Modified `MessageInput.tsx` and `MessageList.tsx` to integrate with `ChatScreen.tsx`.
+    -   Refined `MessageBubble.tsx` with SVG feedback icons.
+    -   Successfully tested core chat send/receive functionality.
+-   **2025-05-10 (Dependency Management & Integration - Phase 2):**
+    -   Successfully integrated `react-native-safe-area-context`.
+    -   Pivoted to `react-native-svg` for icons due to `lucide-react-native` issues.
+    -   Decided to defer integration of `react-native-gesture-handler` and `react-native-reanimated`.
+-   **2025-05-10 (SDK 53 Upgrade - Phase 2):**
     -   Successfully upgraded `mobile-app` to Expo SDK 53.
-    -   Simplified `App.tsx` and core dependencies to achieve a previewable state in Expo Go.
-    -   Task 2.1 (Basic Chat Screen UI components) remains structurally complete.
+    -   Task 2.1 (Basic Chat Screen UI components) was previously completed.
 -   **2025-05-10 (Phase 1 Completion):**
     -   Completed Task 1.1 (Develop `/api/chat` endpoint).
     -   Completed Task 1.2 (Gemini Integration).

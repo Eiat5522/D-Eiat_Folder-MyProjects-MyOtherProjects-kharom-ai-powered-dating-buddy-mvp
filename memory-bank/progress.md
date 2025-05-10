@@ -1,18 +1,23 @@
 # Project Progress
 
-## Current Status: Phase 2 In Progress (SDK 53 Upgrade Achieved)
-- **Overall:** KhaRom MVP Phase 0 (Project Initialization & Setup) and Phase 1 (Backend API Proxy) are complete. Phase 2 (Core Chat UI & Logic) is underway.
-- **`mobile-app` successfully upgraded to Expo SDK 53.** The app is previewable in Expo Go with a minimal set of core dependencies.
-- **Task 2.1 (Implement Chat Screen UI): Completed.** Basic UI components are in place.
+## Current Status: Phase 2 Core Functionality Largely Complete
+- **Overall:** KhaRom MVP Phase 0 & 1 complete. Phase 2 (Core Chat UI & Logic) is now largely complete.
+- **`mobile-app` successfully upgraded to Expo SDK 53.**
+- **`react-native-safe-area-context` successfully integrated.**
+- **Core chat flow (send message, display user message, call API, display AI message, loading/error states, feedback icons) is functional in Expo Go.**
+- **Task 2.1 (Chat Screen UI), Task 2.2 (MessageBubble feedback icons), Task 2.3 (API Integration), and Task 2.4 (Basic Loading/Error States) are complete.**
 
 ## What Works
 -   **Project Definition:** Clear understanding of MVP scope, features, users, and constraints.
 -   **Core Documentation:** Memory Bank and `cline_docs` established and updated.
 -   **Version Control:** Basic Git setup with initial project files pushed to GitHub.
 -   **Mobile App Foundation (SDK 53):**
-    -   The `mobile-app` (React Native Expo SDK 53) project is scaffolded, runnable with core dependencies, and previewable in Expo Go.
+    -   The `mobile-app` (React Native Expo SDK 53) project is scaffolded and previewable in Expo Go.
     -   ESLint and Prettier configured.
     -   Core dependencies: `expo: "^53.0.0"`, `react: "19.0.0"`, `react-native: "0.79.2"`, `expo-status-bar: "^2.2.3"`.
+    -   `react-native-safe-area-context` integrated and working.
+    -   `react-native-svg` used for icons (though `package.json` update was problematic, it's functionally working).
+    -   **Chat functionality:** Sending messages, displaying user/AI messages, API calls to backend, basic loading/error indicators, and feedback icons on AI messages are operational.
 -   **API Server Foundation:**
     -   Next.js v15.3.2 project scaffolded with linting/formatting.
     -   Working `/api/chat` endpoint with Gemini integration.
@@ -41,13 +46,13 @@
     -   [x] Created `ChatScreen.tsx`, `MessageList.tsx`, `MessageBubble.tsx`, `MessageInput.tsx`.
     -   [x] Integrated components and updated `App.tsx`.
     -   [x] Successfully upgraded `mobile-app` to Expo SDK 53 and confirmed preview in Expo Go.
--   [ ] **Task 2.1.1 (Sub-task):** Incrementally re-add necessary UI/UX dependencies:
-    -   [ ] `react-native-safe-area-context`
-    -   [ ] `react-native-gesture-handler` (if needed)
-    -   [ ] `react-native-reanimated` (if needed)
--   [ ] **Task 2.2:** Develop/Refine `MessageItem`/`MessageBubble.tsx` component.
--   [ ] **Task 2.3:** Integrate API service for Gemini proxy.
--   [ ] **Task 2.4:** Implement loading states and basic error display.
+-   [x] **Task 2.1.1 (Sub-task):** Incrementally re-add necessary UI/UX dependencies:
+    -   [x] `react-native-safe-area-context` (Integrated 2025-05-10)
+    -   [ ] `react-native-gesture-handler` (Deferred 2025-05-10, to be added if needed for MVP)
+    -   [ ] `react-native-reanimated` (Deferred 2025-05-10, to be added if needed for MVP)
+-   [x] **Task 2.2:** Develop/Refine `MessageItem`/`MessageBubble.tsx` component (Feedback icons added 2025-05-10).
+-   [x] **Task 2.3:** Integrate API service for Gemini proxy (Implemented 2025-05-10).
+-   [x] **Task 2.4:** Implement loading states and basic error display (Basic implementation 2025-05-10).
 -   [ ] **Task 2.5:** Ensure Expo Go iOS compatibility (Ongoing).
 
 ### Phase 3: Language Toggle & Localization (React Native)
@@ -91,3 +96,6 @@
         - Updating `package.json` with core SDK 53 compatible versions (`expo: "^53.0.0"`, `react: "19.0.0"`, `react-native: "0.79.2"`).
         - Updating `app.json` (`sdkVersion: "53.0.0"`) and `babel.config.js` to minimal working configurations.
         - Confirmed the app is previewable in Expo Go with this minimal SDK 53 setup.
+    - **Integrated `react-native-safe-area-context`** into the SDK 53 `mobile-app` and verified in Expo Go.
+    - **Decided to defer `react-native-gesture-handler` and `react-native-reanimated`** (2025-05-10).
+    - **Implemented core chat functionality (Tasks 2.2, 2.3, 2.4)** including API integration, message display, loading/error states, and feedback icons using SVGs (2025-05-10).

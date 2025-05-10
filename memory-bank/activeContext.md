@@ -1,12 +1,29 @@
 # Active Context
 
 ## Current Work Focus
-- Successfully upgraded `mobile-app` to **Expo SDK 53**. The app is now previewable in Expo Go with a minimal set of core dependencies.
+- Successfully upgraded `mobile-app` to **Expo SDK 53**.
+- Successfully integrated `react-native-safe-area-context` into `mobile-app`.
+- **Core chat functionality (sending messages, receiving AI replies, basic loading/error states, feedback icons) implemented and tested successfully in Expo Go (iOS) as of 2025-05-10.** This covers Task 2.2 (feedback icons), Task 2.3 (API integration), and initial parts of Task 2.4 (loading/error states).
 - Continuing with **Phase 2: Core Chat UI & Logic (React Native)** from `projectRoadmap.md`.
-- Next immediate step is to re-integrate essential UI/UX packages, starting with `react-native-safe-area-context`.
+- Integration of `react-native-gesture-handler` and `react-native-reanimated` remains deferred.
+- Next immediate steps focus on **Phase 3 (Localization)** and further refinement of **Phase 4 (UX Feedback)**.
 
 ## Recent Changes
-- **(Latest Changes as of 2025-05-10 - SDK 53 Upgrade & Basic Preview):**
+- **(2025-05-10 - API Integration, MessageBubble Refinement, Basic States - Tasks 2.2, 2.3, 2.4):**
+    - Created `mobile-app/src/services/GeminiApiService.ts` to handle API calls.
+    - Updated `ChatScreen.tsx` to manage message state, call the API service, and handle loading/error states.
+    - Updated `MessageInput.tsx` to use the `onSend` prop from `ChatScreen.tsx`.
+    - Updated `MessageList.tsx` to display dynamic messages and pass `onFeedback` prop.
+    - Updated `MessageBubble.tsx` to use inline SVGs for feedback icons (after `lucide-react-native` issues) and connect to `onFeedback` handler.
+    - Successfully tested sending messages, receiving AI replies, loading indicators, basic error display, and feedback icon visibility.
+- **(2025-05-10 - Dependency Management Update):**
+    - Decided to defer integration of `react-native-gesture-handler` and `react-native-reanimated`.
+    - Pivoted to using `react-native-svg` for icons due to issues with `lucide-react-native` installation/peer dependencies.
+- **(2025-05-10 - `react-native-safe-area-context` Integration):**
+    - Installed `react-native-safe-area-context`.
+    - Updated `mobile-app/App.tsx` to use `SafeAreaProvider`.
+    - Verified successful integration.
+- **(Previously on 2025-05-10 - SDK 53 Upgrade & Basic Preview):**
     - **Expo SDK 53 Upgrade:**
         - Resolved multiple dependency and configuration issues to make `mobile-app` compatible with Expo SDK 53.
         - Simplified `App.tsx` and `package.json` to a minimal working set:
@@ -25,30 +42,17 @@
     - Production API endpoint: `https://d-eiat-folder-my-projects-my-other-projects-eiat5522s-projects.vercel.app/api/chat`
 
 ## Next Steps
-1.  **Incrementally Add Dependencies to `mobile-app` (SDK 53):**
-    *   **Install and Integrate `react-native-safe-area-context`:**
-        *   Run `npx expo install react-native-safe-area-context`.
-        *   Update `App.tsx` to re-include `SafeAreaProvider`.
-        *   Test thoroughly in Expo Go on iOS.
-    *   **(If SafeAreaProvider successful) Install and Integrate `react-native-gesture-handler` and `react-native-reanimated` (if still deemed necessary for MVP features):**
-        *   Run `npx expo install react-native-gesture-handler react-native-reanimated`.
-        *   Update `babel.config.js` to include `react-native-reanimated/plugin`.
-        *   Update `app.json` to include the `react-native-reanimated` plugin.
-        *   Update `App.tsx` to include `GestureHandlerRootView`.
-        *   Test thoroughly in Expo Go on iOS.
-2.  **Refine `MessageBubble.tsx` (Task 2.2):**
-    *   Review `MessageBubble.tsx` against any specific requirements for `MessageItem` from the roadmap.
-    *   Make necessary adjustments or confirm completion of Task 2.2.
-3.  **Integrate API Service (Task 2.3):**
-    *   Create an API service module in `mobile-app/src/services/`.
-    *   Implement a function within the service to call the deployed Next.js API proxy.
-    *   Integrate this service into `MessageInput.tsx` to handle sending user messages.
-    *   Modify `MessageList.tsx` and `ChatScreen.tsx` (or introduce state management) to handle dynamic message data from API responses, replacing mock data.
-4.  **Implement Loading States & Basic Error Display (Task 2.4):**
-    *   Add loading indicators in `MessageInput.tsx` or `ChatScreen.tsx` while waiting for API responses.
-    *   Display basic error messages in the UI if API calls fail.
-5.  **Ensure Expo Go iOS Compatibility (Task 2.5 - Ongoing):**
-    *   Continuously test all new features and changes in Expo Go on an iOS device.
+1.  **Dependency Integration Status (Task 2.1.1):**
+    *   **`react-native-safe-area-context` (COMPLETED).**
+    *   **`react-native-gesture-handler` and `react-native-reanimated` (DEFERRED).**
+    *   **`react-native-svg` (USED):** Implemented for icons; installation status in `package.json` is problematic but functionally working.
+2.  **Refine `MessageBubble.tsx` (Task 2.2 - Feedback Icons COMPLETED).**
+3.  **Integrate API Service (Task 2.3 - COMPLETED).**
+4.  **Implement Loading States & Basic Error Display (Task 2.4 - Basic implementation COMPLETED).**
+    *   Further refinement of error messages and retry mechanisms will be part of Task 4.2 and 4.3.
+5.  **Proceed with Phase 3: Localization (Task 3.1: Integrate i18next).**
+6.  **Proceed with Phase 4: UX Feedback Mechanisms (Task 4.1: Full Thumbs-up/down logic, Task 4.2: Retry, Task 4.3: Refine errors).**
+7.  **Ensure Expo Go iOS Compatibility (Task 2.5 - Ongoing).**
 
 ## Active Decisions & Considerations
 - **Expo Go Compatibility (SDK 53):** All development choices must prioritize smooth operation within Expo Go on iOS with the new SDK.
