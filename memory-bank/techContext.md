@@ -75,7 +75,9 @@
     -   `eslint-config-prettier: "^10.1.5"`
     -   `eslint-plugin-prettier: "^5.4.0"`
     -   `prettier-plugin-tailwindcss: "^0.6.11"`
--   `@google/generative-ai` (or the official Google AI SDK for Node.js - to be added)
+-   **Google Gemini Integration:**
+    -   `@google/generative-ai: "^0.3.0"` - Official Google AI SDK for Node.js
+    -   Configuration via `GEMINI_API_KEY` environment variable
 
 ## Tool Usage Patterns
 -   **Cline:** For assistance with code scaffolding, reviews, documentation updates, and task management. Will interact with `cline_docs/` and `memory-bank/`.
@@ -92,3 +94,5 @@
 ## Deployment
 -   **React Native App:** Via EAS Build. Initial testing via Expo Go.
 -   **Next.js Backend API:** Vercel or Railway.
+    -   Requires setup of `GEMINI_API_KEY` as an environment variable
+    -   Instructions provided in `userInstructions/03_setup_gemini_api_key.md`

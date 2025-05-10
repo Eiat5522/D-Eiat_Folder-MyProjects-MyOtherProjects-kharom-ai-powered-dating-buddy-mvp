@@ -5,8 +5,18 @@
 - **Task 1.1 (Develop /api/chat endpoint): Completed.**
     - Basic placeholder API endpoint created at `api-server/src/app/api/chat/route.ts`.
     - Lint scripts updated in `api-server/package.json`.
-- **Memory Bank & `cline_docs`:** All documentation updated to reflect completion of Task 1.1.
-- **Git Repository:** Local Git repo up-to-date with Task 1.1 completion.
+- **Task 1.2 (Implement secure proxy to Google Gemini): Completed.**
+    - Integrated @google/generative-ai SDK.
+    - Implemented basic proxy functionality.
+    - Added environment variable handling for API key.
+- **Task 1.3 (Implement error handling for Gemini calls): Completed.**
+    - Added comprehensive error handling with type checking.
+    - Implemented HTTP status code mapping (401, 429, 400, 503, 500).
+    - Added content safety block detection.
+    - Enhanced error logging for debugging.
+    - Added user-friendly error messages.
+- **Memory Bank & `cline_docs`:** All documentation updated to reflect completion through Task 1.3.
+- **Git Repository:** Local Git repo up-to-date with Task 1.3 completion.
 - **Mobile App (`mobile-app`):**
     - React Native (Expo SDK 51) project structure stable.
     - ESLint and Prettier configured.
@@ -14,13 +24,19 @@
     - Next.js v15.3.2 project structure created in `api-server/`.
     - ESLint and Prettier configured.
     - Basic `/api/chat` endpoint implemented.
+    - Gemini integration complete with error handling.
 
 ## What Works
 -   **Project Definition:** Clear understanding of MVP scope, features, users, and constraints.
 -   **Core Documentation:** Memory Bank and `cline_docs` established and updated.
--   **Version Control:** Basic Git setup with initial project files pushed to GitHub; user has committed Phase 0 and Task 1.1 completion.
+-   **Version Control:** Basic Git setup with initial project files pushed to GitHub; user has committed through Task 1.3 completion.
 -   **Mobile App Foundation:** The `mobile-app` (React Native Expo SDK 51) project is scaffolded, runnable, and has linting/formatting configured.
--   **API Server Foundation:** The `api-server` (Next.js v15.3.2) project is scaffolded, has linting/formatting configured, and includes a basic working `/api/chat` endpoint.
+-   **API Server Foundation:**
+    - Next.js v15.3.2 project scaffolded with linting/formatting
+    - Working `/api/chat` endpoint with Gemini integration
+    - Comprehensive error handling and logging
+    - Content safety checks implemented
+    - User-friendly error messages with appropriate HTTP status codes
 
 ## What's Left to Build (High-Level MVP Goals)
 
@@ -35,8 +51,8 @@
 
 ### Phase 1: Backend API Proxy (Next.js) (Current Phase)
 -   [x] **Task 1.1:** Develop `/api/chat` endpoint. (Completed 2025-05-10)
--   [ ] **Task 1.2:** Implement secure proxy to Google Gemini.
--   [ ] **Task 1.3:** Implement error handling for Gemini calls.
+-   [x] **Task 1.2:** Implement secure proxy to Google Gemini. (Completed 2025-05-10)
+-   [x] **Task 1.3:** Implement error handling for Gemini calls. (Completed 2025-05-10)
 -   [ ] **Task 1.4:** Deploy to Vercel/Railway.
 
 ### Phase 2: Core Chat Functionality (React Native App)
@@ -64,12 +80,31 @@
 ## Known Issues
 -   **`mobile-app`:** Contains 3 low severity vulnerabilities (deferred for MVP).
 -   **Initial `mobile-app` setup:** Encountered issues with `expo-template-bare-typescript` (older SDK, critical vulnerabilities, Metro errors). Resolved by re-scaffolding with `blank-typescript@sdk-50`, prebuilding, and aligning dependencies to SDK 51.
+-   **`api-server` Terminal Issues:** 
+    - Difficulties with reliably starting and observing the Next.js development server within VS Code's integrated terminal
+    - This impacts immediate testing of the Gemini API integration
+    - Workarounds:
+      1. Use external terminal for server testing
+      2. Monitor server logs through Vercel/Railway once deployed
+      3. Consider implementing additional logging mechanisms
 
 ## Evolution of Project Decisions
--   *(This section will track significant changes or pivots from the initial plan as development progresses.)*
--   **2025-05-09:** Project initiated. Initial plan to use `expo-template-bare-typescript` for `mobile-app`.
--   **2025-05-09:** Encountered critical vulnerabilities and Metro bundler errors with the initial `mobile-app` setup (based on an older Expo SDK).
--   **2025-05-09:** Decision made to re-scaffold `mobile-app` using `blank-typescript@sdk-50` template, then `expo prebuild`, and align dependencies to Expo SDK 51. This resolved critical vulnerabilities (leaving 3 low) and fixed the Metro bundler error.
--   **2025-05-10:** `api-server` (Next.js v15.3.2) project created in `api-server/` directory.
--   **2025-05-10:** ESLint and Prettier configured for both `mobile-app` and `api-server`. Phase 0 completed.
--   **2025-05-10:** Task 1.1 (Develop `/api/chat` endpoint) completed. Basic placeholder API created. Lint scripts added to `api-server`.
+-   **2025-05-09:**
+    - Project initiated with `expo-template-bare-typescript` for `mobile-app`
+    - Encountered critical vulnerabilities and Metro bundler errors
+    - Re-scaffolded using `blank-typescript@sdk-50`, then aligned to SDK 51
+-   **2025-05-10 (Morning):**
+    - Created `api-server` with Next.js v15.3.2
+    - Configured ESLint/Prettier for both projects
+    - Completed Phase 0 setup
+    - Completed Task 1.1: Basic `/api/chat` endpoint
+-   **2025-05-10 (Afternoon):**
+    - Completed Task 1.2: Gemini integration
+    - Added setup instructions in `userInstructions/03_setup_gemini_api_key.md`
+    - Documented terminal issues and workarounds
+    - Completed Task 1.3: Error handling with:
+        - Specific error type checking
+        - HTTP status code mapping
+        - Content safety handling
+        - Enhanced logging
+        - User-friendly messages

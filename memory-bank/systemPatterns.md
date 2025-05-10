@@ -3,7 +3,7 @@
 ## System Architecture Overview
 The KhaRom application consists of two main parts in separate subdirectories (`mobile-app` and `api-server`) within the main project root:
 1.  **React Native (Expo Bare SDK 51) Mobile Application:** The user-facing client application, located in `mobile-app/`. Responsible for UI, user input, and displaying AI responses. ESLint and Prettier are configured.
-2.  **Next.js API Backend (v15.3.2):** A simple backend acting as a secure proxy to the Google Gemini API, located in `api-server/`. This will handle API key management and communication with the AI service. ESLint and Prettier are configured.
+2.  **Next.js API Backend (v15.3.2):** A simple backend acting as a secure proxy to the Google Gemini API, located in `api-server/`. This will handle API key management, communication with the AI service, and error handling. ESLint and Prettier are configured.
 
 ```mermaid
 graph LR
@@ -11,7 +11,7 @@ graph LR
     MobileApp -- Sends Prompt --> NextApi[Next.js API Proxy (/src/app/api/chat)]
     NextApi -- Securely Calls --> Gemini[Google Gemini API]
     Gemini -- Returns Thai Response --> NextApi
-    NextApi -- Relays Response --> MobileApp
+    NextApi -- Relays Response/Errors --> MobileApp
     MobileApp -- Displays to --> User
 ```
 
@@ -23,6 +23,36 @@ graph LR
 -   **i18next:** For UI localization (Thai/English) in the React Native app.
 -   **No Firebase/Supabase:** A direct constraint from the project brief. Data persistence, if any for MVP, would need alternative solutions (e.g., AsyncStorage for local device storage).
 -   **Environment-Protected API Keys:** Critical for security. API keys will be managed on Vercel/Railway, not in client code.
+
+## Backend Error Handling Pattern
+- **Type Guard Pattern:** Use `isGeminiError` type guard to safely check error structure:
+  ```typescript
+  function isGeminiError(error: unknown): error is {
+    status: {
+      code: number;
+      message: string;
+      details?: Record<string, unknown>[];
+    };
+  }
+  ```
+- **HTTP Status Code Mapping:**
+  - 401: Authentication/Permission errors (PERMISSION_DENIED, UNAUTHENTICATED)
+  - 429: Rate limit exceeded (RESOURCE_EXHAUSTED)
+  - 400: Invalid input (INVALID_ARGUMENT) or content safety blocks
+  - 503: Service unavailable (UNAVAILABLE)
+  - 500: Internal errors or unknown issues
+- **Error Response Structure:**
+  ```typescript
+  interface ChatResponseBody {
+    reply: string | null;
+    error: string | null;
+    blocked?: boolean;
+    blockReason?: string;
+  }
+  ```
+- **Error Logging:** Comprehensive server-side logging with error type, message, and context
+- **Content Safety:** Check `promptFeedback.blockReason` in successful responses
+- **User-Friendly Messages:** Generic client-facing messages that don't expose internal details
 
 ## Design Patterns (Initial Thoughts for React Native App)
 -   **Component-Based Architecture:** Standard React pattern. For the `mobile-app`, reusable UI components will be organized in `mobile-app/src/components`.
@@ -60,19 +90,19 @@ graph LR
   /components       # Reusable React Native components - This will be inside mobile-app/src/components
   /screens          # Mobile app screens - This will be inside mobile-app/src/screens
   /navigation       # React Navigation configuration - This will be inside mobile-app/src/navigation
-  /hooks            # Custom React hooks - This will be inside mobile-app/src/hooks
-  /services         # API services (Gemini proxy calls) - This will be inside mobile-app/src/services
-  /constants        # App-wide constants - This will be inside mobile-app/src/constants
-  /locales          # i18next translation files (Thai/EN) - This will be inside mobile-app/src/locales
-/assets             # Static assets (images, fonts) - Each sub-project (mobile-app, api-server) might have its own assets folder, or a shared top-level one. For mobile-app, it's typically mobile-app/assets.
-.clinerules         # Cline configuration folder (Root level)
-/cline_docs         # Cline project context (Root level)
-/memory-bank        # Cline Memory Bank folder (Root level)
-/mobile-app         # React Native Expo project (ESLint/Prettier configured)
+  /hooks           # Custom React hooks - This will be inside mobile-app/src/hooks
+  /services        # API services (Gemini proxy calls) - This will be inside mobile-app/src/services
+  /constants       # App-wide constants - This will be inside mobile-app/src/constants
+  /locales         # i18next translation files (Thai/EN) - This will be inside mobile-app/src/locales
+/assets            # Static assets (images, fonts) - Each sub-project (mobile-app, api-server) might have its own assets folder, or a shared top-level one. For mobile-app, it's typically mobile-app/assets.
+.clinerules        # Cline configuration folder (Root level)
+/cline_docs        # Cline project context (Root level)
+/memory-bank       # Cline Memory Bank folder (Root level)
+/mobile-app        # React Native Expo project (ESLint/Prettier configured)
   .eslintrc.js
   .prettierrc.js
   ...
-/api-server         # Next.js API project (v15.3.2, ESLint/Prettier configured)
+/api-server        # Next.js API project (v15.3.2, ESLint/Prettier configured)
   eslint.config.mjs
   .prettierrc.js
   ...
