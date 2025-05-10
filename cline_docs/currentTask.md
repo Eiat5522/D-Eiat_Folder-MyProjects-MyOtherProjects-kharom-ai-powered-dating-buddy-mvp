@@ -1,35 +1,32 @@
-# Current Task: Phase 2 - Core Chat UI & Logic (Task 2.1 Completed)
+# Current Task: Integrate System Prompt & Prepare for Phase 3/4
 
 ## Current Objective
-With the basic Chat Screen UI components (Task 2.1) implemented and `App.tsx` updated to render `ChatScreen`, the immediate next steps involve:
-1.  Ensuring the Expo development server for `mobile-app` is running correctly so the user can view the UI.
-2.  Preparing for Task 2.2: Refine `MessageBubble.tsx` (already created, but may need adjustments based on roadmap's `MessageItem` concept) and Task 2.3: Integrate API service for Gemini proxy.
+Investigate and address the issue where the `gemini-1.5-flash-latest` model, accessed via `api-server`, exhibits a strong bias towards responding in the language of the immediate user prompt, overriding Thai-only system instructions. The primary goal is to ensure consistent Thai-only responses from the AI.
 
 ## Context
 -   **Overall Project:** KhaRom MVP development.
--   **Current Phase:** Phase 2: Core Chat UI & Logic (React Native).
--   **Previous Step (Task 2.1 - Completed 2025-05-10):**
-    -   Created `ChatScreen.tsx`, `MessageList.tsx`, `MessageBubble.tsx`, and `MessageInput.tsx` in `mobile-app/src/components/`.
-    -   Updated `ChatScreen.tsx` to import `MessageList` and `MessageInput`.
-    -   Updated `MessageList.tsx` to import `MessageBubble`.
-    -   Updated `mobile-app/App.tsx` to render `ChatScreen`.
-    -   Started the Expo development server for `mobile-app`.
--   **Relevant Document:** `cline_docs/projectRoadmap.md` (Tasks 2.2, 2.3).
--   The `MessageBubble.tsx` component serves a similar purpose to the `MessageItem` mentioned in Task 2.2 of the roadmap. We should confirm if further refinement is needed or if `MessageBubble.tsx` fulfills the requirements for Task 2.2.
+-   **Current Phase:** Addressing AI language consistency before proceeding with Phase 3 (Localization) and Phase 4 (UX Feedback).
+-   **Problem Identified (2025-05-11):** User reports and observations indicate that if a user sends a complete, coherent question in a language other than Thai (e.g., English), the AI tends to respond in that language, despite system instructions and prompt modifications in `api-server/src/app/api/chat/route.ts` aiming for Thai-only output.
+-   **Previous Steps (Completed 2025-05-10 & 2025-05-11):**
+    -   Core chat functionality (Tasks 2.1-2.4) and SDK 53 upgrade completed.
+    -   `main` branch updated with these changes.
+    -   Initial system prompt for KhaRom persona integrated into `api-server`.
+-   **Relevant Documents:** `cline_docs/projectRoadmap.md`, `memory-bank/*` (especially `activeContext.md` for detailed plan).
 
-## Next Steps
-1.  **Verify Expo Go UI:**
-    *   Confirm with the user that they can see the basic chat UI in Expo Go on their iOS device.
-    *   Address any immediate rendering issues if reported.
-2.  **Update Documentation:**
-    *   Update `memory-bank/progress.md` to reflect completion of Task 2.1.
-    *   Update `memory-bank/activeContext.md` with the current focus on Phase 2.
-    *   Update `cline_docs/codebaseSummary.md` with new components.
-3.  **Plan for Task 2.2/2.3:**
-    *   **Task 2.2 (MessageItem/MessageBubble):** Review `MessageBubble.tsx` against any specific requirements for `MessageItem` from the roadmap. Decide if further changes are needed or if it's complete.
-    *   **Task 2.3 (API Integration):**
-        -   Create an API service module in `mobile-app/src/services/`.
-        -   Implement a function to call the deployed Next.js API proxy (`https://d-eiat-folder-my-projects-my-other-projects-eiat5522s-projects.vercel.app/api/chat`).
-        -   Integrate this service into `MessageInput.tsx` to send user messages.
-        -   Update `MessageList.tsx` to display actual messages from the state (which will be populated by API responses).
-4.  **Proceed with Task 2.2/2.3 implementation.**
+## Next Steps (Addressing Language Bias - Task ID: `1746904477439`)
+1.  **Implement Combined System Instruction & Prompt Wrapping:**
+    *   **Location:** `api-server/src/app/api/chat/route.ts`
+    *   **Action 1 (Strengthen System Instruction):** Modify `khaRomSystemInstruction` to be more forceful and explicit about the Thai-only response rule.
+        *   Example: `"คุณคือ 'ขารมย์' (KhaRom) AI ผู้ช่วยด้านการเดท ตอบเป็นภาษาไทยเท่านั้นเสมอ ไม่ว่าคำถามจะเป็นภาษาใดก็ตาม ย้ำ! ตอบเป็นภาษาไทยเท่านั้น นี่คือกฎเหล็กห้ามฝ่าฝืนเด็ดขาด"`
+    *   **Action 2 (Wrap User Prompt):** Modify the handling of `body.prompt` to wrap the user's input within a larger instructional text that reiterates the Thai-only requirement and adherence to system commands.
+        *   Example: `const wrappedPrompt = \`ข้อความจากผู้ใช้: '${body.prompt}'\\n\\nขารมย์ โปรดวิเคราะห์ข้อความนี้และตอบกลับเป็นภาษาไทยเท่านั้น โดยให้คำแนะนำที่เหมาะสมกับวัฒนธรรมการเดทของไทยและยึดมั่นตามคำสั่งของระบบอย่างเคร่งครัด\`;`
+    *   **Testing:** Thoroughly test the API endpoint with various non-Thai inputs (especially coherent questions) to verify if the AI consistently responds in Thai.
+2.  **If Combined Approach is Insufficient (Further Investigation):**
+    *   **Investigate Chat History Priming (Task ID: `1746904287226`):** Explore pre-populating chat history with examples of English user input leading to Thai AI responses.
+    *   **Consider Two-Step Translation Fallback (Task ID: `1746904295417` - Lower Priority):** Evaluate a two-step process (get response, then translate if not Thai) as a last resort.
+3.  **Update Documentation:**
+    *   Ensure all `cline_docs` and `memory-bank` files are fully up-to-date after these changes and testing.
+4.  **Proceed to Phase 3 & 4 (Post Language Bias Resolution):**
+    *   **Phase 3: Localization (Task 3.1: Integrate i18next, etc.)**
+    *   **Phase 4: UX Feedback Mechanisms (Task 4.1: Full Thumbs-up/down logic, etc.)**
+5.  **Ensure Expo Go iOS Compatibility (Task 2.5 - Ongoing).**

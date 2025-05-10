@@ -1,83 +1,66 @@
-# Project Progress
+# Project Progress (As of 2025-05-11)
 
-## Current Status: Phase 1 Completed (As of 2025-05-10)
-- **Overall:** KhaRom MVP Phase 0 (Project Initialization & Setup) and Phase 1 (Backend API Proxy) are complete. Ready to begin Phase 2 (Core Chat UI & Logic).
-- **Task 1.1 (Develop /api/chat endpoint): Completed.**
-    - Basic placeholder API endpoint created at `api-server/src/app/api/chat/route.ts`.
-    - Lint scripts updated in `api-server/package.json`.
-- **Task 1.2 (Implement secure proxy to Google Gemini): Completed.**
-    - Integrated @google/generative-ai SDK.
-    - Implemented basic proxy functionality.
-    - Added environment variable handling for API key.
-- **Task 1.3 (Implement error handling for Gemini calls): Completed.**
-    - Added comprehensive error handling with type checking.
-    - Implemented HTTP status code mapping (401, 429, 400, 503, 500).
-    - Added content safety block detection.
-    - Enhanced error logging for debugging.
-    - Added user-friendly error messages.
-- **Task 1.4 (Deploy to Vercel): Completed.**
-    - Created deployment guide in `userInstructions/04_deploy_to_vercel.md`
-    - Successfully deployed to production environment
-    - Production URL: https://d-eiat-folder-my-projects-my-other-projects-eiat5522s-projects.vercel.app
-    - API endpoint verified and working
-    - Status page added for server verification
-    - Environment variables properly configured
-    - Successful test response from Gemini integration
-- **Memory Bank & `cline_docs`:** All documentation updated to reflect completion through Task 1.3 and progress on 1.4.
-- **Git Repository:** Local Git repo up-to-date with Task 1.3 completion.
-- **Mobile App (`mobile-app`):**
-    - React Native (Expo SDK 51) project structure stable.
-    - ESLint and Prettier configured.
-- **Next.js API Backend (`api-server`):**
-    - Next.js v15.3.2 project structure created in `api-server/`.
-    - ESLint and Prettier configured.
-    - API endpoint implemented with error handling.
-    - Ready for Vercel deployment.
+## Current Status: Investigating AI Language Bias
+- **Overall:** KhaRom MVP Phase 0 & 1 complete. Phase 2 (Core Chat UI & Logic) is functionally complete.
+- **Current Focus:** Addressing an issue where the Gemini AI responds in the user's input language instead of consistently in Thai. A plan involving combined system instruction strengthening and prompt wrapping is formulated (Task ID: `1746904477439`).
+- **`mobile-app` successfully upgraded to Expo SDK 53.**
+- **`react-native-safe-area-context` successfully integrated.**
+- **Core chat flow (send message, display user message, call API, display AI message, loading/error states, feedback icons) is functional in Expo Go (pending resolution of language bias).**
+- **Tasks 2.1, 2.2, 2.3, and 2.4 are complete.**
+- **Git `main` branch updated with `sdk-53-upgrade` changes and initial system prompt.**
 
 ## What Works
 -   **Project Definition:** Clear understanding of MVP scope, features, users, and constraints.
--   **Core Documentation:** Memory Bank and `cline_docs` established and updated.
--   **Version Control:** Basic Git setup with initial project files pushed to GitHub; user has committed through Task 1.3 completion.
--   **Mobile App Foundation:** The `mobile-app` (React Native Expo SDK 51) project is scaffolded, runnable, and has linting/formatting configured.
+-   **Core Documentation:** Memory Bank and `cline_docs` established (being updated to reflect current investigation).
+-   **Version Control:** Git setup on GitHub, `main` branch reflects latest stable version.
+-   **Mobile App Foundation (SDK 53):**
+    -   The `mobile-app` (React Native Expo SDK 53) project is scaffolded and previewable in Expo Go.
+    -   ESLint and Prettier configured.
+    -   Core dependencies for chat UI and API communication are integrated.
+    -   **Chat functionality:** Sending messages, displaying user/AI messages, API calls to backend, basic loading/error indicators, and feedback icons on AI messages are operational.
 -   **API Server Foundation:**
-    - Next.js v15.3.2 project scaffolded with linting/formatting
-    - Working `/api/chat` endpoint with Gemini integration
-    - Comprehensive error handling and logging
-    - Content safety checks implemented
-    - User-friendly error messages with appropriate HTTP status codes
-    - Deployment documentation prepared
+    -   Next.js v15.3.2 project (`api-server/`) is stable and deployed.
+    -   Working `/api/chat` endpoint with Gemini integration.
+    -   Comprehensive error handling and logging.
+    -   Content safety checks implemented.
+    -   Deployed to Vercel: `https://d-eiat-folder-my-projects-my-other-projects-eiat5522s-projects.vercel.app/api/chat`.
 
 ## What's Left to Build (High-Level MVP Goals)
 
+### Investigation Phase: AI Language Consistency (Current - 2025-05-11)
+-   [ ] **Task (ID `1746904477439`): Implement Combined System Instruction & Prompt Wrapping for Thai-Only AI Responses.**
+    -   [ ] Strengthen `khaRomSystemInstruction` in `api-server`.
+    -   [ ] Implement prompt wrapping for user input in `api-server`.
+    -   [ ] Test thoroughly.
+-   [ ] **Task (ID `1746904287226` - Contingency): Investigate Chat History Priming.**
+-   [ ] **Task (ID `1746904295417` - Contingency): Consider Two-Step Translation Fallback.**
+
 ### Phase 0: Foundation & Setup (Completed 2025-05-10)
--   [x] Initialize Git repository on GitHub. (Includes initial commit of docs & README)
+-   [x] Initialize Git repository on GitHub.
 -   [x] Initialize Knowledge Graph with core entities.
--   [x] Set up React Native (Expo Bare SDK 51) project structure (`mobile-app`).
-    -   [x] Successfully scaffolded and Metro bundler is operational.
-    -   [x] User committed stable `mobile-app` state to Git.
+-   [x] Set up React Native (Expo Bare SDK 51, then upgraded to SDK 53) project structure (`mobile-app`).
 -   [x] Set up Next.js API project structure (`api-server`).
 -   [x] Configure ESLint and Prettier for both projects.
 
 ### Phase 1: Backend API Proxy (Next.js) (Completed 2025-05-10)
--   [x] **Task 1.1:** Develop `/api/chat` endpoint. (Completed 2025-05-10)
--   [x] **Task 1.2:** Implement secure proxy to Google Gemini. (Completed 2025-05-10)
--   [x] **Task 1.3:** Implement error handling for Gemini calls. (Completed 2025-05-10)
--   [x] **Task 1.4:** Deploy to Vercel. (Completed - 2025-05-10)
-    - [x] Create deployment documentation
-    - [x] Verify environment configuration
-    - [x] Complete Vercel deployment
-    - [x] Test deployed endpoint
-    - [x] Document production URL
+-   [x] **Task 1.1:** Develop `/api/chat` endpoint.
+-   [x] **Task 1.2:** Implement secure proxy to Google Gemini.
+-   [x] **Task 1.3:** Implement error handling for Gemini calls.
+-   [x] **Task 1.4:** Deploy to Vercel.
 
-### Phase 2: Core Chat UI & Logic (React Native)
--   [x] **Task 2.1:** Implement Chat Screen UI (Message Input, List). (Completed 2025-05-10)
+### Phase 2: Core Chat UI & Logic (React Native - SDK 53) (Completed 2025-05-10)
+-   [x] **Task 2.1:** Implement Chat Screen UI (Message Input, List) & Upgrade to SDK 53.
     -   [x] Created `ChatScreen.tsx`, `MessageList.tsx`, `MessageBubble.tsx`, `MessageInput.tsx`.
     -   [x] Integrated components and updated `App.tsx`.
-    -   [x] Started Expo dev server.
--   [ ] **Task 2.2:** Develop `MessageItem` component. (Note: `MessageBubble.tsx` created, may fulfill this.)
--   [ ] **Task 2.3:** Integrate API service for Gemini proxy.
--   [ ] **Task 2.4:** Implement loading states and basic error display.
--   [ ] **Task 2.5:** Ensure Expo Go iOS compatibility.
+    -   [x] Successfully upgraded `mobile-app` to Expo SDK 53 and confirmed preview in Expo Go.
+-   [x] **Task 2.1.1 (Sub-task):** Incrementally re-add necessary UI/UX dependencies:
+    -   [x] `react-native-safe-area-context` (Integrated 2025-05-10)
+    -   [ ] `react-native-gesture-handler` (Deferred 2025-05-10, to be added if needed for MVP)
+    -   [ ] `react-native-reanimated` (Deferred 2025-05-10, to be added if needed for MVP)
+-   [x] **Task 2.2:** Develop/Refine `MessageBubble.tsx` component (Feedback icons added 2025-05-10).
+-   [x] **Task 2.3:** Integrate API service for Gemini proxy (Implemented 2025-05-10).
+-   [x] **Task 2.4:** Implement loading states and basic error display (Basic implementation 2025-05-10).
+-   [ ] **Task 2.5:** Ensure Expo Go iOS compatibility (Ongoing - current features are compatible).
 
 ### Phase 3: Language Toggle & Localization (React Native)
 -   [ ] **Task 3.1:** Integrate i18next.
@@ -85,9 +68,9 @@
 -   [ ] **Task 3.3:** Implement UI language toggle.
 
 ### Phase 4: UX Feedback Mechanisms (React Native)
--   [ ] **Task 4.1:** Add thumbs-up/down to `MessageItem`.
--   [ ] **Task 4.2:** Implement retry mechanism.
--   [ ] **Task 4.3:** Refine user-facing error messages.
+-   [ ] **Task 4.1:** Implement full logic for thumbs-up/down feedback in `MessageBubble.tsx`.
+-   [ ] **Task 4.2:** Implement retry mechanism for failed messages.
+-   [ ] **Task 4.3:** Refine user-facing error messages for clarity and cultural appropriateness.
 
 ### Phase 5: Testing & Refinement
 -   [ ] **Task 5.1:** Comprehensive testing in Expo Go.
@@ -95,43 +78,28 @@
 -   [ ] **Task 5.3:** Code reviews.
 
 ## Known Issues
--   **`mobile-app`:** Contains 3 low severity vulnerabilities (deferred for MVP).
--   **Initial `mobile-app` setup:** Encountered issues with `expo-template-bare-typescript` (older SDK, critical vulnerabilities, Metro errors). Resolved by re-scaffolding with `blank-typescript@sdk-50`, prebuilding, and aligning dependencies to SDK 51.
--   **`api-server` Terminal Issues:** 
-    - Difficulties with reliably starting and observing the Next.js development server within VS Code's integrated terminal
-    - This impacts immediate testing of the Gemini API integration
-    - Workarounds:
-      1. Use external terminal for server testing
-      2. Monitor server logs through Vercel/Railway once deployed
-      3. Consider implementing additional logging mechanisms
--   **Expo Go Preview with iPhone Hotspot:** Potential connectivity issues when using the same iPhone for hotspot and Expo Go preview.
-    -   **Workarounds:**
-        1.  Use a shared external Wi-Fi network for PC and iPhone.
-        2.  Troubleshoot PC firewall and try explicit IP for Expo server if hotspot is necessary.
+-   **`mobile-app` (SDK 53):**
+    -   Vulnerabilities status post-SDK 53 upgrade needs review.
+-   **Gemini AI Language Bias:** AI not consistently responding in Thai when user prompt is in another language. This is the current focus of investigation.
+-   **Expo Go Preview with iPhone Hotspot:** Potential connectivity issues persist.
+-   **Ngrok Tunneling:** Potential `EPERM` errors.
 
 ## Evolution of Project Decisions
--   **2025-05-09:**
-    - Project initiated with `expo-template-bare-typescript` for `mobile-app`
-    - Encountered critical vulnerabilities and Metro bundler errors
-    - Re-scaffolded using `blank-typescript@sdk-50`, then aligned to SDK 51
--   **2025-05-10 (Morning):**
-    - Created `api-server` with Next.js v15.3.2
-    - Configured ESLint/Prettier for both projects
-    - Completed Phase 0 setup
-    - Completed Task 1.1: Basic `/api/chat` endpoint
--   **2025-05-10 (Afternoon):**
-    - Completed Task 1.2: Gemini integration
-    - Added setup instructions in `userInstructions/03_setup_gemini_api_key.md`
-    - Documented terminal issues and workarounds
-    - Completed Task 1.3: Error handling with:
-        - Specific error type checking
-        - HTTP status code mapping
-        - Content safety handling
-        - Enhanced logging
-        - User-friendly messages
-    - Completed Task 1.4: Vercel deployment
-        - Created deployment guide
-        - Configured and deployed to Vercel
-        - Successfully tested API endpoint
-        - Documented production URL
-    - Phase 1 (Backend API Proxy) completed and verified working
+-   **2025-05-11 (Current):**
+    -   Identified Gemini language bias issue.
+    -   Formulated a plan to address it via combined system instruction strengthening and prompt wrapping.
+    -   Updated documentation to reflect this new priority task.
+-   **2025-05-11 (Previous):**
+    -   Merged `sdk-53-upgrade` branch into `main`.
+    -   Integrated initial system prompt into `api-server`.
+-   **2025-05-10 (Evening - Core Chat & SDK 53):**
+    -   Successfully upgraded `mobile-app` to Expo SDK 53.
+    -   Integrated `react-native-safe-area-context`.
+    -   Implemented core chat functionality (Tasks 2.1-2.4) including API integration, message display, loading/error states, and feedback icons using SVGs.
+-   **2025-05-10 (Morning - Afternoon - API Backend):**
+    -   Completed Phase 1 (Backend API Proxy), including Gemini integration, error handling, and Vercel deployment.
+-   **2025-05-09 (Initial Setup):**
+    -   Project initiated, initial documentation created.
+    -   Initial `mobile-app` scaffolded (SDK 51 after resolving issues with earlier templates).
+    -   `api-server` (Next.js v15.3.2) project created.
+    -   ESLint and Prettier configured.
