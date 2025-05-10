@@ -1,15 +1,19 @@
 import React from 'react';
-import ChatScreen from './src/components/ChatScreen'; // Adjusted path
+import { View, StyleSheet } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
+import ChatScreen from './src/components/ChatScreen';
 
 export default function App() {
   return (
-    <>
+    <View style={styles.container}>
       <ChatScreen />
       <StatusBar style="auto" />
-    </>
+    </View>
   );
 }
 
-// Original styles are not needed for ChatScreen as it handles its own layout.
-// If a global container or theme provider is added later, styles might be reintroduced here.
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+});

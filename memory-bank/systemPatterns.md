@@ -2,7 +2,7 @@
 
 ## System Architecture Overview
 The KhaRom application consists of two main parts in separate subdirectories (`mobile-app` and `api-server`) within the main project root:
-1.  **React Native (Expo Bare SDK 51) Mobile Application:** The user-facing client application, located in `mobile-app/`. Responsible for UI, user input, and displaying AI responses. ESLint and Prettier are configured.
+1.  **React Native (Expo Bare SDK 53) Mobile Application:** The user-facing client application, located in `mobile-app/`. Responsible for UI, user input, and displaying AI responses. ESLint and Prettier are configured.
 2.  **Next.js API Backend (v15.3.2):** A simple backend acting as a secure proxy to the Google Gemini API, located in `api-server/`. This will handle API key management, communication with the AI service, and error handling. ESLint and Prettier are configured.
 
 ```mermaid
@@ -16,7 +16,7 @@ graph LR
 ```
 
 ## Key Technical Decisions & Justifications
--   **React Native (Expo Bare SDK 51):** Chosen for cross-platform mobile development. Now using Expo SDK 51 for better stability and fewer vulnerabilities. The "Bare" workflow (achieved via `expo prebuild`) allows for native module flexibility. Expo Go compatibility remains a key focus.
+-   **React Native (Expo Bare SDK 53):** Chosen for cross-platform mobile development. Now using Expo SDK 53 for better stability and fewer vulnerabilities. The "Bare" workflow (achieved via `expo prebuild`) allows for native module flexibility. Expo Go compatibility remains a key focus.
 -   **Next.js for API Proxy:** Selected for its ease of creating API routes and serverless deployment capabilities (Vercel/Railway). It simplifies backend setup for a focused task like proxying.
 -   **Tailwind CSS:** For styling in the Next.js part (if any UI is built there, primarily for API though) and potentially for React Native via compatible libraries if desired, though native styling or StyleSheet will be the default for React Native components.
 -   **Google Gemini:** The core AI engine for generating Thai chat messages, as specified.

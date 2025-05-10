@@ -44,12 +44,19 @@ Develop a Minimum Viable Product (MVP) of the KhaRom mobile AI chat application,
 -   [x] **Task 1.3:** Implement error handling for Gemini calls. (Completed 2025-05-10)
 -   [x] **Task 1.4:** Deploy to Vercel. (Completed 2025-05-10)
 
-### Phase 2: Core Chat UI & Logic (React Native)
--   [x] **Task 2.1:** Implement Chat Screen UI (Message Input, List). (Completed 2025-05-10)
--   [ ] **Task 2.2:** Develop `MessageItem` component. (Note: `MessageBubble.tsx` created, which serves a similar purpose to `MessageItem`. This task might be considered partially complete or can be re-evaluated.)
+### Phase 2: Core Chat UI & Logic (React Native - SDK 53)
+-   [x] **Task 2.1:** Implement Chat Screen UI (Message Input, List) & Upgrade to SDK 53. (Completed 2025-05-10)
+    -   [x] Created `ChatScreen.tsx`, `MessageList.tsx`, `MessageBubble.tsx`, `MessageInput.tsx`.
+    -   [x] Integrated components and updated `App.tsx`.
+    -   [x] Successfully upgraded `mobile-app` to Expo SDK 53 and confirmed preview in Expo Go.
+-   [ ] **Task 2.1.1 (Sub-task):** Incrementally re-add necessary UI/UX dependencies:
+    -   [ ] `react-native-safe-area-context`
+    -   [ ] `react-native-gesture-handler` (if needed)
+    -   [ ] `react-native-reanimated` (if needed)
+-   [ ] **Task 2.2:** Develop/Refine `MessageItem`/`MessageBubble.tsx` component.
 -   [ ] **Task 2.3:** Integrate API service for Gemini proxy.
 -   [ ] **Task 2.4:** Implement loading states and basic error display.
--   [ ] **Task 2.5:** Ensure Expo Go iOS compatibility.
+-   [ ] **Task 2.5:** Ensure Expo Go iOS compatibility (Ongoing).
 
 ### Phase 3: Localization (React Native)
 -   [ ] **Task 3.1:** Integrate i18next.

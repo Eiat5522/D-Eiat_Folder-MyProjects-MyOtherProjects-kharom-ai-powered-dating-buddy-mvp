@@ -4,13 +4,13 @@ This document provides a high-level overview of the KhaRom MVP project structure
 
 ## Project Structure Overview
 The project is structured as a monorepo with distinct applications/packages.
-- **`mobile-app/`**: Contains the React Native (Expo SDK 51, Bare workflow) mobile application. This is the primary frontend. ESLint and Prettier are configured.
+- **`mobile-app/`**: Contains the React Native (Expo SDK 53, Bare workflow) mobile application. This is the primary frontend. ESLint and Prettier are configured.
 - **`api-server/`**: Contains the Next.js (v15.3.2) application for the backend API proxy. ESLint and Prettier are configured.
 - **Root Level**: Contains documentation (`cline_docs/`, `memory-bank/`), configuration (`.clinerules/`), and the main `README.md`.
 
 **Interpreted Project Structure (based on `.clinerules/clinerules.md` and current setup):**
 ```
-/mobile-app/            # React Native Expo SDK 51 project
+/mobile-app/            # React Native Expo SDK 53 project
   /src/
     /components/
     /screens/
@@ -41,7 +41,7 @@ README.md
 
 ## Key Components and Their Interactions (Planned)
 
-### React Native Mobile App (`mobile-app/` - Expo SDK 51)
+### React Native Mobile App (`mobile-app/` - Expo SDK 53)
 -   **`App.tsx` (or main entry):** Root component, initializes navigation and global providers (e.g., i18next).
 -   **Navigation (`/src/navigation`):**
     -   `AppNavigator`: Manages screen transitions (e.g., between ChatScreen and potential future screens like Settings).
@@ -85,11 +85,12 @@ README.md
 -   **Google Gemini API:** Core external service for AI text generation.
 -   **React Navigation:** For screen navigation in the mobile app.
 -   **i18next & react-i18next:** For localization.
--   **Expo SDK 51 & related libraries:**
-    -   `expo: "~51.0.14"`
-    -   `react: "18.2.0"`
-    -   `react-native: "0.73.6"`
-    -   `expo-status-bar: "~1.12.1"`
+-   **Expo SDK 53 & related libraries (core minimal set):**
+    -   `expo: "^53.0.0"`
+    -   `react: "19.0.0"`
+    -   `react-native: "0.79.2"`
+    -   `expo-status-bar: "^2.2.3"`
+    -   (Other dependencies like `react-native-safe-area-context` to be added incrementally)
 -   **Next.js & related libraries (in `api-server/`):**
     -   `next: "15.3.2"`
     -   `react: "^19.0.0"`
@@ -107,21 +108,19 @@ README.md
     -   `api-server` uses Next.js's default ESLint setup (flat config `eslint.config.mjs`) extended with Prettier and `prettier-plugin-tailwindcss`. Lint scripts (`lint`, `lint:fix`) added to `package.json`.
 
 ## Recent Significant Changes
--   **2025-05-10 (Task 1.1):**
-    -   Created `api-server/src/app/api/chat/route.ts` with a basic POST handler and placeholder response.
-    -   Defined `ChatRequestBody` and `ChatResponseBody` TypeScript interfaces.
-    -   Updated `api-server/package.json` to include `lint` and `lint:fix` scripts.
--   **2025-05-10 (Task 2.1 - Chat UI Implementation):**
-    -   Created `ChatScreen.tsx`, `MessageList.tsx`, `MessageBubble.tsx`, and `MessageInput.tsx` in `mobile-app/src/components/`.
-    -   Integrated these components for a basic chat UI structure.
-    -   Updated `mobile-app/App.tsx` to render `ChatScreen`.
-    -   Started Expo development server for `mobile-app`.
+-   **2025-05-10 (SDK 53 Upgrade & Continued Phase 2):**
+    -   Successfully upgraded `mobile-app` to Expo SDK 53.
+    -   Simplified `App.tsx` and core dependencies to achieve a previewable state in Expo Go.
+    -   Task 2.1 (Basic Chat Screen UI components) remains structurally complete.
 -   **2025-05-10 (Phase 1 Completion):**
-    -   Completed Task 1.2 (Gemini Integration), Task 1.3 (Error Handling), and Task 1.4 (Vercel Deployment) for `api-server`.
+    -   Completed Task 1.1 (Develop `/api/chat` endpoint).
+    -   Completed Task 1.2 (Gemini Integration).
+    -   Completed Task 1.3 (Error Handling for Gemini calls).
+    -   Completed Task 1.4 (Vercel Deployment).
     -   Production API endpoint deployed and verified: `https://d-eiat-folder-my-projects-my-other-projects-eiat5522s-projects.vercel.app/api/chat`.
 -   **2025-05-09 & Earlier (Project Setup):**
     -   Project initialized, initial documentation (`cline_docs`, `memory-bank`, `README.md`) created.
-    -   `mobile-app` (React Native Expo SDK 51) project scaffolded and stabilized.
+    -   `mobile-app` (initially Expo SDK 51) project scaffolded.
     -   `api-server` (Next.js v15.3.2) project created.
     -   ESLint and Prettier configured for both projects.
 

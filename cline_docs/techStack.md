@@ -5,10 +5,10 @@ This document outlines the key technology choices and architectural decisions fo
 ## Core Technologies
 
 ### Mobile Application (Frontend)
--   **Framework:** React Native (Expo Bare Workflow - SDK 51)
-    -   **Current Version:** Expo SDK 51 (e.g., `expo: ~51.0.14`, `react-native: 0.73.6`)
-    -   **Justification:** Upgraded to SDK 51 for better stability, fewer vulnerabilities, and modern features, while maintaining Expo Go iOS compatibility. The "Bare" workflow (via `expo prebuild`) provides native project access.
--   **Language:** TypeScript (`^5.1.3`)
+-   **Framework:** React Native (Expo Bare Workflow - SDK 53)
+    -   **Current Version:** Expo SDK 53.0.0 (e.g., `expo: ^53.0.0`, `react-native: 0.79.2`, `react: 19.0.0`)
+    -   **Justification:** Upgraded to SDK 53 for latest features, better stability, and ongoing Expo Go iOS compatibility. The "Bare" workflow (via `expo prebuild`) provides native project access.
+-   **Language:** TypeScript (`^5.8.3` or compatible with SDK 53)
     -   **Justification:** Enhances code quality, maintainability, and developer experience through static typing.
 -   **Styling:** React Native `StyleSheet` API (Default)
     -   **Justification:** Standard for React Native. Tailwind CSS might be considered via compatible libraries if a strong preference emerges, but `StyleSheet` is the baseline.
