@@ -76,7 +76,6 @@ function getErrorDetails(error: unknown): { status: number; message: string } {
     message: 'Error communicating with AI service.',
   };
 }
-
 // Initialize the Google Gemini AI client
 const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
 if (!GEMINI_API_KEY) {
@@ -95,7 +94,7 @@ export async function POST(request: NextRequest) {
 
     if (!GEMINI_API_KEY) {
       console.error(
-        'GEMINI_API_KEY is not configured, cannot call Gemini API.',
+        'GEMINI_API_KEY is not configured, cannot call Gemini API.'
       );
       const errorResponseBody: ChatResponseBody = {
         reply: null,
