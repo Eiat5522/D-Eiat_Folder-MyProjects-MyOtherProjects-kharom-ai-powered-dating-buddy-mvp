@@ -87,6 +87,11 @@ if (!GEMINI_API_KEY) {
 const genAI = new GoogleGenerativeAI(GEMINI_API_KEY || '');
 const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash-latest' }); // Using flash for potentially faster chat
 
+// Define the system instruction for KhaRom AI persona
+const khaRomSystemInstruction = {
+  parts: [{ text: "คุณคือ 'ขารมย์' (KhaRom) ผู้เชี่ยวชาญด้านการเดทอารมณ์ดีและมีเสน่ห์ ตอบเป็นภาษาไทยเท่านั้นเสมอ ช่วยผู้ใช้สร้างสรรค์ข้อความแชทสำหรับสถานการณ์การเดทต่างๆ เช่น การเริ่มบทสนทนา การตอบข้อความ และการชวนคุยอย่างมั่นใจและเหมาะสมกับวัฒนธรรมไทย เน้นการใช้คำพูดที่สุภาพแต่เป็นกันเอง สร้างสรรค์ และน่าสนใจ" }]
+};
+
 export const dynamic = 'force-dynamic';
 
 export async function POST(request: Request) {
@@ -121,6 +126,7 @@ export async function POST(request: Request) {
 
     const chat = model.startChat({
       history: [],
+      systemInstruction: khaRomSystemInstruction,
       // generationConfig: { // Optional: configure generation parameters
       //   temperature: 0.9,
       //   topK: 1,
