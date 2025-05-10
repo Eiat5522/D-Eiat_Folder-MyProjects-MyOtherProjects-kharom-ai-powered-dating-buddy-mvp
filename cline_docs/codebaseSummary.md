@@ -54,13 +54,15 @@ README.md
 ### Next.js API Proxy (`api-server/src/app/api/`)
 -   **`chat/route.ts`:**
     -   Handles POST requests from the React Native app.
-    -   Securely calls the Google Gemini API (`gemini-1.5-flash-latest`) with the user's prompt.
+    -   Securely calls the Google Gemini API (`gemini-1.5-flash-latest`) with the user's prompt and a system instruction for the KhaRom persona.
+    -   **Includes a two-step translation fallback mechanism (Implemented 2025-05-11):**
+        -   Detects if the initial AI response is not in Thai using a character-based heuristic.
+        -   If not Thai, makes a second call to the Gemini model with a specific translation instruction to convert the response to Thai.
     -   Manages the Gemini API key (via `process.env.GEMINI_API_KEY`).
     -   Includes comprehensive error handling (type guards, HTTP status mapping, content safety checks).
-    -   Returns the AI-generated Thai response or a structured error.
-    -   (To be updated with `systemInstruction` for KhaRom persona).
+    -   Returns the AI-generated Thai response (potentially after translation) or a structured error.
 
-## Data Flow (Implemented for Core Chat)
+## Data Flow (Implemented for Core Chat with Translation Fallback)
 1.  **User Input:** User types a message in `MessageInput.tsx` (within `ChatScreen.tsx`).
 2.  **Send Action:** User presses send button. `MessageInput.tsx` calls `onSend` prop.
 3.  **Local Update & API Request:** `ChatScreen.tsx`'s `handleSendMessage` function:
@@ -91,6 +93,8 @@ README.md
 -   **ESLint & Prettier (Dev Dependencies):** Configured in both projects.
 
 ## Recent Significant Changes
+-   **2025-05-11 (Implemented Two-Step Translation Fallback):**
+    -   Modified `api-server/src/app/api/chat/route.ts` to include a two-step translation fallback mechanism to address Gemini language bias. This involves detecting non-Thai responses and making a second Gemini call for translation.
 -   **2025-05-11 (Git Merge):**
     -   `sdk-53-upgrade` branch merged into `main`.
 -   **2025-05-10 (Core Chat Flow Implementation - Phase 2):**

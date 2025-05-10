@@ -1,8 +1,8 @@
 # Project Progress (As of 2025-05-11)
 
-## Current Status: Investigating AI Language Bias
-- **Overall:** KhaRom MVP Phase 0 & 1 complete. Phase 2 (Core Chat UI & Logic) is functionally complete.
-- **Current Focus:** Addressing an issue where the Gemini AI responds in the user's input language instead of consistently in Thai. A plan involving combined system instruction strengthening and prompt wrapping is formulated (Task ID: `1746904477439`).
+## Current Status: Implemented AI Language Bias Fallback
+- **Overall:** KhaRom MVP Phase 0 & 1 complete. Phase 2 (Core Chat UI & Logic) is functionally complete. A two-step translation fallback has been implemented in `api-server` to address AI language bias.
+- **Current Focus:** Testing the implemented two-step translation fallback mechanism. Previous attempts (strengthened system instruction, prompt wrapping, chat history priming) **failed**.
 - **`mobile-app` successfully upgraded to Expo SDK 53.**
 - **`react-native-safe-area-context` successfully integrated.**
 - **Core chat flow (send message, display user message, call API, display AI message, loading/error states, feedback icons) is functional in Expo Go (pending resolution of language bias).**
@@ -27,13 +27,17 @@
 
 ## What's Left to Build (High-Level MVP Goals)
 
-### Investigation Phase: AI Language Consistency (Current - 2025-05-11)
--   [ ] **Task (ID `1746904477439`): Implement Combined System Instruction & Prompt Wrapping for Thai-Only AI Responses.**
-    -   [ ] Strengthen `khaRomSystemInstruction` in `api-server`.
-    -   [ ] Implement prompt wrapping for user input in `api-server`.
-    -   [ ] Test thoroughly.
--   [ ] **Task (ID `1746904287226` - Contingency): Investigate Chat History Priming.**
--   [ ] **Task (ID `1746904295417` - Contingency): Consider Two-Step Translation Fallback.**
+### AI Language Consistency (Updated 2025-05-11)
+-   [x] **Task (ID `1746904295417`): Implement Two-Step Translation Fallback.** (Implemented 2025-05-11)
+    -   [x] Assessed complexity, latency, and cost implications (deemed acceptable for MVP).
+    -   [x] Implemented logic in `api-server` to:
+        -   Get initial AI response.
+        -   Detect if response is not Thai (heuristic).
+        -   If not Thai, make a second call to Gemini to translate the response to Thai.
+    -   [ ] **Next:** Test thoroughly on Vercel.
+-   [x] **Task (ID `1746904287226` - Contingency): Investigate Chat History Priming.** (Attempted and failed 2025-05-11)
+-   [x] **Task (ID `1746904477439` - Implicit): Strengthen System Instruction & Prompt Wrapping.** (Attempted and failed 2025-05-11)
+
 
 ### Phase 0: Foundation & Setup (Completed 2025-05-10)
 -   [x] Initialize Git repository on GitHub.
@@ -57,7 +61,6 @@
     -   [x] `react-native-safe-area-context` (Integrated 2025-05-10)
     -   [ ] `react-native-gesture-handler` (Deferred 2025-05-10, to be added if needed for MVP)
     -   [ ] `react-native-reanimated` (Deferred 2025-05-10, to be added if needed for MVP)
--   [x] **Task 2.2:** Develop/Refine `MessageBubble.tsx` component (Feedback icons added 2025-05-10).
 -   [x] **Task 2.3:** Integrate API service for Gemini proxy (Implemented 2025-05-10).
 -   [x] **Task 2.4:** Implement loading states and basic error display (Basic implementation 2025-05-10).
 -   [ ] **Task 2.5:** Ensure Expo Go iOS compatibility (Ongoing - current features are compatible).
@@ -80,16 +83,20 @@
 ## Known Issues
 -   **`mobile-app` (SDK 53):**
     -   Vulnerabilities status post-SDK 53 upgrade needs review.
--   **Gemini AI Language Bias:** AI not consistently responding in Thai when user prompt is in another language. This is the current focus of investigation.
+-   **Gemini AI Language Bias:** Fallback mechanism implemented. Requires testing to confirm consistent Thai responses.
 -   **Expo Go Preview with iPhone Hotspot:** Potential connectivity issues persist.
 -   **Ngrok Tunneling:** Potential `EPERM` errors.
 
 ## Evolution of Project Decisions
--   **2025-05-11 (Current):**
+-   **2025-05-11 (Current - Fallback Implementation):**
+    -   Implemented a two-step translation fallback in `api-server/src/app/api/chat/route.ts` after previous direct prompting methods failed.
+    -   Updated documentation to reflect this change.
+-   **2025-05-11 (Language Bias Mitigation Attempts - Failed):**
+    -   Attempted combined system instruction strengthening, prompt wrapping, and chat history priming. These were not sufficient.
+-   **2025-05-11 (Previous - Planning for Language Bias):**
     -   Identified Gemini language bias issue.
-    -   Formulated a plan to address it via combined system instruction strengthening and prompt wrapping.
-    -   Updated documentation to reflect this new priority task.
--   **2025-05-11 (Previous):**
+    -   Formulated initial plans (strengthening system instructions, prompt wrapping).
+-   **2025-05-11 (System Prompt & Git - Earlier):**
     -   Merged `sdk-53-upgrade` branch into `main`.
     -   Integrated initial system prompt into `api-server`.
 -   **2025-05-10 (Evening - Core Chat & SDK 53):**
