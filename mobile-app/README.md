@@ -4,19 +4,26 @@ This directory contains the React Native (Expo SDK 53) mobile application for th
 
 ## ✨ Features (MVP)
 -   AI-Powered Chat Interface (receives Thai-only AI responses).
--   UI Language Toggle (Thai/English).
+-   Session-Based Chat History with persistent storage.
+-   Multiple chats with rename and delete capabilities.
+-   UI Language Toggle (Thai/English) via drawer menu.
 -   Robust UX Feedback (Error handling, retries, thumbs-up/down for AI replies).
 -   Primary testing and compatibility focus on Expo Go for iOS.
 
 ## 🛠️ Tech Stack
--   **Framework:** React Native (Expo Bare Workflow - SDK 53)
+-   **Framework:** React Native (Expo SDK 53)
 -   **Language:** TypeScript
 -   **Styling:** React Native `StyleSheet` API
--   **Icons:** Inline SVGs with `react-native-svg`, `@expo/vector-icons`
--   **Key Libraries:** `react-native-safe-area-context`
--   **Navigation:** React Navigation (to be added)
--   **Localization:** i18next (to be added)
--   **State Management:** React Context API (initially), `useState`, `useReducer`.
+-   **Icons:** `@expo/vector-icons`
+-   **Key Libraries:**
+    - `react-native-safe-area-context`
+    - `react-native-gesture-handler`
+    - `react-native-reanimated`
+    - `@gorhom/bottom-sheet`
+-   **Navigation:** React Navigation (Drawer)
+-   **Localization:** i18next with React Context
+-   **State Management:** React Context API (`SessionContext`, `LanguageContext`)
+-   **Data Persistence:** AsyncStorage for sessions and settings
 
 ## 🚀 Getting Started
 
@@ -63,12 +70,12 @@ This directory contains the React Native (Expo SDK 53) mobile application for th
 
 ## 📁 Key Directories (within `mobile-app/src/`)
 -   **`components/`:** Reusable UI components (`ChatScreen.tsx`, `MessageBubble.tsx`, `MessageInput.tsx`, `MessageList.tsx`).
--   **`screens/`:** (Planned) Top-level screen components.
--   **`navigation/`:** (Planned) React Navigation setup.
--   **`services/`:** API service modules (`ChatApiService.ts`).
--   **`hooks/`:** (Planned) Custom React hooks.
--   **`locales/`:** (Planned) i18next translation files.
--   **`constants/`:** (Planned) App-wide constants.
+-   **`screens/`:** Screen components (`ChatHistoryScreen.tsx`).
+-   **`navigation/`:** React Navigation setup (`AppNavigator.tsx`).
+-   **`services/`:** Service modules (`ChatApiService.ts`, `SessionStorageService.ts`).
+-   **`context/`:** Context providers (`SessionContext.tsx`, `LanguageContext.tsx`).
+-   **`locales/`:** i18next translation files (`en.json`, `th.json`).
+-   **`localization/`:** i18next configuration (`i18n.ts`).
 
 ## 🤝 Contributing
 Refer to the main project `README.md` in the root directory for overall project contribution guidelines.

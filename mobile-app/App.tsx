@@ -1,10 +1,11 @@
 import 'react-native-gesture-handler';
 import React from 'react';
-import { View, StyleSheet } from 'react-native';
+import { StyleSheet } from 'react-native'; // Removed View
 import { StatusBar } from 'expo-status-bar';
 import { I18nextProvider } from 'react-i18next';
 import i18n from './src/localization/i18n'; // Import the configured i18n instance
 import { LanguageProvider } from './src/context/LanguageContext';
+import { SessionProvider } from './src/context/SessionContext'; // Import SessionProvider
 import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
 import { GestureHandlerRootView } from 'react-native-gesture-handler'; // Required for @gorhom/bottom-sheet
 
@@ -21,11 +22,13 @@ export default function App() {
       <SafeAreaProvider initialMetrics={initialWindowMetrics}>
         <I18nextProvider i18n={i18n}>
           <LanguageProvider>
-            <BottomSheetModalProvider>
-              {/* AppNavigator contains its own NavigationContainer */}
-              <AppNavigator />
-              <StatusBar style="auto" />
-            </BottomSheetModalProvider>
+            <SessionProvider>
+              <BottomSheetModalProvider>
+                {/* AppNavigator contains its own NavigationContainer */}
+                <AppNavigator />
+                <StatusBar style="auto" />
+              </BottomSheetModalProvider>
+            </SessionProvider>
           </LanguageProvider>
         </I18nextProvider>
       </SafeAreaProvider>

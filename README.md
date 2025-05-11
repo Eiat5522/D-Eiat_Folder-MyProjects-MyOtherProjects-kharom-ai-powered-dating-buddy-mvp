@@ -6,6 +6,7 @@ KhaRom is a mobile AI chat application designed to help users craft confident, c
 
 ## ✨ Core Features (MVP)
 -   **🤖 AI-Powered Chat Interface:** Get AI-generated responses in Thai.
+-   **💬 Chat History:** Create, rename, and manage multiple chat sessions with persistent storage.
 -   **🌐 UI Language Toggle:** Switch the app's interface between Thai and English. (AI responses remain Thai-only).
 -   **👍👎 Robust UX Feedback:** Graceful error handling, message retry options, and thumbs-up/down feedback for AI replies.
 
@@ -18,10 +19,13 @@ Thai-speaking singles (18–35) looking for assistance in:
 ## 🛠️ Tech Stack
 
 ### Mobile Application (Frontend)
--   **Framework:** React Native (Expo Bare Workflow)
+-   **Framework:** React Native (Expo SDK 53)
 -   **Language:** TypeScript
 -   **Styling:** React Native `StyleSheet` API
 -   **Localization:** i18next
+-   **State Management:** React Context API
+-   **Data Persistence:** AsyncStorage
+-   **Navigation:** React Navigation (Drawer)
 
 ### Backend API (Proxy)
 -   **Framework:** Next.js (v14+ with App Router)
@@ -86,11 +90,12 @@ Thai-speaking singles (18–35) looking for assistance in:
 ## 📊 Project Status
 - **Phase 0: Project Initialization & Setup:** ✅ Completed
 - **Phase 1: Backend API Proxy (Next.js):** ✅ Completed (Initially Gemini, now OpenRouter)
-- **Phase X: AI Provider Migration & API Server Updates:** ✅ Completed (Migrated to OpenRouter, Playwright removed, Tailwind CSS fixed)
-- **Phase 2: Core Chat UI & Logic (React Native):** ✅ Largely Completed (Core chat flow functional, API service renamed)
-- **Phase 3: Localization (React Native):** 📋 Planned
-- **Phase 4: UX Feedback Mechanisms (React Native):** 📋 Planned
-- **Phase 5: Testing & Refinement:** 📋 Planned
+- **Phase X: AI Provider Migration & API Server Updates:** ✅ Completed (Migrated to OpenRouter, configured, tested)
+- **Phase 2: Core Chat UI & Logic (React Native):** ✅ Completed (Core chat flow functional)
+- **Phase 3: Localization (React Native):** ✅ Completed (Language toggle in drawer)
+- **Phase 4: UX Feedback Mechanisms (React Native):** ✅ Completed (Feedback, retry, error handling)
+- **Phase C: Session-Based Chat History:** ✅ Completed (Creation, storage, management, custom titles)
+- **Phase 5: Testing & Refinement:** 🔄 In Progress (Current Focus)
 
 ## 📁 Project Structure
 ```

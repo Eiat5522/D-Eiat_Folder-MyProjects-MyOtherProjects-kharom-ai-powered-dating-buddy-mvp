@@ -19,6 +19,23 @@ export interface ChatResponse {
   blockReason?: string;
 }
 
+export interface ChatSession {
+  id: string;
+  title: string;
+  messages: ChatMessage[];
+  createdAt: number; // Unix timestamp
+  updatedAt: number; // Unix timestamp
+  hasCustomTitle: boolean; // Flag to track if title has been manually set
+}
+
+export interface SessionSummary {
+  id: string;
+  title: string;
+  updatedAt: number; // Unix timestamp, for sorting or display
+  lastMessageSnippet?: string; // Optional: for display in history list
+  hasCustomTitle: boolean; // Flag to track if title has been manually set
+}
+
 export const sendMessageToAI = async (prompt: string): Promise<ChatResponse> => {
   try {
     const response = await fetch(API_URL, {

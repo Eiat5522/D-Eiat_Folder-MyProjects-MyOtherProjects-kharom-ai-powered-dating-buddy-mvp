@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef, useEffect } from 'react';
 import { View, FlatList, StyleSheet } from 'react-native';
 import MessageBubble from './MessageBubble';
 import { ChatMessage } from '../services/ChatApiService'; // Updated import path
@@ -13,9 +13,18 @@ interface MessageListProps {
 }
 
 const MessageList: React.FC<MessageListProps> = ({ messages, onFeedback }) => {
+  const flatListRef = useRef<FlatList<ChatMessage>>(null);
+
+  useEffect(() => {
+    if (messages && messages.length > 0) {
+      flatListRef.current?.scrollToEnd({ animated: true });
+    }
+  }, [messages]);
+
   return (
     <View style={styles.container}>
       <FlatList
+        ref={flatListRef}
         data={messages}
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
@@ -29,8 +38,10 @@ const MessageList: React.FC<MessageListProps> = ({ messages, onFeedback }) => {
             onFeedback={onFeedback}
           />
         )}
-        inverted // To show latest messages at the bottom
+        // inverted prop removed to display messages top-to-bottom
         contentContainerStyle={styles.listContent}
+        onContentSizeChange={() => flatListRef.current?.scrollToEnd({ animated: false })} // Ensure scroll on initial load/size change
+        onLayout={() => flatListRef.current?.scrollToEnd({ animated: false })} // Ensure scroll on layout change
       />
     </View>
   );

@@ -1,60 +1,59 @@
-# Current Task: Phase 3.4 (Hamburger Menu) & Phase 4 (UX Feedback) Complete
+# Current Task: Phase C (Session-Based Chat History) Implementation Complete - Entering Phase 5 (Testing & Refinement)
 
 ## Current Objective
-Phase 3.4 (Hamburger Menu for Language Toggle) and Phase 4 (UX Feedback Mechanisms) of the KhaRom MVP have been implemented.
+The implementation of the Session-Based Chat History feature (Phase C) for the KhaRom MVP is complete. The project is now moving into Phase 5: Testing & Refinement of all implemented features.
 
 ## Context
 -   **Overall Project:** KhaRom MVP development.
--   **Previous Task Focus:** Completion of Phase 3 (Localization), followed by implementation of Hamburger Menu and Phase 4.
+-   **Previous Task Focus:** Implementation of Session-Based Chat History (Phases C.1 to C.6). This included data storage, session context management, UI for history screen with swipe actions, drawer integration, ChatScreen modifications, and localization.
 
-## Changes Implemented (2025-05-11)
--   **Hamburger Menu & Navigation (Phase 3.4):**
-    -   Installed `@react-navigation/native`, `@react-navigation/drawer`, `react-native-gesture-handler`, `react-native-reanimated`.
-    -   Imported `react-native-gesture-handler` in `App.tsx`.
-    -   Created `mobile-app/src/navigation/AppNavigator.tsx` with a Drawer Navigator.
-    -   Integrated `ChatScreen` into the drawer.
-    -   Implemented `CustomDrawerContent` to include a language toggle item that uses `LanguageContext` and `i18next`.
-    -   Added a hamburger icon to `ChatScreen`'s header to open/close the drawer.
-    -   Removed the temporary language toggle button from `ChatScreen.tsx`.
-    -   Wrapped `App.tsx` main content with `GestureHandlerRootView` and `BottomSheetModalProvider` (for upcoming feedback UI).
--   **UX Feedback Mechanisms (Phase 4):**
-    -   **Task 4.1 (Thumbs-up/down & Detailed Feedback):**
-        -   Installed `@gorhom/bottom-sheet`.
-        -   Updated `ChatMessage` interface in `ChatApiService.ts` to include `feedback` and `detailedFeedback` fields.
-        -   Modified `ChatScreen.tsx` to initialize these fields for AI messages and to handle updates via `handleFeedback`.
-        -   Updated `MessageList.tsx` to pass feedback props to `MessageBubble.tsx`.
-        -   Significantly updated `MessageBubble.tsx`:
-            -   Accepts `feedback` prop to visually indicate liked/disliked state (icon color change).
-            -   On "thumbs down", presents a `BottomSheetModal` (from `@gorhom/bottom-sheet`).
-            -   Bottom sheet allows users to select preset feedback reasons (e.g., "Inaccurate", "Unhelpful") and add a custom comment.
-            -   Submission from bottom sheet calls `onFeedback` with detailed feedback.
-        -   Added new translation keys for feedback UI to `en.json` and `th.json`.
-    -   **Task 4.2 (Retry Mechanism):**
-        -   Added `lastFailedPrompt` state to `ChatScreen.tsx`.
-        -   `handleSendMessage` in `ChatScreen.tsx` now stores the failed prompt text.
-        -   Implemented `handleRetry` function in `ChatScreen.tsx` to resend `lastFailedPrompt`.
-        -   Updated error display in `ChatScreen.tsx` to include a "Retry" button that calls `handleRetry`.
-    -   **Task 4.3 (Refined Error Messages):**
-        -   Added new translation keys for common error scenarios (generic API, network, blocked content) and retry button to `en.json` and `th.json`.
-        -   Updated `ChatScreen.tsx` to use `useTranslation` to display localized error messages based on error type.
+## Changes Implemented (Chat History - 2025-05-11)
+-   **Data Structure & Storage (Phase C.1):**
+    -   Defined `ChatSession` and `SessionSummary` interfaces in `ChatApiService.ts`.
+    -   Created `SessionStorageService.ts` with functions (`getAllSessionSummaries`, `getChatSession`, `saveChatSession`, `deleteChatSession`, `updateSessionTitle`, `createNewSessionObject`) using `AsyncStorage`.
+-   **Session Management Logic (Phase C.2):**
+    -   Created `SessionContext.tsx` with `SessionProvider` and `useSession` hook.
+    -   Implemented context functions: `loadSessionSummaries`, `selectSession`, `createNewSession`, `saveMessageToActiveSession`, `renameSession`, `deleteSession`, `updateMessageFeedbackInActiveSession`, `refreshSessionSummaries`.
+    -   Integrated `SessionProvider` into `App.tsx`.
+-   **UI - Chat History Screen (Phase C.3):**
+    -   Created `ChatHistoryScreen.tsx`.
+    -   Displays list of sessions, handles loading and empty states.
+    -   Items are pressable to select a session.
+    -   Implemented swipe-to-reveal "Rename" and "Delete" actions using `ReanimatedSwipeable`.
+    -   Rename uses `Alert.prompt`; Delete uses `Alert.alert` for confirmation.
+    -   Added a FAB for "New Chat".
+-   **UI - Drawer Integration (Phase C.4):**
+    -   Added "Chat History" screen to `AppNavigator.tsx`.
+    -   Added "New Chat" item to `CustomDrawerContent` in `AppNavigator.tsx`.
+-   **`ChatScreen.tsx` Modifications (Phase C.5):**
+    -   Refactored to use `SessionContext` for displaying messages (`activeSessionMessages`) and saving new messages (`saveMessageToActiveSession`).
+    -   Handles initial load by creating a new session if none is active.
+    -   `handleFeedback` now uses `updateMessageFeedbackInActiveSession` from context.
+-   **Localization (Phase C.6):**
+    -   Added new translation keys for chat history features to `en.json` and `th.json`.
 -   **Documentation Updated:**
-    -   `cline_docs/projectRoadmap.md` updated to mark Phase 3.4 and Phase 4 tasks as complete.
+    -   `cline_docs/projectRoadmap.md` updated to include Phase C and mark tasks as complete.
     -   This file (`cline_docs/currentTask.md`).
 
 ## Next Steps
-1.  **User Testing:** User to test:
-    -   Hamburger menu functionality (opening, closing, language toggle via drawer).
-    -   Thumbs-up/down feedback on AI messages.
-    -   Detailed feedback collection via bottom sheet on "thumbs down".
-    -   Retry mechanism for failed messages.
-    -   Localized error messages.
-2.  **Update Remaining Documentation:** `memory-bank/activeContext.md`, `memory-bank/progress.md`, `cline_docs/codebaseSummary.md`.
-3.  **Proceed with Phase 5: Testing & Refinement.**
-    -   Address any bugs found during user testing.
-    -   Review UI/UX polish for implemented features.
-4.  **Consider Training Data Preprocessing:** Address the preprocessing of `training_data/thai_dating_guide_scribd.md` as prioritized by the user.
+1.  **User Testing (Phase 5.1):** User to comprehensively test all features, with a strong focus on the new Chat History functionality:
+    -   Creating new chat sessions (via FAB and Drawer).
+    -   Loading existing sessions from history.
+    -   Continuing conversations in loaded sessions.
+    -   Renaming sessions.
+    -   Deleting sessions (with confirmation).
+    -   Swipe actions on history items.
+    -   Correct display of session titles, timestamps, snippets.
+    -   Empty state and loading state for history.
+    -   Persistence of sessions and messages across app restarts.
+    -   Interaction with existing features (language toggle, message feedback) within the context of sessions.
+2.  **Bug Fixing & UI Polish (Phase 5.2):** Address any bugs or UI/UX inconsistencies identified during user testing.
+3.  **Code Reviews (Phase 5.3):** Conduct code reviews for all new and modified components related to chat history.
+4.  **Expo Go Compatibility (Phase 5.4):** Continue to ensure all features work smoothly in Expo Go.
+5.  **Update Remaining Documentation:** `memory-bank/*` files and `cline_docs/codebaseSummary.md`.
 
 ## Active Decisions & Considerations
--   Ensure all new UI strings are correctly translated and displayed.
--   Monitor Expo Go compatibility with new navigation and bottom sheet components.
--   The `detailedFeedback` is currently stored locally in the message state; future work will send this to a backend.
+-   Chat history is stored locally using `AsyncStorage`. Performance with a very large number of sessions/messages might be a future consideration but is acceptable for MVP.
+-   Session titles are currently "New Chat [timestamp]"; future enhancement could derive titles from message content.
+-   The `handleFeedback` mechanism in `ChatScreen.tsx` now correctly persists feedback to the active session.
+-   Ensure all new UI strings related to chat history are correctly translated and displayed in both English and Thai.

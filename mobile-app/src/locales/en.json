@@ -13,5 +13,16 @@
   "errorApiGeneric": "Oops! Something went wrong. Please try again.",
   "errorNetwork": "Please check your internet connection and try again.",
   "errorBlockedContent": "Your message could not be processed due to content policy. Please rephrase and try again.",
-  "retryButton": "Retry"
+  "retryButton": "Retry",
+  "chatHistory": "Chat History",
+  "newChat": "New Chat",
+  "rename": "Rename",
+  "delete": "Delete",
+  "renameSessionTitle": "Rename Session",
+  "renameSessionMessage": "Enter a new name for this session:",
+  "lastUpdated": "Last updated:",
+  "noChatHistory": "No chat history yet.",
+  "deleteSessionTitle": "Delete Session",
+  "deleteSessionMessage": "Are you sure you want to delete this chat session? This action cannot be undone.",
+  "cancel": "Cancel"
 }

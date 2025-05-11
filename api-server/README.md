@@ -1,13 +1,20 @@
 # KhaRom API Server
 
+This is the Next.js API proxy server that interfaces with OpenRouter's API to provide Thai-language dating advice responses. The server implements a "Thai Dating Guru" persona through system prompts.
+
 ## Environment Variables
 
-The following environment variables need to be set in your Vercel deployment:
+The following environment variables need to be set in your `.env.local` file (development) and Vercel deployment (production):
 
-```
+```bash
+# Required: Your OpenRouter API key
 OPENROUTER_API_KEY=your_api_key_here
-OPENROUTER_DEFAULT_MODEL=mistralai/mistral-small-24b-instruct-2501
+
+# Optional: Default model ID (if not specified, will use qwen/qwen2-7b-instruct)
+OPENROUTER_DEFAULT_MODEL=qwen/qwen2-7b-instruct
 ```
+
+You can get an API key from [OpenRouter](https://openrouter.ai/) and optionally specify your preferred model.
 
 ## Development
 
@@ -25,15 +32,25 @@ npm run dev
 
 ## Testing
 
-End-to-end tests using Playwright have been removed from this project. Manual testing of the API can be performed using tools like `curl` or Postman.
+Manual testing of the API can be performed using tools like `curl` or Postman. The server is configured to respond only in Thai language, regardless of the input language.
 
-Example `curl` command:
+Example `curl` commands:
+
+**Development:**
 ```bash
 curl -X POST http://localhost:3000/api/chat \
 -H "Content-Type: application/json" \
--d '{"prompt":"Hello, how are you?"}'
+-d '{"prompt":"How do I start a conversation with someone I like?"}'
 ```
-(Replace `http://localhost:3000` with the deployed Vercel URL for testing the production deployment.)
+
+**Production:**
+```bash
+curl -X POST https://your-vercel-deployment-url/api/chat \
+-H "Content-Type: application/json" \
+-d '{"prompt":"How do I start a conversation with someone I like?"}'
+```
+
+The API will respond in Thai language with dating-focused advice.
 
 ## API Endpoints
 
@@ -47,17 +64,29 @@ Request body:
 }
 ```
 
-Response:
+Success Response:
 ```json
 {
-  "reply": "AI response here",
-  "error": null
+  "reply": "สวัสดีค่ะ! การเริ่มต้นบทสนทนา...", // Thai language response
+  "error": null,
+  "blocked": false
 }
 ```
 
-Or in case of error:
+Error Response:
 ```json
 {
   "reply": null,
-  "error": "Error message here"
+  "error": "Error message here",
+  "blocked": false
+}
+```
+
+Content Blocking Response:
+```json
+{
+  "reply": null,
+  "error": "This content has been blocked.",
+  "blocked": true,
+  "blockReason": "Content policy violation"
 }

@@ -56,9 +56,13 @@ graph LR
 -   **Component-Based Architecture:** Standard React pattern. For the `mobile-app`, reusable UI components will be organized in `mobile-app/src/components`.
 -   **State Management:**
     -   For simple local state: React's `useState` and `useReducer`.
-    -   For global state (e.g., UI language, potentially user session if added post-MVP): React Context API initially. If complexity grows, consider Zustand or Redux Toolkit.
--   **Service Layer:** API calls to the Next.js backend will be encapsulated in a services module (`/src/services`) to separate concerns.
--   **Navigation:** React Navigation will be used for screen transitions (`/src/navigation`).
+    -   For global state: React Context API is used for UI language (`LanguageContext.tsx`) and chat session management (`SessionContext.tsx`).
+-   **Local Data Persistence:** `AsyncStorage` is utilized via `SessionStorageService.ts` to store chat sessions and their summaries locally on the device. This service handles CRUD operations for session data.
+-   **Service Layer:**
+    -   `ChatApiService.ts`: Handles API calls to the Next.js backend for AI responses. Defines core data interfaces like `ChatMessage`, `ChatSession`, `SessionSummary`.
+    -   `SessionStorageService.ts`: Manages persistence of chat sessions.
+-   **Navigation:** React Navigation (`@react-navigation/drawer`) is used for drawer-based navigation in `AppNavigator.tsx`.
+-   **Swipe-to-Reveal Actions:** `ReanimatedSwipeable` from `react-native-gesture-handler` is used in `ChatHistoryScreen.tsx` to provide swipeable list items for actions like rename and delete, incorporating micro-interactions.
 -   **Hooks:** Custom hooks (`/src/hooks`) will be created for reusable logic (e.g., managing API call state, localization).
 
 ## Development Tooling
@@ -68,32 +72,48 @@ graph LR
     -   `api-server` uses Next.js's default ESLint setup (flat config `eslint.config.mjs`) extended with Prettier and `prettier-plugin-tailwindcss`. Configuration files: `eslint.config.mjs`, `.prettierrc.js`.
 
 ## Component Relationships (Conceptual - To Be Refined)
--   `App.tsx` (or main entry point) -> `AppNavigator`
--   `AppNavigator` -> `ChatScreen` (Drawer Navigator with `CustomDrawerContent` for language toggle)
--   `ChatScreen` -> `MessageList`, `MessageInput`
--   `MessageList` -> `MessageBubble`
--   `MessageBubble` -> Displays chat bubble, sender, timestamp, feedback buttons (including bottom sheet for detailed feedback).
--   Language toggle is now part of `AppNavigator`'s `CustomDrawerContent`.
+-   `App.tsx` -> Initializes `LanguageProvider`, `SessionProvider`, then `AppNavigator`.
+-   `AppNavigator` (Drawer Navigator):
+    -   Manages screens: `ChatScreen`, `ChatHistoryScreen`.
+    -   `CustomDrawerContent`: Includes language toggle (uses `LanguageContext`) and "New Chat" action (uses `SessionContext`). Navigates to `ChatHistoryScreen`.
+-   `ChatScreen`:
+    -   Uses `SessionContext` to display messages of the active session and to save new messages.
+    -   Uses `ChatApiService` for AI communication.
+    -   Composed of `MessageList`, `MessageInput`.
+-   `ChatHistoryScreen`:
+    -   Uses `SessionContext` to display list of session summaries and perform actions (select, rename, delete session).
+    -   Uses `ReanimatedSwipeable` for list item actions.
+-   `MessageList` -> `MessageBubble` (displays individual messages, handles feedback UI which calls context functions via `ChatScreen`).
+-   `SessionContext` -> Uses `SessionStorageService` for data persistence.
+-   `SessionStorageService` -> Interacts with `AsyncStorage`.
 
 ## Critical Implementation Paths
 1.  **Expo Go Compatibility:** Ongoing for all features.
 2.  **OpenRouter API Integration:** Complete and functional.
-3.  **Chat Interface:** Core UI complete. Message order corrected. Loading/error states localized.
+3.  **Chat Interface & Core Logic:** Complete, localized, includes feedback and retry. Now session-aware.
 4.  **Localization Setup:** Complete with i18next, context, and persistence. All UI text localized.
-5.  **Feedback Mechanism:** Thumbs-up/down, detailed feedback via bottom sheet, and retry mechanism implemented.
+5.  **UX Feedback Mechanisms:** Complete and integrated with session persistence.
+6.  **Session-Based Chat History:** Complete, including data storage via `AsyncStorage`, context management (`SessionContext`), UI (`ChatHistoryScreen` with swipe actions, FAB), drawer navigation integration, and `ChatScreen` refactoring.
 
-## Project Structure (from .clinerules/clinerules.md)
+## Project Structure (from .clinerules/clinerules.md, with updates)
 ```
-/src
-  /app              # Next.js API Routes (e.g., /api/chat) - This will be inside the Next.js project's src, e.g., api-server/src/app
-  /components       # Reusable React Native components - This will be inside mobile-app/src/components
-  /screens          # Mobile app screens - This will be inside mobile-app/src/screens
-  /navigation       # React Navigation configuration - This will be inside mobile-app/src/navigation
-  /hooks           # Custom React hooks - This will be inside mobile-app/src/hooks
-  /services        # API services (OpenRouter proxy calls) - This will be inside mobile-app/src/services
-  /constants       # App-wide constants - This will be inside mobile-app/src/constants
-  /locales         # i18next translation files (Thai/EN) - This will be inside mobile-app/src/locales
-/assets            # Static assets (images, fonts) - Each sub-project (mobile-app, api-server) might have its own assets folder, or a shared top-level one. For mobile-app, it's typically mobile-app/assets.
+/mobile-app/
+  /src/
+    /app              # (If any Expo-specific app config, else mostly for Next.js)
+    /components/      # Reusable React Native components (ChatScreen, MessageBubble, etc.)
+    /screens/         # Screen components (ChatHistoryScreen.tsx)
+    /navigation/      # React Navigation configuration (AppNavigator.tsx)
+    /hooks/           # Custom React hooks
+    /services/        # API services (ChatApiService.ts, SessionStorageService.ts)
+    /context/         # React Context providers (LanguageContext.tsx, SessionContext.tsx)
+    /constants/       # App-wide constants
+    /locales/         # i18next translation files (en.json, th.json)
+  /assets/            # Static assets (images, fonts)
+  App.tsx
+  ...
+/api-server/
+  /src/app/api/       # Next.js API Routes
+  ...
 .clinerules        # Cline configuration folder (Root level)
 /cline_docs        # Cline project context (Root level)
 /memory-bank       # Cline Memory Bank folder (Root level)

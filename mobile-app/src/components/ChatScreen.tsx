@@ -1,63 +1,91 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react'; // Added useEffect
 import { View, StyleSheet, SafeAreaView, Text, ActivityIndicator, Button } from 'react-native';
-import { useTranslation } from 'react-i18next'; // Import useTranslation
-import { useLanguage } from '../context/LanguageContext'; // Import useLanguage
+import { useTranslation } from 'react-i18next';
+// useLanguage no longer needed here as toggle is in drawer
 import MessageList from './MessageList';
 import MessageInput from './MessageInput';
-import { sendMessageToAI, ChatMessage, ChatResponse } from '../services/ChatApiService'; // Adjusted path
+import { sendMessageToAI, ChatMessage, ChatResponse } from '../services/ChatApiService';
+import { useSession } from '../context/SessionContext'; // Import useSession
+import * as SessionStorage from '../services/SessionStorageService'; // Moved import to top level
 
 const ChatScreen: React.FC = () => {
-  // const { language, setLanguage } = useLanguage(); // Language toggle is now in the drawer
-  const [messages, setMessages] = useState<ChatMessage[]>([]);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [error, setError] = useState<string | null>(null); // This will store the key or the direct message
-  const [lastFailedPrompt, setLastFailedPrompt] = useState<string | null>(null); // For retry
-  const { t } = useTranslation(); // For translating error messages
+  const { 
+    activeSessionId, 
+    activeSessionMessages, 
+    isLoadingSession, 
+    saveMessageToActiveSession, 
+    createNewSession,
+    // sessions, // Not directly used in ChatScreen currently, title is in AppNavigator
+    isLoadingSummaries, 
+    updateMessageFeedbackInActiveSession, // Destructure new function
+  } = useSession();
+  
+  // Local state for AI response loading and errors specific to this screen/API call
+  const [isAISending, setIsAISending] = useState<boolean>(false);
+  const [currentError, setCurrentError] = useState<string | null>(null);
+  const [lastFailedPrompt, setLastFailedPrompt] = useState<string | null>(null);
+  const { t } = useTranslation();
+
+  useEffect(() => {
+    // If summaries have loaded, there's no active session, and not currently creating one (implicit)
+    // then create a new session.
+    if (!isLoadingSummaries && !activeSessionId && createNewSession) {
+      console.log("ChatScreen: No active session, creating a new one.");
+      createNewSession(); 
+      // createNewSession already sets the new session as active and updates messages.
+    }
+  }, [isLoadingSummaries, activeSessionId, createNewSession]);
 
   const handleSendMessage = useCallback(async (text: string, isRetry: boolean = false) => {
-    // If it's not a retry, add the user message to the list.
-    // If it is a retry, the user message is already in the list.
+    if (!activeSessionId) {
+      console.error("Cannot send message, no active session.");
+      // Optionally trigger creation of a new session if this state is reached
+      // const newId = await createNewSession();
+      // if (!newId) return; // Failed to create new session
+      // Then proceed to save message to this newId, but handleSendMessage would need activeSessionId from context
+      return; 
+    }
+
+    // ... inside handleSendMessage ...
+    const userMessage: ChatMessage = {
+      id: SessionStorage.generateId(), // Use a more robust ID
+      text,
+      isUser: true,
+      timestamp: new Date(),
+    };
+
     if (!isRetry) {
-      const newUserMessage: ChatMessage = {
-        id: Date.now().toString(), // Simple ID generation
-        text,
-        isUser: true,
-        timestamp: new Date(),
-      };
-      // Prepend new user message for inverted list
-      setMessages(prevMessages => [newUserMessage, ...prevMessages]);
+      await saveMessageToActiveSession(userMessage);
     }
     
-    setIsLoading(true);
-    setError(null);
-    // setLastFailedPrompt(null); // Clear previous failed prompt before new attempt
+    setIsAISending(true);
+    setCurrentError(null);
 
     const aiResponse: ChatResponse = await sendMessageToAI(text);
-    setIsLoading(false);
+    setIsAISending(false);
 
     if (aiResponse.reply) {
-      setLastFailedPrompt(null); // Clear on success
-      const newAiMessage: ChatMessage = {
-        id: (Date.now() + 1).toString(), // Simple ID generation
+      setLastFailedPrompt(null);
+      const aiMessage: ChatMessage = {
+        id: SessionStorage.generateId(), // Use a more robust ID
         text: aiResponse.reply,
         isUser: false,
         timestamp: new Date(),
-        feedback: null, // Initialize feedback fields
+        feedback: null,
         detailedFeedback: null,
       };
-      // Prepend new AI message for inverted list
-      setMessages(prevMessages => [newAiMessage, ...prevMessages]);
+      await saveMessageToActiveSession(aiMessage);
     } else if (aiResponse.error) {
-      setLastFailedPrompt(text); // Store the prompt that failed
+      setLastFailedPrompt(text);
       if (aiResponse.blocked) {
-        setError(t('errorBlockedContent'));
-      } else if (aiResponse.error.includes('Network request failed') || aiResponse.error.includes('network error')) { // Basic check
-        setError(t('errorNetwork'));
+        setCurrentError(t('errorBlockedContent'));
+      } else if (aiResponse.error.includes('Network request failed') || aiResponse.error.includes('network error')) {
+        setCurrentError(t('errorNetwork'));
       } else {
-        setError(t('errorApiGeneric'));
+        setCurrentError(t('errorApiGeneric'));
       }
     }
-  }, [t]); // Add t to dependency array
+  }, [activeSessionId, saveMessageToActiveSession, t]);
   
   const handleRetry = () => {
     if (lastFailedPrompt) {
@@ -76,39 +104,31 @@ const ChatScreen: React.FC = () => {
     type: 'liked' | 'disliked', 
     details?: { presets: string[]; comment: string }
   ) => {
-    if (!messageId) return;
-    setMessages(prevMessages =>
-      prevMessages.map(msg => {
-        if (msg.id === messageId && !msg.isUser) {
-          if (type === 'disliked' && details) {
-            return { ...msg, feedback: 'disliked', detailedFeedback: details };
-          }
-          // If liked, or disliked without details yet (e.g. just tapped thumb down before modal)
-          // or if switching from liked to disliked or vice-versa, clear detailed feedback.
-          return { ...msg, feedback: type, detailedFeedback: type === 'liked' ? null : msg.detailedFeedback };
-        }
-        return msg;
-      })
-    );
-    console.log(`Feedback for message ${messageId}: ${type}`, details || '');
-    // For MVP, feedback is local. Future: send to backend.
+    if (!messageId || !activeSessionId) {
+      console.warn("Cannot handle feedback: no messageId or activeSessionId");
+      return;
+    }
+    updateMessageFeedbackInActiveSession(messageId, type, details);
+    // The context function now handles optimistic update and persistence.
   };
 
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.content}>
-        {/* Removed temporary language toggle button */}
-        <MessageList messages={messages} onFeedback={handleFeedback} />
-        {isLoading && <ActivityIndicator size="small" color="#007AFF" style={styles.loadingIndicator} />}
-        {error && !isLoading && ( // Only show error if not currently loading (e.g. during a retry)
+        <MessageList messages={activeSessionMessages} onFeedback={handleFeedback} />
+        {(isAISending || isLoadingSession) && <ActivityIndicator size="small" color="#007AFF" style={styles.loadingIndicator} />}
+        {currentError && !isAISending && (
           <View style={styles.errorContainer}>
-            <Text style={styles.errorText}>{error}</Text> 
-            {lastFailedPrompt && ( // Show retry button only if there's a failed prompt
+            <Text style={styles.errorText}>{currentError}</Text> 
+            {lastFailedPrompt && (
               <Button title={t('retryButton', 'Retry')} onPress={handleRetry} />
             )}
           </View>
         )}
-        <MessageInput onSend={(text) => handleSendMessage(text, false)} disabled={isLoading} />
+        <MessageInput 
+          onSend={(text) => handleSendMessage(text, false)} 
+          disabled={isAISending || isLoadingSession || !activeSessionId} 
+        />
       </View>
     </SafeAreaView>
   );

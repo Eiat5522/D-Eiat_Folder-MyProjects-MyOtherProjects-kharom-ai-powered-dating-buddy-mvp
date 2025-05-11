@@ -1,7 +1,7 @@
 import React, { useRef, useMemo, useState, useCallback } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, TextInput, Button as RNButton } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Button as RNButton } from 'react-native'; // Removed TextInput
 import Svg, { Path } from 'react-native-svg';
-import BottomSheet, { BottomSheetModal, BottomSheetView } from '@gorhom/bottom-sheet';
+import { BottomSheetModal, BottomSheetView, BottomSheetTextInput } from '@gorhom/bottom-sheet'; // Added BottomSheetTextInput
 import { useTranslation } from 'react-i18next';
 
 import { ChatMessage } from '../services/ChatApiService';
@@ -153,7 +153,7 @@ const MessageBubble: React.FC<MessageBubbleProps> = ({
                 </TouchableOpacity>
               ))}
             </View>
-            <TextInput
+            <BottomSheetTextInput
               style={styles.commentInput}
               placeholder={t('feedbackCommentPlaceholder', 'Additional comments (optional)')}
               value={comment}

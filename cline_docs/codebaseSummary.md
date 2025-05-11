@@ -13,12 +13,13 @@ The project is structured as a monorepo with distinct applications/packages.
 /mobile-app/            # React Native Expo SDK 53 project
   /src/
     /components/
-    /screens/
+    /screens/           # Includes ChatHistoryScreen.tsx
     /navigation/
     /hooks/
-    /services/
+    /services/          # Includes SessionStorageService.ts
     /constants/
     /locales/
+    /context/           # Includes SessionContext.tsx
   /assets/
   App.tsx
   package.json
@@ -42,27 +43,33 @@ README.md
 ## Key Components and Their Interactions
 
 ### React Native Mobile App (`mobile-app/` - Expo SDK 53)
--   **`App.tsx`:** Root component. Initializes `GestureHandlerRootView`, `SafeAreaProvider`, `I18nextProvider`, `LanguageProvider`, and `BottomSheetModalProvider`. Renders `AppNavigator`. (Updated 2025-05-11)
--   **Navigation (`/src/navigation`):** (Implemented 2025-05-11)
-    -   `AppNavigator.tsx`: Contains `NavigationContainer` and `Drawer.Navigator`.
-        -   Includes `ChatScreen`.
-        -   `CustomDrawerContent` provides a language toggle item.
-        -   `ChatScreen` header has a hamburger icon to toggle the drawer.
--   **Screens (`/src/screens`):** (Still primarily `ChatScreen` in `/src/components/`)
+-   **`App.tsx`:** Root component. Initializes `GestureHandlerRootView`, `SafeAreaProvider`, `I18nextProvider`, `LanguageProvider`, `SessionProvider` (new), and `BottomSheetModalProvider`. Renders `AppNavigator`. (Updated 2025-05-11 for SessionProvider)
+-   **Navigation (`/src/navigation`):**
+    -   `AppNavigator.tsx`: (Updated 2025-05-11 for Chat History) Contains `NavigationContainer` and `Drawer.Navigator`.
+        -   Includes `ChatScreen` and new `ChatHistoryScreen`.
+        -   `CustomDrawerContent` now provides language toggle, "New Chat" action (uses `SessionContext`), and lists navigable screens including "Chat History".
+-   **Screens (`/src/screens`):**
+    -   `ChatHistoryScreen.tsx`: (New 2025-05-11) Displays a list of saved chat sessions. Allows users to select a session to continue, rename sessions (via Alert.prompt), and delete sessions (with confirmation) using swipe-to-reveal actions. Includes a FAB to create new sessions. Uses `SessionContext`.
 -   **Contexts (`/src/context`):**
     -   `LanguageContext.tsx`: Manages UI language (EN/TH), persists to AsyncStorage.
+    -   `SessionContext.tsx`: (New 2025-05-11) Manages the state of chat sessions, including the list of session summaries, the active session ID, and its messages. Provides functions to create, load, save, update (rename, message feedback), and delete sessions, interacting with `SessionStorageService.ts`.
 -   **Components (`/src/components`):**
-    -   `ChatScreen.tsx`: (Updated 2025-05-11) Main screen. Manages messages (now prepended for correct inverted list order), API calls, loading/error states (localized), retry logic, and feedback handling.
-    -   `MessageList.tsx`: (Updated 2025-05-11) Displays messages using `inverted` FlatList. Passes `feedback` state and updated `onFeedback` (with details) to `MessageBubble`.
-    -   `MessageBubble.tsx`: (Updated 2025-05-11) Displays individual messages. Shows feedback state. Integrates `@gorhom/bottom-sheet` for detailed feedback on "dislike".
-    -   `MessageInput.tsx`: Provides text input and send button. Uses translated placeholder.
+    -   `ChatScreen.tsx`: (Updated 2025-05-11 for SessionContext) Main chat interface. Now session-aware:
+        -   Displays messages from the `activeSessionMessages` provided by `SessionContext`.
+        -   Saves new user and AI messages to the active session via `saveMessageToActiveSession` from context.
+        -   Handles initial load by creating a new session via context if none is active.
+        -   Message feedback (`handleFeedback`) is now persisted to the active session via `updateMessageFeedbackInActiveSession` from context.
+    -   `MessageList.tsx`: Displays messages. Receives `activeSessionMessages`.
+    -   `MessageBubble.tsx`: Displays individual messages and feedback UI.
+    -   `MessageInput.tsx`: Provides text input; disabled state now considers session status.
 -   **Services (`/src/services`):**
-    -   `ChatApiService.ts`: (Updated 2025-05-11) `ChatMessage` interface now includes `feedback` and `detailedFeedback` fields. Handles API calls to OpenRouter.
--   **Hooks (`/src/hooks`):** (No new custom hooks added in this iteration)
+    -   `ChatApiService.ts`: Defines `ChatMessage`, `ChatResponse`, `ChatSession` (new), `SessionSummary` (new) interfaces. Handles API calls to OpenRouter.
+    -   `SessionStorageService.ts`: (New 2025-05-11) Provides utility functions to perform CRUD operations on chat sessions and their summaries using `AsyncStorage`.
+-   **Hooks (`/src/hooks`):** (No new custom hooks specifically for chat history in this iteration, but `useSession` is a new context hook).
 -   **Localization (`/src/localization` and `/src/locales`):**
     -   `i18n.ts`: Configures i18next.
-    -   `en.json`, `th.json`: (Updated 2025-05-11) Include new keys for drawer, feedback UI, and error messages.
--   **Constants (`/src/constants`):** (No changes in this iteration)
+    -   `en.json`, `th.json`: (Updated 2025-05-11) Include new keys for chat history features (e.g., "Chat History", "New Chat", "Rename", "Delete", alert messages).
+-   **Constants (`/src/constants`):** (No significant changes for chat history in this iteration)
     -   `apiConfig.ts`: Base URL for the Next.js API.
     -   `colors.ts`, `typography.ts`: Theme-related constants.
 
@@ -74,19 +81,36 @@ README.md
     -   Manages the OpenRouter API key and uses the default model specified in environment variables (currently `qwen/qwen2-7b-instruct`).
     -   Returns AI response or error.
 
-## Data Flow (Updated for OpenRouter, Feedback, Retry & Corrected Order)
-1.  **User Input:** User types message in `MessageInput`.
-2.  **API Request:** `ChatScreen.handleSendMessage` prepends user message to state, calls `ChatApiService.sendMessageToAI`.
-3.  **Backend Processing:** Next.js API proxies to OpenRouter.
-4.  **API Response:** OpenRouter responds; Next.js relays.
-5.  **UI Update:**
-    -   Success: `ChatScreen` prepends AI message (with `feedback: null`) to state.
-    -   Error: `ChatScreen` sets localized error state and `lastFailedPrompt`. "Retry" button appears.
-6.  **User Feedback (AI Message):**
-    -   User taps thumbs-up/down on `MessageBubble`.
-    -   `liked`: `onFeedback` called, `ChatScreen` updates message's `feedback` state.
-    -   `disliked`: `MessageBubble` opens bottom sheet. User provides details. On submit, `onFeedback` called with details, `ChatScreen` updates message's `feedback` and `detailedFeedback`.
-7.  **Retry:** User taps "Retry". `ChatScreen.handleRetry` calls `handleSendMessage` with `lastFailedPrompt`.
+## Data Flow (Updated for Chat History - 2025-05-11)
+1.  **App Load / Initial Chat:**
+    -   `SessionProvider` loads session summaries from `AsyncStorage` via `SessionStorageService`.
+    -   `ChatScreen`, if no active session, calls `createNewSession` from `SessionContext`.
+    -   `SessionContext` uses `SessionStorageService` to create and save a new session (e.g., "New Chat [timestamp]") and sets it active.
+2.  **Sending a Message:**
+    -   User types in `MessageInput` on `ChatScreen`.
+    -   `handleSendMessage` calls `saveMessageToActiveSession` (context) with the user message.
+    -   Context updates `activeSessionMessages` (optimistic UI) and calls `SessionStorageService.saveChatSession` to persist the user message to the current session.
+    -   `handleSendMessage` calls `ChatApiService.sendMessageToAI`.
+    -   On AI response, `handleSendMessage` calls `saveMessageToActiveSession` (context) with the AI message.
+    -   Context updates `activeSessionMessages` and persists the AI message. `SessionStorageService.saveChatSession` also updates the session's `updatedAt` and its summary (including `lastMessageSnippet`).
+3.  **Viewing Chat History:**
+    -   User opens drawer, taps "Chat History".
+    -   `AppNavigator` navigates to `ChatHistoryScreen`.
+    -   `ChatHistoryScreen` uses `useSession` to get and display `sessions` (summaries).
+4.  **Selecting/Continuing a Session:**
+    -   User taps a session in `ChatHistoryScreen`.
+    -   `handleSelectSession` calls `selectSession(sessionId)` from context.
+    -   `SessionContext` fetches the full session via `SessionStorageService.getChatSession`, updates `activeSessionId` and `activeSessionMessages`.
+    -   User is navigated to `ChatScreen` (typically by drawer closing and focusing 'Chat' screen), which now displays the selected session's messages. Conversation continues as in step 2.
+5.  **Managing Sessions (Rename/Delete from `ChatHistoryScreen`):**
+    -   User swipes a session item, taps "Rename" or "Delete".
+    -   `handleRename` shows `Alert.prompt`, then calls `renameSession(sessionId, newTitle)` from context.
+    -   `handleDelete` shows `Alert.alert`, then calls `deleteSession(sessionId)` from context.
+    -   Context functions use `SessionStorageService` to update/delete data and then refresh the `sessions` summaries list.
+6.  **Message Feedback:**
+    -   User gives feedback in `MessageBubble` on `ChatScreen`.
+    -   `handleFeedback` calls `updateMessageFeedbackInActiveSession` from context.
+    -   Context updates the specific message's feedback in `activeSessionMessages`, then uses `SessionStorageService` to save the entire updated session, which also updates the session's `updatedAt` and summary.
 
 ## External Dependencies
 -   **OpenRouter API**
@@ -111,13 +135,20 @@ README.md
 -   **Linters & Formatters:** ESLint & Prettier configured for both projects.
 
 ## Recent Significant Changes
--   **2025-05-11 (Phase 3.4 Hamburger Menu & Phase 4 UX Feedback):**
+-   **2025-05-11 (Phase C: Session-Based Chat History):**
+    -   Implemented session storage (`SessionStorageService.ts`) using `AsyncStorage`.
+    -   Created `SessionContext.tsx` for session state management.
+    -   Developed `ChatHistoryScreen.tsx` with list display, swipe actions (rename/delete), and FAB for new chat.
+    -   Integrated chat history into `AppNavigator.tsx` (drawer).
+    -   Refactored `ChatScreen.tsx` to be session-aware.
+    -   Added localization for new features.
+-   **2025-05-11 (Phase 3.4 Hamburger Menu & Phase 4 UX Feedback - Earlier):**
     -   Implemented Drawer navigation with language toggle.
     -   Implemented thumbs-up/down feedback with detailed input via BottomSheet in `MessageBubble.tsx`.
     -   Implemented retry mechanism in `ChatScreen.tsx`.
     -   Localized error messages and new UI elements.
     -   Updated `App.tsx` with `GestureHandlerRootView` and `BottomSheetModalProvider`.
-    -   Updated `ChatMessage` interface, `ChatScreen.tsx` (message prepending), `MessageList.tsx`, `MessageBubble.tsx`, `locales/*.json`.
+    -   Updated `ChatMessage` interface, `ChatScreen.tsx` (message prepending for inverted list), `MessageList.tsx`, `MessageBubble.tsx`, `locales/*.json`.
 -   **2025-05-11 (Model Change & Documentation Update - Earlier):**
     -   Default OpenRouter model changed to `qwen/qwen2-7b-instruct`.
     -   Relevant documentation updated.
@@ -130,9 +161,8 @@ README.md
     -   Initial project scaffolding, documentation, core chat UI, SDK 53 upgrade, and original Gemini API proxy.
 
 ## User Feedback Integration and Its Impact on Development
--   Thumbs-up/down and detailed feedback on AI replies are now implemented (local state for MVP).
--   This data is structured within the `ChatMessage` objects in `ChatScreen.tsx` state.
--   Future development can focus on sending this collected feedback to a backend endpoint for analysis and model fine-tuning.
+-   Thumbs-up/down and detailed feedback on AI replies are implemented.
+-   This feedback data is now persisted as part of the `ChatMessage` objects within the saved chat sessions in `AsyncStorage` (via `SessionContext` and `SessionStorageService`).
 -   Retry mechanism allows users to overcome transient errors. Localized error messages improve UX.
 
 ## Additional Documentation References

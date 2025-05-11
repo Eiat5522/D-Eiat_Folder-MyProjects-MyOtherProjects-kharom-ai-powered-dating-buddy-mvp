@@ -4,12 +4,13 @@
 Develop a Minimum Viable Product (MVP) of the KhaRom mobile AI chat application, focusing on core functionality and full compatibility with Expo Go on iOS. The app will help users craft confident, culturally nuanced Thai chat messages for dating scenarios.
 
 ## Key Features for MVP
--   [ ] AI-Powered Chat Interface (Thai-only AI responses)
--   [x] UI Language Toggle (Thai/English) (Initial implementation 2025-05-11)
--   [ ] Robust UX Feedback (Error handling, retries, thumbs-up/down for AI replies)
+-   [x] AI-Powered Chat Interface (Thai-only AI responses, core logic complete)
+-   [x] UI Language Toggle (Thai/English) (Completed 2025-05-11)
+-   [x] Robust UX Feedback (Error handling, retries, thumbs-up/down for AI replies) (Completed 2025-05-11)
+-   [x] Session-Based Chat History (View, Create, Load, Rename, Delete sessions) (Completed 2025-05-11)
 
 ## Completion Criteria for MVP
--   All core features are implemented and functional.
+-   All core features (including Chat History) are implemented and functional.
 -   The application runs smoothly and reliably within the Expo Go iOS app.
 -   Basic UI is intuitive and user-friendly.
 -   Next.js API proxy for Gemini is deployed and operational.
@@ -69,10 +70,38 @@ Develop a Minimum Viable Product (MVP) of the KhaRom mobile AI chat application,
 -   [x] **Task 4.2:** Implement retry mechanism. (Completed 2025-05-11)
 -   [x] **Task 4.3:** Refine user-facing error messages (Localized). (Completed 2025-05-11)
 
-### Phase 5: Testing & Refinement
--   [ ] **Task 5.1:** Comprehensive testing in Expo Go.
--   [ ] **Task 5.2:** Bug fixing and performance optimization.
--   [ ] **Task 5.3:** Code reviews.
+### Phase 5: Testing & Refinement (Expanded)
+-   [ ] **Task 5.1:** Comprehensive testing of all features (including Chat History) in Expo Go.
+-   [ ] **Task 5.2:** Bug fixing and performance optimization based on testing.
+-   [ ] **Task 5.3:** Code reviews for all implemented features.
+-   [ ] **Task 5.4 (was 2.5):** Ensure overall Expo Go iOS compatibility (Ongoing).
+
+
+### Phase C: Session-Based Chat History (Completed 2025-05-11)
+-   [x] **Task C.1:** Data Structure & Storage (AsyncStorage)
+    -   [x] Task C.1.1: Define Session Data Structures
+    -   [x] Task C.1.2: Implement AsyncStorage Utilities (`SessionStorageService.ts`)
+-   [x] **Task C.2:** Session Management Logic (Context API)
+    -   [x] Task C.2.1: Create `SessionContext.tsx`
+    -   [x] Task C.2.2: Implement Context Provider Functions
+    -   [x] Task C.2.3: Integrate `SessionProvider` in `App.tsx`
+-   [x] **Task C.3:** UI - Chat History Screen (`ChatHistoryScreen.tsx`)
+    -   [x] Task C.3.1: Create Basic Screen Structure & Item Press Action
+    -   [x] Task C.3.3: Implement Swipe-to-Reveal Actions
+    -   [x] Task C.3.4: Implement Rename Functionality
+    -   [x] Task C.3.5: Implement Delete Functionality (with confirmation)
+    -   [x] Task C.3.6: Implement "New Chat" Button (FAB)
+    -   [x] Task C.3.7: Handle Empty State
+-   [x] **Task C.4:** UI - Drawer Integration (`AppNavigator.tsx`)
+    -   [x] Task C.4.1: Add "Chat History" screen to Drawer Navigator
+    -   [x] Task C.4.2: Add "New Chat" item to Drawer Menu
+-   [x] **Task C.5:** `ChatScreen.tsx` Modifications
+    -   [x] Task C.5.1: Integrate with `SessionContext` (display messages, save new messages, handle feedback)
+    -   [x] Task C.5.2: Handle No Active Session / Initial Load (auto-create new session)
+-   [x] **Task C.6:** Localization
+    -   [x] Task C.6.1: Add New Translation Keys (`en.json`, `th.json`)
+-   [ ] **Task C.7:** Testing & Refinement (Now part of expanded Phase 5)
+
 
 ## Completed Tasks
 -   **Task 0.1:** Initialize Memory Bank (All sub-tasks completed on 2025-05-09)
@@ -96,8 +125,9 @@ Develop a Minimum Viable Product (MVP) of the KhaRom mobile AI chat application,
 -   **Task 4.3:** Refine user-facing error messages. (Completed 2025-05-11)
 
 ## Future Considerations (Post-MVP)
--   User accounts and message history.
--   Advanced AI context management.
--   Expanded feedback options.
+-   User accounts. (Message history is now MVP)
+-   Advanced AI context management (e.g., using history for better AI responses).
+-   Refined session title generation (e.g., from first message content).
+-   Expanded feedback options & backend storage for feedback.
 -   Analytics.
 -   EAS Build for broader distribution.
