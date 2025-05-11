@@ -9,14 +9,15 @@
     -   **Version:** 15.3.2
     -   **Language:** TypeScript
     -   **Purpose:** Backend API proxy to OpenRouter. Hosts API routes under `api-server/src/app/api/`.
-    -   **Current Status:** Project created in `api-server/`. ESLint and Prettier configured. API to be updated for OpenRouter.
+    -   **Current Status:** Project created in `api-server/`. ESLint and Prettier configured. API operational with OpenRouter. Default model set via `OPENROUTER_DEFAULT_MODEL` (currently `qwen/qwen2-7b-instruct`).
 -   **OpenRouter API:**
     -   **Purpose:** AI engine for generating Thai language chat responses, providing access to various models.
     -   **SDK/Client:** `openai` TypeScript SDK.
+    -   **Default Model:** `qwen/qwen2-7b-instruct` (as of 2025-05-11, configured via environment variable `OPENROUTER_DEFAULT_MODEL`).
 -   **Tailwind CSS:**
     -   **Purpose:** Styling for the Next.js backend (API project). Configured with `prettier-plugin-tailwindcss`. For React Native, default is `StyleSheet`.
 -   **i18next:**
-    -   **Purpose:** Internationalization and localization for the React Native app, supporting Thai and English UI. (To be integrated)
+    -   **Purpose:** Integrated for internationalization and localization in the React Native app, supporting Thai and English UI.
 
 ## Development Setup & Environment
 -   **Version Control:** Git, hosted on GitHub.
@@ -43,19 +44,22 @@
 -   `react-native: "0.79.2"`
 -   `expo-status-bar: "^2.2.3"`
 -   `react-native-safe-area-context`: (version managed by `npx expo install`)
--   `react-native-svg`: (Used for icons, `npx expo install` attempted, `package.json` update issue)
--   `@expo/vector-icons`: (Used in MessageInput)
--   `typescript: "^5.8.3"` (from package.json devDependencies)
--   **Dev Dependencies (ESLint/Prettier):**
+-   `i18next: "^25.1.2"` (Installed)
+-   `react-i18next: "^15.5.1"` (Installed)
+    -   `@react-native-async-storage/async-storage: "2.1.2"` (Installed)
+    -   `react-native-svg: "15.11.2"` (Installed, used for icons)
+    -   `@expo/vector-icons`: (Used in MessageInput and AppNavigator)
+    -   `@react-navigation/native`: (Installed 2025-05-11)
+    -   `@react-navigation/drawer`: (Installed 2025-05-11)
+    -   `react-native-gesture-handler`: (Installed 2025-05-11)
+    -   `react-native-reanimated`: (Installed 2025-05-11)
+    -   `@gorhom/bottom-sheet`: (Installed 2025-05-11)
+    -   `typescript: "^5.8.3"` (from package.json devDependencies)
+    -   (`lucide-react-native` removed due to peer dependency conflict)
+    -   **Dev Dependencies (ESLint/Prettier):**
     -   `@babel/core: "^7.20.0"`
     -   `@types/react: "~19.0.10"`
-    -   (Other ESLint/Prettier related devDependencies as previously configured, assuming they are compatible or will be updated as needed)
--   **To be added incrementally (or as needed):**
-    -   `react-native-gesture-handler` (Deferred)
-    -   `react-native-reanimated` (Deferred)
-    -   `i18next`
-    -   `react-i18next`
-    -   `react-navigation` packages
+    -   (Other ESLint/Prettier related devDependencies as previously configured)
 
 ### Next.js API Backend (`api-server/`):
 -   `next: "15.3.2"`

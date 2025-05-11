@@ -69,17 +69,18 @@ graph LR
 
 ## Component Relationships (Conceptual - To Be Refined)
 -   `App.tsx` (or main entry point) -> `AppNavigator`
--   `AppNavigator` -> `ChatScreen`, `SettingsScreen` (potential)
--   `ChatScreen` -> `MessageList`, `MessageInput`, `MessageItem`
--   `MessageItem` -> Displays chat bubble, sender, timestamp, feedback buttons
--   `LanguageToggle` (global component) -> Updates i18next language
+-   `AppNavigator` -> `ChatScreen` (Drawer Navigator with `CustomDrawerContent` for language toggle)
+-   `ChatScreen` -> `MessageList`, `MessageInput`
+-   `MessageList` -> `MessageBubble`
+-   `MessageBubble` -> Displays chat bubble, sender, timestamp, feedback buttons (including bottom sheet for detailed feedback).
+-   Language toggle is now part of `AppNavigator`'s `CustomDrawerContent`.
 
 ## Critical Implementation Paths
-1.  **Expo Go Compatibility:** Every UI component and feature must be tested thoroughly in Expo Go on iOS.
-2.  **OpenRouter API Integration:** Securely calling the Next.js proxy, which then calls OpenRouter using the OpenAI SDK, and handling responses/errors.
-3.  **Chat Interface:** Building the core chat UI, including message input, display, loading states, and error states.
-4.  **Localization Setup:** Integrating i18next and creating initial translation files for Thai and English.
-5.  **Feedback Mechanism:** Implementing the thumbs-up/down functionality and potentially a way to report issues or retry messages.
+1.  **Expo Go Compatibility:** Ongoing for all features.
+2.  **OpenRouter API Integration:** Complete and functional.
+3.  **Chat Interface:** Core UI complete. Message order corrected. Loading/error states localized.
+4.  **Localization Setup:** Complete with i18next, context, and persistence. All UI text localized.
+5.  **Feedback Mechanism:** Thumbs-up/down, detailed feedback via bottom sheet, and retry mechanism implemented.
 
 ## Project Structure (from .clinerules/clinerules.md)
 ```

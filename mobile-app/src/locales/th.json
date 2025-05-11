@@ -1,0 +1,17 @@
+{
+  "sendPlaceholder": "พิมพ์ข้อความของคุณ...",
+  "chat": "แชท",
+  "switchToThai": "เปลี่ยนเป็นภาษาไทย",
+  "switchToEnglish": "เปลี่ยนเป็นภาษาอังกฤษ",
+  "feedbackInaccurate": "ไม่ถูกต้อง / ไม่เกี่ยวข้อง",
+  "feedbackUnhelpful": "ไม่เป็นประโยชน์",
+  "feedbackOffensive": "ไม่เหมาะสม / หยาบคาย",
+  "feedbackOther": "อื่นๆ (โปรดระบุ)",
+  "provideFeedbackTitle": "บอกเราเพิ่มเติม",
+  "feedbackCommentPlaceholder": "ความคิดเห็นเพิ่มเติม (ถ้ามี)",
+  "submitFeedbackButton": "ส่งความคิดเห็น",
+  "errorApiGeneric": "อุ๊ปส์! เกิดข้อผิดพลาดบางอย่าง โปรดลองอีกครั้ง",
+  "errorNetwork": "โปรดตรวจสอบการเชื่อมต่ออินเทอร์เน็ตแล้วลองอีกครั้ง",
+  "errorBlockedContent": "ข้อความของคุณไม่สามารถประมวลผลได้เนื่องจากนโยบายเนื้อหา โปรดแก้ไขข้อความแล้วลองอีกครั้ง",
+  "retryButton": "ลองใหม่"
+}

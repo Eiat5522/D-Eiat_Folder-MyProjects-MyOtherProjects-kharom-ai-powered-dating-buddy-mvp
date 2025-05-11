@@ -42,26 +42,27 @@ README.md
 ## Key Components and Their Interactions
 
 ### React Native Mobile App (`mobile-app/` - Expo SDK 53)
--   **`App.tsx` (or main entry):** Root component, initializes `SafeAreaProvider` and renders `ChatScreen`.
--   **Navigation (`/src/navigation`):** (Planned, not yet implemented)
-    -   `AppNavigator`: Manages screen transitions.
-    -   Uses `react-navigation`.
--   **Screens (`/src/screens`):** (Planned, `ChatScreen` currently in `/src/components/`)
+-   **`App.tsx`:** Root component. Initializes `GestureHandlerRootView`, `SafeAreaProvider`, `I18nextProvider`, `LanguageProvider`, and `BottomSheetModalProvider`. Renders `AppNavigator`. (Updated 2025-05-11)
+-   **Navigation (`/src/navigation`):** (Implemented 2025-05-11)
+    -   `AppNavigator.tsx`: Contains `NavigationContainer` and `Drawer.Navigator`.
+        -   Includes `ChatScreen`.
+        -   `CustomDrawerContent` provides a language toggle item.
+        -   `ChatScreen` header has a hamburger icon to toggle the drawer.
+-   **Screens (`/src/screens`):** (Still primarily `ChatScreen` in `/src/components/`)
+-   **Contexts (`/src/context`):**
+    -   `LanguageContext.tsx`: Manages UI language (EN/TH), persists to AsyncStorage.
 -   **Components (`/src/components`):**
-    -   `ChatScreen.tsx`: (Updated 2025-05-10) Main screen container. Manages message state, API calls via `GeminiApiService` (to be renamed/refactored), loading/error states. Renders `MessageList` and `MessageInput`.
-    -   `MessageList.tsx`: (Updated 2025-05-10) Displays a list of messages from props using `FlatList`. Renders `MessageBubble` for each message. Passes `onFeedback` to `MessageBubble`.
-    -   `MessageBubble.tsx`: (Updated 2025-05-10) Styles and displays individual chat messages. Includes thumbs-up/down SVG icons for AI messages and calls `onFeedback` prop.
-    -   `MessageInput.tsx`: (Updated 2025-05-10) Provides text input and send button. Calls `onSend` prop. UI disabled when `disabled` prop is true.
-    -   (Planned) `LanguageToggle.tsx`.
-    -   (Implemented within `ChatScreen.tsx`) Basic `ActivityIndicator` for loading.
+    -   `ChatScreen.tsx`: (Updated 2025-05-11) Main screen. Manages messages (now prepended for correct inverted list order), API calls, loading/error states (localized), retry logic, and feedback handling.
+    -   `MessageList.tsx`: (Updated 2025-05-11) Displays messages using `inverted` FlatList. Passes `feedback` state and updated `onFeedback` (with details) to `MessageBubble`.
+    -   `MessageBubble.tsx`: (Updated 2025-05-11) Displays individual messages. Shows feedback state. Integrates `@gorhom/bottom-sheet` for detailed feedback on "dislike".
+    -   `MessageInput.tsx`: Provides text input and send button. Uses translated placeholder.
 -   **Services (`/src/services`):**
-    -   `GeminiApiService.ts` (Soon to be renamed/refactored to `OpenRouterApiService.ts` or generic `ApiService.ts`): (Created 2025-05-10) Encapsulates logic for making API calls to the Next.js backend proxy (now OpenRouter).
--   **Hooks (`/src/hooks`):**
-    -   `useLocalization.ts` (example): Custom hook to simplify access to i18next functions.
-    -   `useApi.ts` (example): Generic hook for managing API call state (loading, error, data).
--   **Localization (`/src/locales`):**
-    -   `en.json`, `th.json`: Store UI string translations.
--   **Constants (`/src/constants`):**
+    -   `ChatApiService.ts`: (Updated 2025-05-11) `ChatMessage` interface now includes `feedback` and `detailedFeedback` fields. Handles API calls to OpenRouter.
+-   **Hooks (`/src/hooks`):** (No new custom hooks added in this iteration)
+-   **Localization (`/src/localization` and `/src/locales`):**
+    -   `i18n.ts`: Configures i18next.
+    -   `en.json`, `th.json`: (Updated 2025-05-11) Include new keys for drawer, feedback UI, and error messages.
+-   **Constants (`/src/constants`):** (No changes in this iteration)
     -   `apiConfig.ts`: Base URL for the Next.js API.
     -   `colors.ts`, `typography.ts`: Theme-related constants.
 
@@ -70,81 +71,69 @@ README.md
     -   **Status:** Updated to use OpenRouter (Task X.3 completed 2025-05-11).
     -   Handles POST requests from the React Native app.
     -   Securely calls the OpenRouter API (via OpenAI SDK) with the user's prompt.
-    -   Manages the OpenRouter API key (via environment variables `OPENROUTER_API_KEY` and `OPENROUTER_DEFAULT_MODEL`).
-    -   Returns the AI-generated Thai response or an error.
+    -   Manages the OpenRouter API key and uses the default model specified in environment variables (currently `qwen/qwen2-7b-instruct`).
+    -   Returns AI response or error.
 
-## Data Flow (Updated for OpenRouter)
-1.  **User Input:** User types a message in `MessageInput` (within `ChatScreen`).
-2.  **Local Update & API Request:** `ChatScreen`'s `handleSendMessage` adds user message to local state, sets loading state, then calls `GeminiApiService.sendMessageToAI` (service to be renamed).
-3.  **Backend Processing:** API service sends POST to Next.js `/api/chat`. Next.js API calls OpenRouter using OpenAI SDK.
-4.  **API Response:** OpenRouter returns response; Next.js relays to API service.
-5.  **UI Update:** `ChatScreen` receives response/error from service. Adds AI message to state or sets error state. Loading state cleared. `MessageList` re-renders.
+## Data Flow (Updated for OpenRouter, Feedback, Retry & Corrected Order)
+1.  **User Input:** User types message in `MessageInput`.
+2.  **API Request:** `ChatScreen.handleSendMessage` prepends user message to state, calls `ChatApiService.sendMessageToAI`.
+3.  **Backend Processing:** Next.js API proxies to OpenRouter.
+4.  **API Response:** OpenRouter responds; Next.js relays.
+5.  **UI Update:**
+    -   Success: `ChatScreen` prepends AI message (with `feedback: null`) to state.
+    -   Error: `ChatScreen` sets localized error state and `lastFailedPrompt`. "Retry" button appears.
+6.  **User Feedback (AI Message):**
+    -   User taps thumbs-up/down on `MessageBubble`.
+    -   `liked`: `onFeedback` called, `ChatScreen` updates message's `feedback` state.
+    -   `disliked`: `MessageBubble` opens bottom sheet. User provides details. On submit, `onFeedback` called with details, `ChatScreen` updates message's `feedback` and `detailedFeedback`.
+7.  **Retry:** User taps "Retry". `ChatScreen.handleRetry` calls `handleSendMessage` with `lastFailedPrompt`.
 
 ## External Dependencies
--   **OpenRouter API:** Core external service for AI text generation (via OpenAI SDK).
--   **React Navigation:** (Planned for future navigation).
--   **i18next & react-i18next:** (Planned for localization).
+-   **OpenRouter API**
+-   **React Navigation:** (`@react-navigation/native`, `@react-navigation/drawer`) (Installed 2025-05-11)
+-   **Gesture Handler & Reanimated:** (`react-native-gesture-handler`, `react-native-reanimated`) (Installed 2025-05-11)
+-   **Bottom Sheet:** (`@gorhom/bottom-sheet`) (Installed 2025-05-11)
+-   **i18next & react-i18next**
+-   **@react-native-async-storage/async-storage**
 -   **Expo SDK 53 & related libraries:**
-    -   `expo: "^53.0.0"`
-    -   `react: "19.0.0"`
-    -   `react-native: "0.79.2"`
-    -   `expo-status-bar: "^2.2.3"`
-    -   `react-native-safe-area-context` (version managed by `npx expo install`)
-    -   `react-native-svg` (used for icons, `package.json` update was problematic but functionally working)
-    -   `@expo/vector-icons` (used in `MessageInput`)
-    -   (Other dependencies like `react-native-gesture-handler`, `react-native-reanimated` deferred)
+    -   `expo`, `react`, `react-native`, `expo-status-bar`
+    -   `react-native-safe-area-context`
+    -   `react-native-svg`
+    -   `@expo/vector-icons`
 -   **Next.js & related libraries (in `api-server/`):**
     -   `next: "15.3.2"`
     -   `react: "^19.0.0"`
     -   `typescript: "^5"`
-    -   `tailwindcss: "^4"`
-    -   `openai`: Node.js SDK for interacting with OpenRouter API (added to `api-server`).
--   **ESLint & Prettier (Dev Dependencies):** Configured in both `mobile-app` and `api-server` with relevant plugins for React Native, Next.js, TypeScript, and Tailwind CSS.
-
-*(Other dependencies will be added as features are implemented.)*
+    -   `tailwindcss`, `openai`
+-   **ESLint & Prettier**
 
 ## Development Tooling
--   **Linters & Formatters:**
-    -   **ESLint & Prettier:** Configured for both `mobile-app` (React Native/Expo) and `api-server` (Next.js) to enforce code style, catch errors, and improve code quality.
-    -   `mobile-app` uses `@react-native/eslint-config`, `simple-import-sort`, and Prettier.
-    -   `api-server` uses Next.js's default ESLint setup (flat config `eslint.config.mjs`) extended with Prettier and `prettier-plugin-tailwindcss`. Lint scripts (`lint`, `lint:fix`) added to `package.json`.
+-   **Linters & Formatters:** ESLint & Prettier configured for both projects.
 
 ## Recent Significant Changes
--   **2025-05-11 (OpenRouter Integration - Phase X):**
-    -   Switched AI provider from Google Gemini to OpenRouter.
-    -   Updated `api-server/src/app/api/chat/route.ts` to use OpenAI SDK with OpenRouter.
-    -   Added `OPENROUTER_API_KEY` and `OPENROUTER_DEFAULT_MODEL` environment variables.
-    -   Installed `openai` SDK in `api-server`.
--   **2025-05-10 (Core Chat Flow Implementation - Phase 2):**
-    -   Implemented `GeminiApiService.ts` for backend communication.
-    -   Updated `ChatScreen.tsx` for message state management, API calls, loading/error handling.
-    -   Modified `MessageInput.tsx` and `MessageList.tsx` to integrate with `ChatScreen.tsx`.
-    -   Refined `MessageBubble.tsx` with SVG feedback icons.
-    -   Successfully tested core chat send/receive functionality with Gemini.
--   **2025-05-10 (Dependency Management & Integration - Phase 2):**
-    -   Successfully integrated `react-native-safe-area-context`.
-    -   Pivoted to `react-native-svg` for icons due to `lucide-react-native` issues.
-    -   Decided to defer integration of `react-native-gesture-handler` and `react-native-reanimated`.
--   **2025-05-10 (SDK 53 Upgrade - Phase 2):**
-    -   Successfully upgraded `mobile-app` to Expo SDK 53.
-    -   Task 2.1 (Basic Chat Screen UI components) was previously completed.
--   **2025-05-10 (Phase 1 Completion - Gemini):**
-    -   Completed Task 1.1 (Develop `/api/chat` endpoint).
-    -   Completed Task 1.2 (Gemini Integration).
-    -   Completed Task 1.3 (Error Handling for Gemini calls).
-    -   Completed Task 1.4 (Vercel Deployment).
-    -   Production API endpoint deployed and verified: `https://d-eiat-folder-my-projects-my-other-projects-eiat5522s-projects.vercel.app/api/chat` (was for Gemini).
--   **2025-05-09 & Earlier (Project Setup):**
-    -   Project initialized, initial documentation (`cline_docs`, `memory-bank`, `README.md`) created.
-    -   `mobile-app` (initially Expo SDK 51) project scaffolded.
-    -   `api-server` (Next.js v15.3.2) project created.
-    -   ESLint and Prettier configured for both projects.
+-   **2025-05-11 (Phase 3.4 Hamburger Menu & Phase 4 UX Feedback):**
+    -   Implemented Drawer navigation with language toggle.
+    -   Implemented thumbs-up/down feedback with detailed input via BottomSheet in `MessageBubble.tsx`.
+    -   Implemented retry mechanism in `ChatScreen.tsx`.
+    -   Localized error messages and new UI elements.
+    -   Updated `App.tsx` with `GestureHandlerRootView` and `BottomSheetModalProvider`.
+    -   Updated `ChatMessage` interface, `ChatScreen.tsx` (message prepending), `MessageList.tsx`, `MessageBubble.tsx`, `locales/*.json`.
+-   **2025-05-11 (Model Change & Documentation Update - Earlier):**
+    -   Default OpenRouter model changed to `qwen/qwen2-7b-instruct`.
+    -   Relevant documentation updated.
+-   **2025-05-11 (Phase 3 Localization - Earlier):**
+    -   Initial i18next setup, `LanguageContext`, and basic toggle.
+-   **2025-05-11 (OpenRouter Integration & Training Data Scraping - Earlier):**
+    -   Migrated backend to OpenRouter (initially with `mistralai/mistral-small-24b-instruct-2501`), tested.
+    -   Scraped training data.
+-   **2025-05-10 & Earlier (Project Setup, Core Chat, SDK Upgrade, Gemini API - Earlier):**
+    -   Initial project scaffolding, documentation, core chat UI, SDK 53 upgrade, and original Gemini API proxy.
 
-## User Feedback Integration and Its Impact on Development (Planned)
--   The thumbs-up/down feedback on AI replies is a core MVP feature.
--   Initially, this feedback might be logged locally or sent to a simple endpoint for collection (if feasible within MVP constraints without complex backend storage).
--   This feedback will be crucial for understanding the quality of AI responses and identifying areas for prompt engineering or AI model tuning.
--   User-reported errors or issues (via retry mechanisms or general app feedback channels if established) will directly inform bug fixing and improvements.
+## User Feedback Integration and Its Impact on Development
+-   Thumbs-up/down and detailed feedback on AI replies are now implemented (local state for MVP).
+-   This data is structured within the `ChatMessage` objects in `ChatScreen.tsx` state.
+-   Future development can focus on sending this collected feedback to a backend endpoint for analysis and model fine-tuning.
+-   Retry mechanism allows users to overcome transient errors. Localized error messages improve UX.
 
 ## Additional Documentation References
 -   `cline_docs/projectRoadmap.md`

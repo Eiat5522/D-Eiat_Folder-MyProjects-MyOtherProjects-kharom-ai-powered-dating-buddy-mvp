@@ -3,28 +3,36 @@
 ## Current Status: AI Provider Switched to OpenRouter, Initial Testing Done
 - **Overall:** KhaRom MVP Phase 0 & 1 complete. Phase 2 (Core Chat UI & Logic) is largely complete. AI Provider switched from Google Gemini to OpenRouter. Tailwind CSS issues in `api-server` resolved. Playwright tests removed.
 - **`mobile-app` successfully upgraded to Expo SDK 53.**
-- **`react-native-safe-area-context` successfully integrated.**
-- **Core chat flow (send message, display user message, call API, display AI message, loading/error states, feedback icons) is functional in Expo Go; **full testing with OpenRouter backend successful after resolving API key configuration issue.**
-- **Task 2.1 (Chat Screen UI), Task 2.2 (MessageBubble feedback icons), Task 2.3 (API Integration), and Task 2.4 (Basic Loading/Error States) are complete.**
-- **OpenRouter integration in `api-server` complete (code changes and system prompt for "Thai Dating Guru").**
+- **`react-native-safe-area-context`, `react-native-gesture-handler`, `react-native-reanimated`, `@gorhom/bottom-sheet` successfully integrated.**
+- **Core chat flow is functional in Expo Go with OpenRouter backend.**
+- **Task 2.1, 2.2 (updated with detailed feedback), 2.3, 2.4 are complete.**
+- **OpenRouter integration in `api-server` complete.**
 - **Manual `curl` testing of the OpenRouter API endpoint is successful.**
+- **Successfully scraped Scribd document for training data.**
+- **Phase 3 (Localization) complete, including language toggle in drawer (Task 3.4).**
+- **Phase 4 (UX Feedback Mechanisms - thumbs-up/down with details, retry, localized errors) complete.**
+- **Chat UI Order Corrected (2025-05-11):** Message prepending implemented in `ChatScreen.tsx` for correct visual order with `inverted` FlatList.
+- **User Testing (Initial):** User has tested Phase 3.4 and Phase 4 features and confirmed functionality. Chat UI order now correct.
+- **Default Model Updated:** Default OpenRouter model changed to `qwen/qwen2-7b-instruct` (or user-specified ID) in local and Vercel environments, and documentation updated.
 
 ## What Works
--   **Project Definition:** Clear understanding of MVP scope, features, users, and constraints.
--   **Core Documentation:** Memory Bank and `cline_docs` established and updated for OpenRouter migration and Playwright removal.
--   **Version Control:** Git setup with all recent changes pushed to GitHub.
+-   **Project Definition:** Clear understanding of MVP scope.
+-   **Core Documentation:** Memory Bank and `cline_docs` established and updated.
+-   **Version Control:** Git setup.
 -   **Mobile App Foundation (SDK 53):**
-    -   The `mobile-app` (React Native Expo SDK 53) project is scaffolded and previewable in Expo Go.
+    -   Expo SDK 53 project scaffolded and previewable.
     -   ESLint and Prettier configured.
     -   Core dependencies installed.
-    -   **Chat functionality:** Core UI and logic for sending/receiving messages, loading/error states, and feedback icons are operational (will connect to OpenRouter backend).
+    -   **Chat functionality:** Core UI and logic for sending/receiving messages, loading/error states. Chat messages now display in correct chronological order (newest at bottom).
+    -   **Localization:** Full setup complete. UI language can be toggled (EN/TH) via drawer. All relevant UI text is translated.
+    -   **Navigation:** Drawer navigation implemented.
+    -   **UX Feedback:** Thumbs-up/down with detailed feedback collection via bottom sheet is functional. Retry mechanism for errors is in place. Error messages are localized.
 -   **API Server Foundation (Updated for OpenRouter):**
-    -   Next.js v15.3.2 project with working OpenRouter integration via OpenAI SDK.
-    -   "Thai Dating Guru" system prompt implemented.
-    -   Environment variables for OpenRouter API key and default model (`mistralai/mistral-small-24b-instruct-2501`) configured.
-    -   Comprehensive error handling and logging.
-    -   Tailwind CSS configuration fixed.
--   Deployed to Vercel: `https://d-eiat-folder-my-projects-my-other-projects-eiat5522s-projects.vercel.app/api/chat`. Manual `curl` tests confirm it responds in Thai. **Full mobile app integration testing via Expo Go is now successful.**
+    -   Working OpenRouter integration.
+    -   "Thai Dating Guru" system prompt.
+    -   Secure environment variable management.
+    -   Error handling.
+-   Deployed to Vercel and functional.
 
 ## What's Left to Build (High-Level MVP Goals)
 
@@ -51,30 +59,46 @@
 -   [x] **Task X.7:** Remove Playwright testing setup from `api-server`.
 -   [x] **Task X.8:** Resolve API Key Configuration Issue (Vercel env vars & next.config.ts fix, successful retest with mobile app).
 
+### Phase Y: Training Data Acquisition (Completed 2025-05-11)
+-   [x] **Task Y.1:** Scrape Scribd document using Firecrawl MCP.
+-   [x] **Task Y.2:** Save scraped content as Markdown to `training_data/thai_dating_guide_scribd.md`.
+-   [x] **Task Y.3:** Update project documentation (`cline_docs/currentTask.md`, `memory-bank/activeContext.md`, `memory-bank/progress.md`). (Updated for chat order fix 2025-05-11)
+
+### Phase Z: Model Configuration Update (Completed 2025-05-11)
+-   [x] User updated `OPENROUTER_DEFAULT_MODEL` in `.env.local` and Vercel.
+-   [x] Documentation (`techContext.md`, `activeContext.md`, `progress.md`) updated to reflect new default model. (Completed 2025-05-11)
+
 ### Phase 2: Core Chat UI & Logic (React Native - SDK 53)
 -   [x] **Task 2.1:** Implement Chat Screen UI (Message Input, List).
 -   [x] **Task 2.1.1 (Sub-task):** Incrementally re-add necessary UI/UX dependencies:
     -   [x] `react-native-safe-area-context` (Integrated 2025-05-10)
-    -   [ ] `react-native-gesture-handler` (Deferred 2025-05-10, to be added if needed for MVP)
-    -   [ ] `react-native-reanimated` (Deferred 2025-05-10, to be added if needed for MVP)
--   [x] **Task 2.2:** Develop/Refine `MessageItem`/`MessageBubble.tsx` component (Feedback icons added 2025-05-10).
--   [x] **Task 2.3:** Integrate API service (Points to backend, which now uses OpenRouter).
--   [x] **Task 2.4:** Implement loading states and basic error display (Basic implementation 2025-05-10).
--   [x] **Task 2.5:** Ensure Expo Go iOS compatibility (Core API communication with OpenRouter backend via Expo Go confirmed stable).
+    -   [x] `react-native-gesture-handler` (Installed 2025-05-11)
+    -   [x] `react-native-reanimated` (Installed 2025-05-11)
+-   [x] **Task 2.2:** Develop/Refine `MessageItem`/`MessageBubble.tsx` component (Detailed feedback UI added 2025-05-11).
+-   [x] **Task 2.3:** Integrate API service (Points to backend, which now uses OpenRouter). (Completed 2025-05-11)
+-   [x] **Task 2.4:** Implement loading states and basic error display (Error display localized 2025-05-11).
+-   [x] **Task 2.5:** Ensure Expo Go iOS compatibility (Ongoing, new features tested).
 
 ### Phase 3: Language Toggle & Localization (React Native)
--   [ ] **Task 3.1:** Integrate i18next.
--   [ ] **Task 3.2:** Create initial Thai/English translation files.
--   [ ] **Task 3.3:** Implement UI language toggle.
+-   [x] **Task 3.1:** Integrate i18next. (Completed 2025-05-11)
+-   [x] **Task 3.2:** Create initial Thai/English translation files. (Updated 2025-05-11 for new UI text)
+-   [x] **Task 3.3:** Implement UI language toggle. (Moved to Drawer 2025-05-11)
+-   [x] **Task 3.4 (New):** Implement Hamburger Menu for Navigation and Language Toggle. (Completed 2025-05-11)
+    -   [x] Install React Navigation (Drawer, Native, Gesture Handler, Reanimated).
+    -   [x] Set up basic drawer navigation structure.
+    -   [x] Add Language Toggle to drawer.
+    -   [x] Integrate language toggle logic with `LanguageContext`.
+    -   [x] Add header icon to open drawer.
+    -   [x] Remove temporary toggle button from `ChatScreen.tsx`.
 
 ### Phase 4: UX Feedback Mechanisms (React Native)
--   [ ] **Task 4.1:** Add thumbs-up/down to `MessageItem`.
--   [ ] **Task 4.2:** Implement retry mechanism.
--   [ ] **Task 4.3:** Refine user-facing error messages.
+-   [x] **Task 4.1:** Add thumbs-up/down logic to `MessageBubble.tsx` (Detailed feedback UI with BottomSheet). (Completed 2025-05-11)
+-   [x] **Task 4.2:** Implement retry mechanism. (Completed 2025-05-11)
+-   [x] **Task 4.3:** Refine user-facing error messages (Localized). (Completed 2025-05-11)
 
 ### Phase 5: Testing & Refinement
--   [x] **Task 5.1:** Comprehensive testing of `mobile-app` with OpenRouter backend in Expo Go (Initial full flow confirmed, API key issue resolved).
--   [ ] **Task 5.2:** Bug fixing and performance optimization.
+-   [x] **Task 5.1:** Comprehensive testing of `mobile-app` with OpenRouter backend in Expo Go (Ongoing with new features).
+-   [ ] **Task 5.2:** Bug fixing and performance optimization (Pending user testing feedback).
 -   [ ] **Task 5.3:** Code reviews.
 
 ## Known Issues
@@ -86,15 +110,20 @@
 -   **Vercel Deployment:** API server is deployed. Full mobile app integration testing successful.
 
 ## Evolution of Project Decisions
--   **2025-05-11:**
-    -   Switched AI provider from Google Gemini to OpenRouter.
-    -   Updated `api-server` to use OpenAI SDK with OpenRouter and "Thai Dating Guru" persona.
-    -   Configured `mistralai/mistral-small-24b-instruct-2501` as default model.
-    -   Resolved Tailwind CSS build issues.
-    -   Removed Playwright testing setup.
-    -   Manually tested API with `curl`.
-    -   Resolved 'API Key Missing' error for `mobile-app` to `api-server` communication by ensuring `OPENROUTER_API_KEY` was correctly set in Vercel environment variables and removing client-side exposure of the key in `api-server/next.config.ts`. Confirmed fix with successful Expo Go testing.
--   **2025-05-10 (Evening):**
+-   **2025-05-11 (Evening - Chat Order Fix, Phase 3.4 & Phase 4 Implementation & Model Update Doc):**
+    -   Corrected chat message order by prepending new messages in `ChatScreen.tsx`.
+    -   Implemented Hamburger Menu with language toggle in drawer.
+    -   Implemented Thumbs-up/down feedback with detailed input via BottomSheet.
+    -   Implemented Retry mechanism for API errors.
+    -   Localized new UI elements and error messages.
+    -   Updated documentation for OpenRouter default model change.
+-   **2025-05-11 (Afternoon - Phase 3 Localization - Earlier):**
+    -   Initial localization setup.
+-   **2025-05-11 (Afternoon - Training Data Scraping - Earlier):**
+    -   Scraped Scribd document.
+-   **2025-05-11 (Morning - API Migration - Earlier):**
+    -   Migrated backend to OpenRouter, tested, and resolved deployment issues.
+-   **2025-05-10 (Evening - Earlier):**
     -   Implemented core chat functionality (Tasks 2.2, 2.3, 2.4) with Gemini.
     -   Successfully resolved SDK 53 upgrade issues for `mobile-app`.
 -   **2025-05-10 (Morning - Afternoon):**

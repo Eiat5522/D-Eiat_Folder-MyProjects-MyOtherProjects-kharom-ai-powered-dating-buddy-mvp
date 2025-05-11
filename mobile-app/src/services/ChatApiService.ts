@@ -5,7 +5,11 @@ export interface ChatMessage { // Renamed for clarity if used elsewhere
   text: string;
   isUser: boolean;
   timestamp: Date;
-  // Potentially add feedback status here later
+  feedback?: 'liked' | 'disliked' | null; // For thumbs up/down
+  detailedFeedback?: { // For detailed feedback on thumbs down
+    presets: string[]; // e.g., ["inaccurate", "offensive"]
+    comment: string;   // User's custom text
+  } | null;
 }
 
 export interface ChatResponse {

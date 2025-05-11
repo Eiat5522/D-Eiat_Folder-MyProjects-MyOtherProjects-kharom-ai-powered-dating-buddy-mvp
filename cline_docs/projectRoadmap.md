@@ -5,7 +5,7 @@ Develop a Minimum Viable Product (MVP) of the KhaRom mobile AI chat application,
 
 ## Key Features for MVP
 -   [ ] AI-Powered Chat Interface (Thai-only AI responses)
--   [ ] UI Language Toggle (Thai/English)
+-   [x] UI Language Toggle (Thai/English) (Initial implementation 2025-05-11)
 -   [ ] Robust UX Feedback (Error handling, retries, thumbs-up/down for AI replies)
 
 ## Completion Criteria for MVP
@@ -51,22 +51,23 @@ Develop a Minimum Viable Product (MVP) of the KhaRom mobile AI chat application,
     -   [x] Successfully upgraded `mobile-app` to Expo SDK 53 and confirmed preview in Expo Go.
 -   [x] **Task 2.1.1 (Sub-task):** Incrementally re-add necessary UI/UX dependencies:
     -   [x] `react-native-safe-area-context` (Integrated 2025-05-10)
-    -   [ ] `react-native-gesture-handler` (Deferred 2025-05-10, to be added if needed for MVP)
-    -   [ ] `react-native-reanimated` (Deferred 2025-05-10, to be added if needed for MVP)
--   [x] **Task 2.2:** Develop/Refine `MessageItem`/`MessageBubble.tsx` component (Feedback icons added 2025-05-10).
--   [x] **Task 2.3:** Integrate API service for Gemini proxy (Implemented 2025-05-10).
+    -   [x] `react-native-gesture-handler` (Installed 2025-05-11 for Drawer)
+    -   [x] `react-native-reanimated` (Installed 2025-05-11 for Drawer)
+-   [x] **Task 2.2:** Develop/Refine `MessageItem`/`MessageBubble.tsx` component (Feedback icons added 2025-05-10, detailed feedback UI with bottom sheet 2025-05-11).
+-   [x] **Task 2.3:** Integrate API service for OpenRouter proxy (Updated from Gemini 2025-05-11).
 -   [x] **Task 2.4:** Implement loading states and basic error display (Basic implementation 2025-05-10).
 -   [ ] **Task 2.5:** Ensure Expo Go iOS compatibility (Ongoing).
 
 ### Phase 3: Localization (React Native)
--   [ ] **Task 3.1:** Integrate i18next.
--   [ ] **Task 3.2:** Create initial Thai/English translation files.
--   [ ] **Task 3.3:** Implement UI language toggle.
+-   [x] **Task 3.1:** Integrate i18next. (Completed 2025-05-11)
+-   [x] **Task 3.2:** Create initial Thai/English translation files. (Completed 2025-05-11, updated 2025-05-11 for feedback UI)
+-   [x] **Task 3.3:** Implement UI language toggle. (Completed 2025-05-11, basic toggle in ChatScreen, moved to Drawer 2025-05-11)
+-   [x] **Task 3.4 (New):** Implement Hamburger Menu for Navigation and Language Toggle. (Completed 2025-05-11)
 
 ### Phase 4: UX Feedback Mechanisms (React Native)
--   [ ] **Task 4.1:** Add thumbs-up/down to `MessageItem`.
--   [ ] **Task 4.2:** Implement retry mechanism.
--   [ ] **Task 4.3:** Refine user-facing error messages.
+-   [x] **Task 4.1:** Add thumbs-up/down logic to `MessageBubble.tsx` (Detailed feedback UI with BottomSheet). (Completed 2025-05-11)
+-   [x] **Task 4.2:** Implement retry mechanism. (Completed 2025-05-11)
+-   [x] **Task 4.3:** Refine user-facing error messages (Localized). (Completed 2025-05-11)
 
 ### Phase 5: Testing & Refinement
 -   [ ] **Task 5.1:** Comprehensive testing in Expo Go.
@@ -86,6 +87,13 @@ Develop a Minimum Viable Product (MVP) of the KhaRom mobile AI chat application,
 -   **Task 2.2:** Refine `MessageBubble.tsx` (Feedback icons). (Completed 2025-05-10)
 -   **Task 2.3:** Integrate API service. (Completed 2025-05-10)
 -   **Task 2.4:** Basic loading/error states. (Completed 2025-05-10)
+-   **Task 3.1:** Integrate i18next. (Completed 2025-05-11)
+-   **Task 3.2:** Create initial Thai/English translation files. (Completed 2025-05-11, updated 2025-05-11)
+-   **Task 3.3:** Implement UI language toggle. (Completed 2025-05-11, moved to Drawer 2025-05-11)
+-   **Task 3.4 (New):** Implement Hamburger Menu. (Completed 2025-05-11)
+-   **Task 4.1:** Add thumbs-up/down logic. (Completed 2025-05-11)
+-   **Task 4.2:** Implement retry mechanism. (Completed 2025-05-11)
+-   **Task 4.3:** Refine user-facing error messages. (Completed 2025-05-11)
 
 ## Future Considerations (Post-MVP)
 -   User accounts and message history.

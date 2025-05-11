@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { View, TextInput, TouchableOpacity, StyleSheet, Platform, KeyboardAvoidingView } from 'react-native';
 import { Ionicons } from '@expo/vector-icons'; // Assuming Ionicons is installed or available via Expo
+import { useTranslation } from 'react-i18next';
 
 interface MessageInputProps {
   onSend: (text: string) => void;
@@ -8,6 +9,7 @@ interface MessageInputProps {
 }
 
 const MessageInput: React.FC<MessageInputProps> = ({ onSend, disabled = false }) => {
+  const { t } = useTranslation();
   const [message, setMessage] = useState('');
   const [inputHeight, setInputHeight] = useState(40);
 
@@ -30,7 +32,7 @@ const MessageInput: React.FC<MessageInputProps> = ({ onSend, disabled = false })
           style={[styles.input, { height: Math.max(40, inputHeight) }]}
           value={message}
           onChangeText={setMessage}
-          placeholder={disabled ? "AI is thinking..." : "Type your message..."}
+          placeholder={disabled ? "AI is thinking..." : t('sendPlaceholder')}
           placeholderTextColor="#8E8E93"
           multiline
           onContentSizeChange={(event) => {

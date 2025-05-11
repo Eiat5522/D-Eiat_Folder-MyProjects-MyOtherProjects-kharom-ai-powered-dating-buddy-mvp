@@ -25,5 +25,5 @@ Thai-speaking singles (18–35) looking for help breaking the ice, improving dat
 ## Technical Preferences (optional)
 - **Frontend:** React Native (Expo Bare workflow) with TypeScript  
 - **Localization:** i18next for Thai/English toggling  
-- **Backend:** Next.js API route proxy to Google Gemini (Thai-only)  
+- **Backend:** Next.js API route proxy to OpenRouter (using models like `qwen/qwen2-7b-instruct`, Thai-only AI responses)
 - **Constraints:** No Firebase/Supabase; environment-protected API keys; EAS Build for deployment

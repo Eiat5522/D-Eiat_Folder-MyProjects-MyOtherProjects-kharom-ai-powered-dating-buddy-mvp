@@ -1,0 +1,17 @@
+{
+  "sendPlaceholder": "Type your message...",
+  "chat": "Chat",
+  "switchToThai": "Switch to ไทย (Thai)",
+  "switchToEnglish": "Switch to English",
+  "feedbackInaccurate": "Inaccurate or irrelevant",
+  "feedbackUnhelpful": "Unhelpful",
+  "feedbackOffensive": "Offensive or inappropriate",
+  "feedbackOther": "Other (please specify)",
+  "provideFeedbackTitle": "Tell us more",
+  "feedbackCommentPlaceholder": "Additional comments (optional)",
+  "submitFeedbackButton": "Submit Feedback",
+  "errorApiGeneric": "Oops! Something went wrong. Please try again.",
+  "errorNetwork": "Please check your internet connection and try again.",
+  "errorBlockedContent": "Your message could not be processed due to content policy. Please rephrase and try again.",
+  "retryButton": "Retry"
+}
