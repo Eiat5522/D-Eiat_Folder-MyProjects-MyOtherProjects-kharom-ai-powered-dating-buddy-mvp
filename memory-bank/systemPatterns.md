@@ -3,14 +3,14 @@
 ## System Architecture Overview
 The KhaRom application consists of two main parts in separate subdirectories (`mobile-app` and `api-server`) within the main project root:
 1.  **React Native (Expo Bare SDK 53) Mobile Application:** The user-facing client application, located in `mobile-app/`. Responsible for UI, user input, and displaying AI responses. ESLint and Prettier are configured.
-2.  **Next.js API Backend (v15.3.2):** A simple backend acting as a secure proxy to the Google Gemini API, located in `api-server/`. This will handle API key management, communication with the AI service, and error handling. ESLint and Prettier are configured.
+2.  **Next.js API Backend (v15.3.2):** A simple backend acting as a secure proxy to the OpenRouter API, located in `api-server/`. This will handle API key management, communication with the AI service, and error handling. ESLint and Prettier are configured.
 
 ```mermaid
 graph LR
     User[User] -- Interacts with --> MobileApp[React Native App (Expo Go)]
     MobileApp -- Sends Prompt --> NextApi[Next.js API Proxy (/src/app/api/chat)]
-    NextApi -- Securely Calls --> Gemini[Google Gemini API]
-    Gemini -- Returns Thai Response --> NextApi
+    NextApi -- Securely Calls --> OpenRouter[OpenRouter API]
+    OpenRouter -- Returns Thai Response --> NextApi
     NextApi -- Relays Response/Errors --> MobileApp
     MobileApp -- Displays to --> User
 ```
@@ -19,40 +19,38 @@ graph LR
 -   **React Native (Expo Bare SDK 53):** Chosen for cross-platform mobile development. Now using Expo SDK 53 for better stability and fewer vulnerabilities. The "Bare" workflow (achieved via `expo prebuild`) allows for native module flexibility. Expo Go compatibility remains a key focus.
 -   **Next.js for API Proxy:** Selected for its ease of creating API routes and serverless deployment capabilities (Vercel/Railway). It simplifies backend setup for a focused task like proxying.
 -   **Tailwind CSS:** For styling in the Next.js part (if any UI is built there, primarily for API though) and potentially for React Native via compatible libraries if desired, though native styling or StyleSheet will be the default for React Native components.
--   **Google Gemini:** The core AI engine for generating Thai chat messages, as specified.
+-   **OpenRouter API:** The core AI engine for generating Thai chat messages, providing access to various models. Uses OpenAI SDK.
 -   **i18next:** For UI localization (Thai/English) in the React Native app.
 -   **No Firebase/Supabase:** A direct constraint from the project brief. Data persistence, if any for MVP, would need alternative solutions (e.g., AsyncStorage for local device storage).
--   **Environment-Protected API Keys:** Critical for security. API keys will be managed on Vercel/Railway, not in client code.
+-   **Environment-Protected API Keys:** Critical for security. The OpenRouter API key (`OPENROUTER_API_KEY`) will be managed on Vercel/Railway (and locally in `.env.local`), not in client code.
 
 ## Backend Error Handling Pattern
-- **Type Guard Pattern:** Use `isGeminiError` type guard to safely check error structure:
+- **Type Guard Pattern (for OpenAI SDK):** Use `error instanceof OpenAI.APIError` to check error structure.
   ```typescript
-  function isGeminiError(error: unknown): error is {
-    status: {
-      code: number;
-      message: string;
-      details?: Record<string, unknown>[];
-    };
-  }
+  // Example in route.ts
+  // if (error instanceof OpenAI.APIError) {
+  //   const status = error.status || 500;
+  //   // ... handle specific OpenAI/OpenRouter errors
+  // }
   ```
-- **HTTP Status Code Mapping:**
-  - 401: Authentication/Permission errors (PERMISSION_DENIED, UNAUTHENTICATED)
-  - 429: Rate limit exceeded (RESOURCE_EXHAUSTED)
-  - 400: Invalid input (INVALID_ARGUMENT) or content safety blocks
-  - 503: Service unavailable (UNAVAILABLE)
-  - 500: Internal errors or unknown issues
-- **Error Response Structure:**
+- **HTTP Status Code Mapping (General):**
+  - 401: Authentication errors (e.g., invalid OpenRouter API key).
+  - 429: Rate limit exceeded or quota issues.
+  - 400: Invalid input (e.g., malformed request, invalid model specified by client if that feature is added).
+  - 503: Service unavailable (if OpenRouter or underlying model is down).
+  - 500: Internal server errors or unknown issues.
+- **Error Response Structure (Remains the same for the client):**
   ```typescript
   interface ChatResponseBody {
     reply: string | null;
     error: string | null;
-    blocked?: boolean;
+    blocked?: boolean; // May need adjustment based on OpenRouter/model content filtering signals
     blockReason?: string;
   }
   ```
-- **Error Logging:** Comprehensive server-side logging with error type, message, and context
-- **Content Safety:** Check `promptFeedback.blockReason` in successful responses
-- **User-Friendly Messages:** Generic client-facing messages that don't expose internal details
+- **Error Logging:** Comprehensive server-side logging with error type, message, and context.
+- **Content Safety:** Monitor `completion.choices[0]?.finish_reason === 'content_filter'` or specific error codes from OpenRouter/OpenAI SDK for content moderation.
+- **User-Friendly Messages:** Generic client-facing messages that don't expose internal details.
 
 ## Design Patterns (Initial Thoughts for React Native App)
 -   **Component-Based Architecture:** Standard React pattern. For the `mobile-app`, reusable UI components will be organized in `mobile-app/src/components`.
@@ -78,7 +76,7 @@ graph LR
 
 ## Critical Implementation Paths
 1.  **Expo Go Compatibility:** Every UI component and feature must be tested thoroughly in Expo Go on iOS.
-2.  **Gemini API Integration:** Securely calling the Next.js proxy, which then calls Gemini, and handling responses/errors.
+2.  **OpenRouter API Integration:** Securely calling the Next.js proxy, which then calls OpenRouter using the OpenAI SDK, and handling responses/errors.
 3.  **Chat Interface:** Building the core chat UI, including message input, display, loading states, and error states.
 4.  **Localization Setup:** Integrating i18next and creating initial translation files for Thai and English.
 5.  **Feedback Mechanism:** Implementing the thumbs-up/down functionality and potentially a way to report issues or retry messages.
@@ -91,7 +89,7 @@ graph LR
   /screens          # Mobile app screens - This will be inside mobile-app/src/screens
   /navigation       # React Navigation configuration - This will be inside mobile-app/src/navigation
   /hooks           # Custom React hooks - This will be inside mobile-app/src/hooks
-  /services        # API services (Gemini proxy calls) - This will be inside mobile-app/src/services
+  /services        # API services (OpenRouter proxy calls) - This will be inside mobile-app/src/services
   /constants       # App-wide constants - This will be inside mobile-app/src/constants
   /locales         # i18next translation files (Thai/EN) - This will be inside mobile-app/src/locales
 /assets            # Static assets (images, fonts) - Each sub-project (mobile-app, api-server) might have its own assets folder, or a shared top-level one. For mobile-app, it's typically mobile-app/assets.

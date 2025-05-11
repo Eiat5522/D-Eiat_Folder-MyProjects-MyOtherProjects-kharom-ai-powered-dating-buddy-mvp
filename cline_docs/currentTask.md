@@ -1,39 +1,43 @@
-# Current Task: Phase 2 - Core Chat UI & Logic (SDK 53 Upgrade Complete, Basic Preview Working)
+# Current Task: AI Provider Switched to OpenRouter
 
 ## Current Objective
-Core chat functionality (Tasks 2.2, 2.3, 2.4) is now largely implemented and tested in Expo Go. The immediate next steps involve:
-1.  Proceeding with **Phase 3: Localization (Task 3.1: Integrate i18next)**.
-2.  Further refining **Phase 4: UX Feedback Mechanisms (Task 4.1: Full Thumbs-up/down logic, Task 4.2: Retry, Task 4.3: Refine errors)**.
+The AI provider for the backend API has been successfully switched from Google Gemini to OpenRouter. This allows for testing responses from various AI models.
 
 ## Context
 -   **Overall Project:** KhaRom MVP development.
--   **Current Phase:** Transitioning from Phase 2 to Phase 3 & 4.
--   **Previous Steps (Completed 2025-05-10):**
-    -   Successfully integrated API service (`GeminiApiService.ts`).
-    -   Refined `MessageBubble.tsx` with feedback icons (using SVGs).
-    -   Implemented basic loading/error states in `ChatScreen.tsx`.
-    -   Successfully integrated `react-native-safe-area-context`.
-    -   Successfully upgraded `mobile-app` to Expo SDK 53.
-    -   Task 2.1 (Basic Chat Screen UI components) was previously completed.
--   **Relevant Document:** `cline_docs/projectRoadmap.md` (Tasks 3.1, 4.1, 4.2, 4.3).
+-   **Previous Task Focus:** Phase 3 (Localization) and Phase 4 (UX Feedback) were next. This OpenRouter migration was an ad-hoc request.
+-   **Previous AI Provider:** Google Gemini.
+-   **New AI Provider:** OpenRouter, accessed via the OpenAI SDK.
+
+## Changes Implemented (2025-05-11)
+-   **API Server (`api-server/`) Updated:**
+    -   `api-server/.env.local` created with `OPENROUTER_API_KEY` and `OPENROUTER_DEFAULT_MODEL` placeholders.
+    -   `openai` SDK installed.
+    -   `api-server/src/app/api/chat/route.ts` modified:
+        -   Replaced Google Gemini SDK with OpenAI SDK configured for OpenRouter.
+        -   Updated request handling to transform `prompt` to `messages` array.
+        -   Adapted response parsing and error handling for OpenRouter/OpenAI SDK.
+-   **Documentation Updated:**
+    -   `cline_docs/techStack.md`
+    -   `memory-bank/techContext.md`
+    -   `memory-bank/systemPatterns.md`
+    -   `memory-bank/progress.md` (new "Phase X" added for this task)
+    -   `cline_docs/codebaseSummary.md`
+    -   This file (`cline_docs/currentTask.md`).
 
 ## Next Steps
-1.  **Dependency Integration Status (Task 2.1.1):**
-    *   `react-native-safe-area-context`: **COMPLETED**.
-    *   `react-native-gesture-handler` and `react-native-reanimated`: **DEFERRED**.
-    *   `react-native-svg`: **USED** (functionally working for icons).
-2.  **Refine `MessageBubble.tsx` (Task 2.2 - Feedback Icons): COMPLETED.**
-3.  **Integrate API Service (Task 2.3): COMPLETED.**
-4.  **Implement Loading States & Basic Error Display (Task 2.4 - Basic implementation): COMPLETED.**
-5.  **Begin Phase 3: Localization**
-    *   **Task 3.1:** Integrate `i18next` and `react-i18next`.
-    *   **Task 3.2:** Create initial Thai/English translation files.
-    *   **Task 3.3:** Implement UI language toggle.
-6.  **Continue Phase 4: UX Feedback Mechanisms**
-    *   **Task 4.1:** Implement full logic for thumbs-up/down feedback (e.g., visual state change, potential logging).
-    *   **Task 4.2:** Implement a retry mechanism for failed messages.
-    *   **Task 4.3:** Refine user-facing error messages for clarity and cultural appropriateness.
-7.  **Update Documentation:**
-    *   Update `memory-bank/progress.md` and `memory-bank/activeContext.md` after each significant step.
-    *   Update `cline_docs/codebaseSummary.md` if new significant patterns emerge.
-8.  **Ensure Expo Go iOS Compatibility (Task 2.5 - Ongoing).**
+1.  **Testing:**
+    *   User to set actual `OPENROUTER_API_KEY` in `api-server/.env.local`.
+    *   User to set `OPENROUTER_API_KEY` and `OPENROUTER_DEFAULT_MODEL` in Vercel environment variables for the `api-server` deployment.
+    *   Redeploy `api-server` to Vercel.
+    *   Thoroughly test the `/api/chat` endpoint (e.g., using Postman or curl).
+    *   Test the full chat functionality with the mobile app connecting to the updated backend.
+2.  **Resume Planned Tasks:** Once OpenRouter integration is confirmed working, proceed with:
+    *   **Phase 3: Localization (Task 3.1: Integrate i18next)**.
+    *   **Phase 4: UX Feedback Mechanisms (Task 4.1: Full Thumbs-up/down logic, Task 4.2: Retry, Task 4.3: Refine errors)**.
+3.  **Update Documentation:**
+    *   Update `memory-bank/progress.md` and `memory-bank/activeContext.md` after testing and resuming planned tasks.
+
+## Active Decisions & Considerations
+-   The mobile app's `GeminiApiService.ts` was not changed in this step; the backend handles the adaptation. Consider renaming this service if it becomes confusing.
+-   The default OpenRouter model is set via `OPENROUTER_DEFAULT_MODEL`. For more flexible model testing, the API could be enhanced to accept a model choice from the client.

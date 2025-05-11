@@ -25,8 +25,11 @@ This document outlines the key technology choices and architectural decisions fo
     -   **Justification:** As per `.clinerules`. Primarily for API routes, but if any admin/status pages are built, Tailwind will be used. Configured with `prettier-plugin-tailwindcss`.
 
 ### AI Service
--   **Provider:** Google Gemini
-    -   **Justification:** Specified as the AI engine for generating Thai language chat responses.
+-   **Provider:** OpenRouter (via OpenAI-compatible API)
+    -   **Justification:** Switched from Google Gemini to allow testing of various AI models. Provides a unified API for multiple underlying models.
+    -   **SDK/Client:** `openai` TypeScript SDK.
+    -   **API Key:** `OPENROUTER_API_KEY` (environment variable).
+    -   **Default Model:** Configured via `OPENROUTER_DEFAULT_MODEL` (environment variable).
 
 ## Deployment Platforms
 -   **Mobile App (React Native):**
@@ -54,7 +57,7 @@ This document outlines the key technology choices and architectural decisions fo
 
 ## Key Architectural Decisions
 -   **Decoupled Frontend and Backend:** The React Native app and Next.js API are separate entities, communicating via HTTP requests. This promotes separation of concerns.
--   **Secure API Proxy:** The Next.js backend acts as a crucial security layer, protecting the Google Gemini API key. The client application will never directly access or store this key.
+-   **Secure API Proxy:** The Next.js backend acts as a crucial security layer, protecting the OpenRouter API key. The client application will never directly access or store this key.
 -   **Stateless API:** The Next.js API proxy will be designed to be stateless for the MVP, simplifying scalability and deployment.
 -   **Expo Go First:** Development and testing will prioritize full functionality within the Expo Go iOS environment. Any library or feature considered must be vetted for Expo Go compatibility.
 -   **Progressive Complexity for State Management (Frontend):** Start with React's built-in state management (`useState`, `useReducer`, Context API). More complex solutions (Zustand, Redux Toolkit) will only be considered if application complexity demonstrably requires them post-MVP.

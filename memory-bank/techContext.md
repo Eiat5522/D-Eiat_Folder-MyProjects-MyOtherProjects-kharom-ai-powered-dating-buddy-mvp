@@ -8,10 +8,11 @@
 -   **Next.js (App Router):**
     -   **Version:** 15.3.2
     -   **Language:** TypeScript
-    -   **Purpose:** Backend API proxy to Google Gemini. Hosts API routes under `api-server/src/app/api/`.
-    -   **Current Status:** Project created in `api-server/`. ESLint and Prettier configured. API deployed.
--   **Google Gemini API:**
-    -   **Purpose:** AI engine for generating Thai language chat responses.
+    -   **Purpose:** Backend API proxy to OpenRouter. Hosts API routes under `api-server/src/app/api/`.
+    -   **Current Status:** Project created in `api-server/`. ESLint and Prettier configured. API to be updated for OpenRouter.
+-   **OpenRouter API:**
+    -   **Purpose:** AI engine for generating Thai language chat responses, providing access to various models.
+    -   **SDK/Client:** `openai` TypeScript SDK.
 -   **Tailwind CSS:**
     -   **Purpose:** Styling for the Next.js backend (API project). Configured with `prettier-plugin-tailwindcss`. For React Native, default is `StyleSheet`.
 -   **i18next:**
@@ -30,7 +31,7 @@
 ## Technical Constraints
 -   **Expo Go iOS App Compatibility (SDK 53):** Paramount constraint.
 -   **No Firebase/Supabase.**
--   **API Key Security:** Google Gemini API key managed on Vercel.
+-   **API Key Security:** OpenRouter API key (`OPENROUTER_API_KEY`) managed on Vercel (and locally in `.env.local`).
 -   **Thai-Only AI Responses.**
 -   **Stateless API Proxy.**
 
@@ -62,7 +63,7 @@
 -   `react-dom: "^19.0.0"`
 -   `typescript: "^5"`
 -   `tailwindcss: "^4"`
--   **Google Gemini Integration:** `@google/generative-ai: "^0.3.0"`
+-   **OpenRouter Integration:** `openai: "^version_installed_by_npm"` (e.g., latest compatible version)
 -   (ESLint/Prettier devDependencies as previously configured)
 
 ## Tool Usage Patterns
