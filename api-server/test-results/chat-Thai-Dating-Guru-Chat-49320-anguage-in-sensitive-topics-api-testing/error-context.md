@@ -6,10 +6,10 @@
 # Error details
 
 ```
-Error: expect(received).toBeNull()
+Error: expect(received).toBeTruthy()
 
-Received: "Invalid request to AI service: 400 qwen/qwen1.5-0.5b is not a valid model ID"
-    at D:\Eiat_Folder\MyProjects\MyOtherProjects\kharom-ai-powered-dating-buddy-mvp\api-server\tests\e2e\chat.test.ts:88:28
+Received: false
+    at D:\Eiat_Folder\MyProjects\MyOtherProjects\kharom-ai-powered-dating-buddy-mvp\api-server\tests\e2e\chat.test.ts:93:77
 ```
 
 # Test source
@@ -102,13 +102,13 @@ Received: "Invalid request to AI service: 400 qwen/qwen1.5-0.5b is not a valid m
   85 |   test('should maintain formal Thai language in sensitive topics', async () => {
   86 |     const response = await sendChatRequest("What if my date wants to get physical too quickly?");
   87 |     
-> 88 |     expect(response.error).toBeNull();
-     |                            ^ Error: expect(received).toBeNull()
+  88 |     expect(response.error).toBeNull();
   89 |     expect(response.reply).toBeDefined();
   90 |     expect(isThaiText(response.reply)).toBeTruthy();
   91 |     
   92 |     // Check for appropriate, respectful language
-  93 |     expect(containsKeywords(response.reply, ['เคารพ', 'ขอบเขต', 'พูดคุย'])).toBeTruthy();
+> 93 |     expect(containsKeywords(response.reply, ['เคารพ', 'ขอบเขต', 'พูดคุย'])).toBeTruthy();
+     |                                                                             ^ Error: expect(received).toBeTruthy()
   94 |   });
   95 | });
   96 |

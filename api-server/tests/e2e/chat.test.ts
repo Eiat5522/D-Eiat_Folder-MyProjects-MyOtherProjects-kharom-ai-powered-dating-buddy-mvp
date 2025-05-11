@@ -10,23 +10,39 @@ function isThaiText(text: string): boolean {
 }
 
 // Helper function to check if text contains expected keywords
-function containsKeywords(text: string, keywords: string[]): boolean {
+function containsKeywords(text: string | null, keywords: string[]): boolean {
+  if (!text) return false;
   return keywords.some(keyword => text.includes(keyword));
 }
 
 async function sendChatRequest(prompt: string) {
-  const response = await fetch(API_URL, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({ prompt }),
-  });
+  console.log(`Sending request to API: ${API_URL}`);
+  console.log(`Prompt: ${prompt}`);
+  
+  try {
+    const response = await fetch(API_URL, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ prompt }),
+    });
 
-  return await response.json();
+    const data = await response.json();
+    console.log('API Response:', data);
+    return data;
+  } catch (error) {
+    console.error('API Request failed:', error);
+    throw error;
+  }
 }
 
 test.describe('Thai Dating Guru Chat Tests', () => {
+  test.beforeEach(async () => {
+    // Add a small delay between tests to avoid rate limiting
+    await new Promise(resolve => setTimeout(resolve, 1000));
+  });
+
   test('should respond in Thai to English dating advice question', async () => {
     const response = await sendChatRequest("How do I know if someone likes me?");
     
