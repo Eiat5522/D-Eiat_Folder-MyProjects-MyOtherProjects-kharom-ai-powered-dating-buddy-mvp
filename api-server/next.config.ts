@@ -6,10 +6,9 @@ const config: NextConfig = {
     domains: ['openrouter.ai'],
   },
   env: {
-    OPENROUTER_API_KEY: process.env.OPENROUTER_API_KEY || '',
     OPENROUTER_DEFAULT_MODEL:
       process.env.OPENROUTER_DEFAULT_MODEL ||
-      'mistralai/mistral-small-24b-instruct-2501',
+      'mistralai/mistral-small-24b-instruct-2501'
   },
 };
 
