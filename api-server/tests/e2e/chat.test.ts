@@ -4,7 +4,7 @@ const API_URL = 'https://d-eiat-folder-my-projects-my-other-projects-eiat5522s-p
 
 // Helper function to check if text is Thai
 function isThaiText(text: string): boolean {
-  // Thai Unicode ranges: \u0E00-\u0E7F
+  // Thai Unicode range: U+0E00-U+0E7F
   const thaiPattern = /[\u0E00-\u0E7F]/;
   return thaiPattern.test(text);
 }
@@ -40,7 +40,7 @@ async function sendChatRequest(prompt: string) {
 test.describe('Thai Dating Guru Chat Tests', () => {
   test.beforeEach(async () => {
     // Add a small delay between tests to avoid rate limiting
-    await new Promise(resolve => setTimeout(resolve, 2000));
+    await new Promise(resolve => setTimeout(resolve, 3000));
   });
 
   test('should respond in Thai to English dating advice question', async () => {
