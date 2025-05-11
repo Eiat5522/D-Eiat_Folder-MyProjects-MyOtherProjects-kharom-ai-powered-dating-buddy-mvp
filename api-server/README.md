@@ -25,10 +25,15 @@ npm run dev
 
 ## Testing
 
-Run the end-to-end tests:
+End-to-end tests using Playwright have been removed from this project. Manual testing of the API can be performed using tools like `curl` or Postman.
+
+Example `curl` command:
 ```bash
-npm run test:e2e
+curl -X POST http://localhost:3000/api/chat \
+-H "Content-Type: application/json" \
+-d '{"prompt":"Hello, how are you?"}'
 ```
+(Replace `http://localhost:3000` with the deployed Vercel URL for testing the production deployment.)
 
 ## API Endpoints
 

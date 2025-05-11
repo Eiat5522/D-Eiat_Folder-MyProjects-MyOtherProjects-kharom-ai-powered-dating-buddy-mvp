@@ -65,7 +65,7 @@ This directory contains the React Native (Expo SDK 53) mobile application for th
 -   **`components/`:** Reusable UI components (`ChatScreen.tsx`, `MessageBubble.tsx`, `MessageInput.tsx`, `MessageList.tsx`).
 -   **`screens/`:** (Planned) Top-level screen components.
 -   **`navigation/`:** (Planned) React Navigation setup.
--   **`services/`:** API service modules (`GeminiApiService.ts`).
+-   **`services/`:** API service modules (`ChatApiService.ts`).
 -   **`hooks/`:** (Planned) Custom React hooks.
 -   **`locales/`:** (Planned) i18next translation files.
 -   **`constants/`:** (Planned) App-wide constants.

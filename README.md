@@ -29,7 +29,7 @@ Thai-speaking singles (18–35) looking for assistance in:
 -   **Deployment:** Vercel / Railway
 
 ### AI Service
--   **Provider:** Google Gemini
+-   **Provider:** OpenRouter (e.g., using Mistral Small model)
 
 ## 🚀 Getting Started
 
@@ -55,9 +55,10 @@ Thai-speaking singles (18–35) looking for assistance in:
     # or yarn install
     ```
     - Create a `.env.local` file in the `api-server/` directory.
-    - Add your Google Gemini API key to this file:
+    - Add your OpenRouter API key and optionally a default model to this file:
       ```env
-      GEMINI_API_KEY=YOUR_GEMINI_API_KEY
+      OPENROUTER_API_KEY=YOUR_OPENROUTER_API_KEY
+      OPENROUTER_DEFAULT_MODEL=mistralai/mistral-small-24b-instruct-2501 # Or your preferred default
       ```
     - To run the backend development server:
       ```bash
@@ -84,8 +85,9 @@ Thai-speaking singles (18–35) looking for assistance in:
 
 ## 📊 Project Status
 - **Phase 0: Project Initialization & Setup:** ✅ Completed
-- **Phase 1: Backend API Proxy (Next.js):** ✅ Completed
-- **Phase 2: Core Chat UI & Logic (React Native):** ✅ Largely Completed (Core chat flow functional)
+- **Phase 1: Backend API Proxy (Next.js):** ✅ Completed (Initially Gemini, now OpenRouter)
+- **Phase X: AI Provider Migration & API Server Updates:** ✅ Completed (Migrated to OpenRouter, Playwright removed, Tailwind CSS fixed)
+- **Phase 2: Core Chat UI & Logic (React Native):** ✅ Largely Completed (Core chat flow functional, API service renamed)
 - **Phase 3: Localization (React Native):** 📋 Planned
 - **Phase 4: UX Feedback Mechanisms (React Native):** 📋 Planned
 - **Phase 5: Testing & Refinement:** 📋 Planned
@@ -103,9 +105,9 @@ Thai-speaking singles (18–35) looking for assistance in:
   │       └── app/
   │           └── api/
   │               └── chat/
-  │                   └── route.ts  # Gemini API proxy endpoint
+  │                   └── route.ts  # OpenRouter API proxy endpoint
   ├── mobile-app/                   # React Native (Expo) Mobile Application
-  │   ├── README.md                 # Mobile App specific README (to be created)
+  │   ├── README.md                 # Mobile App specific README
   │   ├── package.json
   │   ├── app.json                  # Expo configuration
   │   ├── App.tsx                   # Main app component
