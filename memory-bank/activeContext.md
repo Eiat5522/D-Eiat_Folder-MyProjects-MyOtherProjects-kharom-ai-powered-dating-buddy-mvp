@@ -11,7 +11,8 @@
     - Manual `curl` tests confirm API responds in Thai to English prompts.
 - **Tailwind CSS configuration issues in `api-server` have been resolved.**
 - **Playwright testing setup has been removed from `api-server` as per user request.**
-- Next immediate steps focus on **Phase 3 (Localization)** and further refinement of **Phase 4 (UX Feedback)** in the `mobile-app`.
+- Full integration testing with the `mobile-app` via Expo Go is now complete and successful after resolving an API key configuration issue on Vercel and in `next.config.ts`.
+- Next immediate steps focus on **Phase 3 (Localization)** and further refinement of **Phase 4 (UX Feedback)** in the `mobile-app`, or addressing new user requests.
 
 ## Recent Changes
 - **(2025-05-11 - API Migration & Testing):**
@@ -22,6 +23,7 @@
     - Resolved Tailwind CSS build issues in `api-server`.
     - Manually tested the `/api/chat` endpoint with `curl` and confirmed Thai-only responses.
     - Removed Playwright testing setup (`@playwright/test` dependency, config files, test files, and test-related directories) from `api-server`.
+    - Resolved 'API Key Missing' error by ensuring `OPENROUTER_API_KEY` was correctly set in Vercel environment variables and by removing client-side exposure of the key in `api-server/next.config.ts`. Redeployed `api-server` and confirmed `mobile-app` now successfully communicates with the backend.
 - **(2025-05-10 - API Integration, MessageBubble Refinement, Basic States - Tasks 2.2, 2.3, 2.4):**
     - Created `mobile-app/src/services/GeminiApiService.ts` (to be renamed).
     - Updated `ChatScreen.tsx`, `MessageInput.tsx`, `MessageList.tsx`, `MessageBubble.tsx`.
@@ -37,13 +39,12 @@
 - **Phase 1 "Backend API Proxy (Next.js)" fully completed (originally for Gemini, now adapted for OpenRouter).**
 
 ## Next Steps
-1.  **Thoroughly test the `mobile-app` with the updated OpenRouter backend.**
-    *   Ensure `GeminiApiService.ts` (or its renamed version) correctly calls the API.
-    *   Verify all chat functionalities (sending, receiving, loading, errors, feedback icons) work as expected.
-2.  **Rename `mobile-app/src/services/GeminiApiService.ts`** to something more generic like `ApiService.ts` or `OpenRouterApiService.ts` to reflect the backend change.
+1.  **OpenRouter Backend Integration Verified:** The `mobile-app` is now successfully communicating with the OpenRouter backend via the `api-server`.
+2.  **Consider API Service Naming:** `mobile-app/src/services/ChatApiService.ts` is current. Confirm if this name is suitable long-term or if `OpenRouterApiService.ts` would be clearer.
 3.  **Proceed with Phase 3: Localization (Task 3.1: Integrate i18next).**
 4.  **Proceed with Phase 4: UX Feedback Mechanisms (Task 4.1: Full Thumbs-up/down logic, Task 4.2: Retry, Task 4.3: Refine errors).**
-5.  **Ensure Expo Go iOS Compatibility (Task 2.5 - Ongoing).**
+5.  **Ensure Expo Go iOS Compatibility (Task 2.5 - Core communication stable, ongoing for other features).**
+6.  **Address new user requests (e.g., Scribd data scraping).**
 
 ## Active Decisions & Considerations
 - **Expo Go Compatibility (SDK 53):** Remains paramount.

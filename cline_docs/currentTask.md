@@ -1,7 +1,7 @@
 # Current Task: AI Provider Switched to OpenRouter
 
 ## Current Objective
-The AI provider for the backend API has been successfully switched from Google Gemini to OpenRouter. This allows for testing responses from various AI models.
+The AI provider for the backend API has been successfully switched from Google Gemini to OpenRouter, and this integration is now fully tested and functional with the mobile app. An API key configuration issue encountered during testing has been resolved.
 
 ## Context
 -   **Overall Project:** KhaRom MVP development.
@@ -25,18 +25,13 @@ The AI provider for the backend API has been successfully switched from Google G
     -   `cline_docs/codebaseSummary.md`
     -   This file (`cline_docs/currentTask.md`).
 
-## Next Steps
-1.  **Testing:**
-    *   User to set actual `OPENROUTER_API_KEY` in `api-server/.env.local`.
-    *   User to set `OPENROUTER_API_KEY` and `OPENROUTER_DEFAULT_MODEL` in Vercel environment variables for the `api-server` deployment.
-    *   Redeploy `api-server` to Vercel.
-    *   Thoroughly test the `/api/chat` endpoint (e.g., using Postman or curl).
-    *   Test the full chat functionality with the mobile app connecting to the updated backend.
-2.  **Resume Planned Tasks:** Once OpenRouter integration is confirmed working, proceed with:
-    *   **Phase 3: Localization (Task 3.1: Integrate i18next)**.
-    *   **Phase 4: UX Feedback Mechanisms (Task 4.1: Full Thumbs-up/down logic, Task 4.2: Retry, Task 4.3: Refine errors)**.
-3.  **Update Documentation:**
-    *   Update `memory-bank/progress.md` and `memory-bank/activeContext.md` after testing and resuming planned tasks.
+## Next Steps (API Migration Task Completed)
+1.  **OpenRouter Integration Confirmed:** The OpenRouter backend is now working correctly with the mobile app.
+2.  **Resume Planned Tasks or Address New Requests:** We can now:
+    *   Proceed with **Phase 3: Localization (Task 3.1: Integrate i18next)**.
+    *   Or proceed with **Phase 4: UX Feedback Mechanisms**.
+    *   Or address other user requests, such as the training data scraping task.
+3.  **Documentation Updated:** `memory-bank/progress.md` and `memory-bank/activeContext.md` will be updated to reflect these changes.
 
 ## Active Decisions & Considerations
 -   The mobile app's `GeminiApiService.ts` was not changed in this step; the backend handles the adaptation. Consider renaming this service if it becomes confusing.
