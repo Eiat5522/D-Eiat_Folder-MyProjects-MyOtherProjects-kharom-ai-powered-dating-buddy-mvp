@@ -1,32 +1,15 @@
-import type { NextConfig } from 'next';
+import { NextConfig } from 'next';
 
-const nextConfig: NextConfig = {
-  experimental: {
-    serverActions: {
-      bodySizeLimit: '2mb',
-    },
+const config: NextConfig = {
+  reactStrictMode: true,
+  swcMinify: true,
+  images: {
+    domains: ['openrouter.ai'],
   },
-  eslint: {
-    ignoreDuringBuilds: true,
+  env: {
+    OPENROUTER_API_KEY: process.env.OPENROUTER_API_KEY || '',
+    OPENROUTER_DEFAULT_MODEL: process.env.OPENROUTER_DEFAULT_MODEL || 'mistralai/mistral-small-24b-instruct-2501',
   },
-  async headers() {
-    return [
-      {
-        source: '/api/:path*',
-        headers: [
-          { key: 'Access-Control-Allow-Origin', value: '*' },
-          { key: 'Access-Control-Allow-Methods', value: 'POST' },
-          { key: 'Access-Control-Allow-Headers', value: 'Content-Type' },
-        ],
-      },
-    ];
-  },
-  typescript: {
-    ignoreBuildErrors: true,
-  },
-  distDir: '.next',
-  poweredByHeader: false,
-  generateEtags: false,
 };
 
-export default nextConfig;
+export default config;
