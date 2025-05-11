@@ -1,30 +1,30 @@
 # Project Progress
 
-## Current Status: AI Provider Switched to OpenRouter
-- **Overall:** KhaRom MVP Phase 0 & 1 complete. Phase 2 (Core Chat UI & Logic) is largely complete. AI Provider switched from Google Gemini to OpenRouter.
+## Current Status: AI Provider Switched to OpenRouter, Initial Testing Done
+- **Overall:** KhaRom MVP Phase 0 & 1 complete. Phase 2 (Core Chat UI & Logic) is largely complete. AI Provider switched from Google Gemini to OpenRouter. Tailwind CSS issues in `api-server` resolved. Playwright tests removed.
 - **`mobile-app` successfully upgraded to Expo SDK 53.**
 - **`react-native-safe-area-context` successfully integrated.**
-- **Core chat flow (send message, display user message, call API, display AI message, loading/error states, feedback icons) is functional in Expo Go (pending backend test with OpenRouter).**
+- **Core chat flow (send message, display user message, call API, display AI message, loading/error states, feedback icons) is functional in Expo Go (pending full testing with OpenRouter backend).**
 - **Task 2.1 (Chat Screen UI), Task 2.2 (MessageBubble feedback icons), Task 2.3 (API Integration), and Task 2.4 (Basic Loading/Error States) are complete.**
-- **OpenRouter integration in `api-server` complete (code changes).**
+- **OpenRouter integration in `api-server` complete (code changes and system prompt for "Thai Dating Guru").**
+- **Manual `curl` testing of the OpenRouter API endpoint is successful.**
 
 ## What Works
 -   **Project Definition:** Clear understanding of MVP scope, features, users, and constraints.
--   **Core Documentation:** Memory Bank and `cline_docs` established and updated (being updated for OpenRouter).
--   **Version Control:** Basic Git setup with initial project files pushed to GitHub.
+-   **Core Documentation:** Memory Bank and `cline_docs` established and updated for OpenRouter migration and Playwright removal.
+-   **Version Control:** Git setup with all recent changes pushed to GitHub.
 -   **Mobile App Foundation (SDK 53):**
     -   The `mobile-app` (React Native Expo SDK 53) project is scaffolded and previewable in Expo Go.
     -   ESLint and Prettier configured.
-    -   Core dependencies: `expo: "^53.0.0"`, `react: "19.0.0"`, `react-native: "0.79.2"`, `expo-status-bar: "^2.2.3"`.
-    -   `react-native-safe-area-context` integrated and working.
-    -   `react-native-svg` used for icons (though `package.json` update was problematic, it's functionally working).
-    -   **Chat functionality:** Sending messages, displaying user/AI messages, API calls to backend, basic loading/error indicators, and feedback icons on AI messages are operational (will connect to OpenRouter backend).
+    -   Core dependencies installed.
+    -   **Chat functionality:** Core UI and logic for sending/receiving messages, loading/error states, and feedback icons are operational (will connect to OpenRouter backend).
 -   **API Server Foundation (Updated for OpenRouter):**
-    -   Next.js v15.3.2 project scaffolded with linting/formatting.
-    -   Working `/api/chat` endpoint now integrated with OpenRouter using the OpenAI SDK.
-    -   Environment variables for OpenRouter API key and default model configured.
-    -   Comprehensive error handling and logging adapted for OpenRouter.
-    -   Deployed to Vercel: `https://d-eiat-folder-my-projects-my-other-projects-eiat5522s-projects.vercel.app/api/chat` (This deployment will need to be updated with new env vars and code).
+    -   Next.js v15.3.2 project with working OpenRouter integration via OpenAI SDK.
+    -   "Thai Dating Guru" system prompt implemented.
+    -   Environment variables for OpenRouter API key and default model (`mistralai/mistral-small-24b-instruct-2501`) configured.
+    -   Comprehensive error handling and logging.
+    -   Tailwind CSS configuration fixed.
+    -   Deployed to Vercel: `https://d-eiat-folder-my-projects-my-other-projects-eiat5522s-projects.vercel.app/api/chat`. Manual `curl` tests confirm it responds in Thai.
 
 ## What's Left to Build (High-Level MVP Goals)
 
@@ -41,18 +41,17 @@
 -   [x] **Task 1.3:** Implement error handling for Gemini calls.
 -   [x] **Task 1.4:** Deploy to Vercel.
 
-### Phase X: AI Provider Migration to OpenRouter (Completed 2025-05-11 - Code/Config)
--   [x] **Task X.1:** Configure OpenRouter API Key & Default Model (`.env.local` created, Vercel env vars to be set by user).
+### Phase X: AI Provider Migration & API Server Updates (Completed 2025-05-11)
+-   [x] **Task X.1:** Configure OpenRouter API Key & Default Model.
 -   [x] **Task X.2:** Install OpenAI SDK in `api-server`.
--   [x] **Task X.3:** Modify API Route for OpenRouter (`api-server/src/app/api/chat/route.ts` updated).
--   [ ] **Task X.4:** Update all project documentation (In Progress).
--   [ ] **Task X.5:** Test OpenRouter Integration thoroughly.
+-   [x] **Task X.3:** Modify API Route for OpenRouter & implement "Thai Dating Guru" persona.
+-   [x] **Task X.4:** Update all project documentation.
+-   [x] **Task X.5:** Test OpenRouter Integration (Manual `curl` testing successful).
+-   [x] **Task X.6:** Resolve Tailwind CSS build issues in `api-server`.
+-   [x] **Task X.7:** Remove Playwright testing setup from `api-server`.
 
 ### Phase 2: Core Chat UI & Logic (React Native - SDK 53)
 -   [x] **Task 2.1:** Implement Chat Screen UI (Message Input, List).
-    -   [x] Created `ChatScreen.tsx`, `MessageList.tsx`, `MessageBubble.tsx`, `MessageInput.tsx`.
-    -   [x] Integrated components and updated `App.tsx`.
-    -   [x] Successfully upgraded `mobile-app` to Expo SDK 53 and confirmed preview in Expo Go.
 -   [x] **Task 2.1.1 (Sub-task):** Incrementally re-add necessary UI/UX dependencies:
     -   [x] `react-native-safe-area-context` (Integrated 2025-05-10)
     -   [ ] `react-native-gesture-handler` (Deferred 2025-05-10, to be added if needed for MVP)
@@ -60,7 +59,7 @@
 -   [x] **Task 2.2:** Develop/Refine `MessageItem`/`MessageBubble.tsx` component (Feedback icons added 2025-05-10).
 -   [x] **Task 2.3:** Integrate API service (Points to backend, which now uses OpenRouter).
 -   [x] **Task 2.4:** Implement loading states and basic error display (Basic implementation 2025-05-10).
--   [ ] **Task 2.5:** Ensure Expo Go iOS compatibility (Ongoing, especially after backend change).
+-   [ ] **Task 2.5:** Ensure Expo Go iOS compatibility (Ongoing, especially after backend change and with full mobile app testing).
 
 ### Phase 3: Language Toggle & Localization (React Native)
 -   [ ] **Task 3.1:** Integrate i18next.
@@ -73,7 +72,7 @@
 -   [ ] **Task 4.3:** Refine user-facing error messages.
 
 ### Phase 5: Testing & Refinement
--   [ ] **Task 5.1:** Comprehensive testing in Expo Go with OpenRouter backend.
+-   [ ] **Task 5.1:** Comprehensive testing of `mobile-app` with OpenRouter backend in Expo Go.
 -   [ ] **Task 5.2:** Bug fixing and performance optimization.
 -   [ ] **Task 5.3:** Code reviews.
 
@@ -83,25 +82,20 @@
     -   Original 3 low severity vulnerabilities from SDK 51 setup might still be present or new ones introduced with SDK 53; to be reviewed later.
 -   **Expo Go Preview with iPhone Hotspot:** Potential connectivity issues persist if using the same iPhone for hotspot and Expo Go preview.
 -   **Ngrok Tunneling:** Encountered `EPERM` errors with Ngrok when trying to use `--tunnel` with Expo CLI. Testing on local network is the current workaround.
--   **Vercel Deployment:** Needs to be updated with new OpenRouter environment variables and the latest code for `api-server`.
+-   **Vercel Deployment:** API server is deployed and manually tested. Full mobile app integration testing pending.
 
 ## Evolution of Project Decisions
 -   **2025-05-11:**
-    -   Switched AI provider from Google Gemini to OpenRouter to allow testing of various models.
-    -   Updated `api-server` to use OpenAI SDK with OpenRouter.
-    -   Configured new environment variables: `OPENROUTER_API_KEY`, `OPENROUTER_DEFAULT_MODEL`.
+    -   Switched AI provider from Google Gemini to OpenRouter.
+    -   Updated `api-server` to use OpenAI SDK with OpenRouter and "Thai Dating Guru" persona.
+    -   Configured `mistralai/mistral-small-24b-instruct-2501` as default model.
+    -   Resolved Tailwind CSS build issues.
+    -   Removed Playwright testing setup.
+    -   Manually tested API with `curl`.
 -   **2025-05-10 (Evening):**
-    -   Started Phase 2, Task 2.1 (Basic Chat UI).
-    -   Encountered significant issues upgrading `mobile-app` from Expo SDK 51 to SDK 53.
-    -   **Successfully resolved SDK 53 upgrade issues.**
-    -   **Integrated `react-native-safe-area-context`.**
-    -   **Decided to defer `react-native-gesture-handler` and `react-native-reanimated`.**
-    -   **Implemented core chat functionality (Tasks 2.2, 2.3, 2.4) with Gemini.**
+    -   Implemented core chat functionality (Tasks 2.2, 2.3, 2.4) with Gemini.
+    -   Successfully resolved SDK 53 upgrade issues for `mobile-app`.
 -   **2025-05-10 (Morning - Afternoon):**
-    -   Created `api-server` with Next.js v15.3.2.
-    -   Configured ESLint/Prettier for both projects.
-    -   Completed Phase 0 setup.
-    -   Completed Phase 1 (Backend API Proxy for Gemini).
+    -   Completed Phase 0 (Setup) and Phase 1 (Backend API Proxy for Gemini).
 -   **2025-05-09:**
     -   Project initiated.
-    -   Initial scaffolding and vulnerability issues with `mobile-app`.

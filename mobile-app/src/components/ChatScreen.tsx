@@ -2,7 +2,7 @@ import React, { useState, useCallback } from 'react';
 import { View, StyleSheet, SafeAreaView, Text, ActivityIndicator, Button } from 'react-native';
 import MessageList from './MessageList';
 import MessageInput from './MessageInput';
-import { sendMessageToAI, ChatMessage, ChatResponse } from '../services/GeminiApiService'; // Adjusted path
+import { sendMessageToAI, ChatMessage, ChatResponse } from '../services/ChatApiService'; // Adjusted path
 
 const ChatScreen: React.FC = () => {
   const [messages, setMessages] = useState<ChatMessage[]>([]);
