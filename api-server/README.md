@@ -1,93 +1,58 @@
-# KhaRom API Server (Next.js)
+# KhaRom API Server
 
-This directory contains the Next.js backend API for the KhaRom project. It acts as a secure proxy to the Google Gemini API, handling AI-powered chat message generation.
+## Environment Variables
 
-## ✨ Features
--   Securely proxies requests to the Google Gemini API.
--   Manages the `GEMINI_API_KEY` via environment variables.
--   Provides the `/api/chat` endpoint for the mobile application.
--   Includes robust error handling and content safety checks.
--   Deployed on Vercel.
+The following environment variables need to be set in your Vercel deployment:
 
-## 🛠️ Tech Stack
--   **Framework:** Next.js (v15.3.2 with App Router)
--   **Language:** TypeScript
--   **AI Service:** Google Gemini
--   **Deployment:** Vercel
+```
+OPENROUTER_API_KEY=your_api_key_here
+OPENROUTER_DEFAULT_MODEL=mistralai/mistral-small-24b-instruct-2501
+```
 
-## 🚀 Getting Started
+## Development
 
-### Prerequisites
--   Node.js (LTS version recommended)
--   npm or yarn
+1. Install dependencies:
+```bash
+npm install
+```
 
-### Setup Instructions
+2. Create a `.env.local` file with the required environment variables.
 
-1.  **Navigate to the `api-server` directory:**
-    ```bash
-    cd api-server 
-    # (If you are in the project root)
-    ```
+3. Run the development server:
+```bash
+npm run dev
+```
 
-2.  **Install dependencies:**
-    ```bash
-    npm install
-    # or
-    # yarn install
-    ```
+## Testing
 
-3.  **Set up Environment Variables:**
-    -   Create a file named `.env.local` in the `api-server/` directory.
-    -   Add your Google Gemini API key to this file:
-        ```env
-        GEMINI_API_KEY=YOUR_GEMINI_API_KEY
-        ```
-    -   Replace `YOUR_GEMINI_API_KEY` with your actual key. This file is gitignored and should not be committed.
+Run the end-to-end tests:
+```bash
+npm run test:e2e
+```
 
-4.  **Run the development server:**
-    ```bash
-    npm run dev
-    # or
-    # yarn dev
-    ```
-    The API server will start, typically on `http://localhost:3000`.
+## API Endpoints
 
-## API Endpoint
+### POST /api/chat
+Send chat messages to the AI model.
 
-### `/api/chat`
--   **Method:** `POST`
--   **Description:** Receives a user's message prompt and returns an AI-generated Thai chat response from Google Gemini.
--   **Request Body:**
-    ```json
-    {
-      "prompt": "Your message prompt here"
-    }
-    ```
--   **Success Response (200 OK):**
-    ```json
-    {
-      "reply": "AI-generated Thai message",
-      "error": null
-    }
-    ```
--   **Error Response (e.g., 400, 401, 429, 500, 503):**
-    ```json
-    {
-      "reply": null,
-      "error": "User-friendly error message",
-      "blocked": boolean, // Optional: true if content was blocked
-      "blockReason": "Reason for block" // Optional: reason if content was blocked
-    }
-    ```
+Request body:
+```json
+{
+  "prompt": "Your message here"
+}
+```
 
-## ⚙️ Configuration
--   **ESLint & Prettier:** Configured for code linting and formatting. Use `npm run lint` or `npm run lint:fix`.
--   **TypeScript:** Strict mode enabled for better code quality.
+Response:
+```json
+{
+  "reply": "AI response here",
+  "error": null
+}
+```
 
-## 🌐 Deployment
--   This API is automatically deployed to **Vercel** upon pushes to the `main` branch of the GitHub repository.
--   The `GEMINI_API_KEY` environment variable must be configured in the Vercel project settings for the deployed application to function.
--   **Production Endpoint:** `https://d-eiat-folder-my-projects-my-other-projects-eiat5522s-projects.vercel.app/api/chat`
-
-## 🤝 Contributing
-Refer to the main project `README.md` in the root directory for overall project contribution guidelines.
+Or in case of error:
+```json
+{
+  "reply": null,
+  "error": "Error message here"
+}
