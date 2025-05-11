@@ -4,9 +4,9 @@
 Develop a Minimum Viable Product (MVP) of the KhaRom mobile AI chat application, focusing on core functionality and full compatibility with Expo Go on iOS. The app will help users craft confident, culturally nuanced Thai chat messages for dating scenarios.
 
 ## Key Features for MVP
--   [x] AI-Powered Chat Interface (Thai-only AI responses) (Core implemented)
+-   [ ] AI-Powered Chat Interface (Thai-only AI responses)
 -   [ ] UI Language Toggle (Thai/English)
--   [x] Robust UX Feedback (Error handling, retries, thumbs-up/down for AI replies) (Basic error handling and feedback icons implemented)
+-   [ ] Robust UX Feedback (Error handling, retries, thumbs-up/down for AI replies)
 
 ## Completion Criteria for MVP
 -   All core features are implemented and functional.
@@ -14,29 +14,29 @@ Develop a Minimum Viable Product (MVP) of the KhaRom mobile AI chat application,
 -   Basic UI is intuitive and user-friendly.
 -   Next.js API proxy for Gemini is deployed and operational.
 -   API keys are securely managed.
--   Core documentation (Memory Bank, cline_docs) is established and current.
+-   Core documentation (Memory Bank, cline_docs) is established.
 
 ## Phases & High-Level Tasks
 
 ### Phase 0: Project Initialization & Setup
--   [x] **Task 0.1:** Initialize Memory Bank (Completed 2025-05-09)
+-   [x] **Task 0.1:** Initialize Memory Bank
     -   [x] Create `projectbrief.md`
     -   [x] Create `productContext.md`
     -   [x] Create `activeContext.md`
     -   [x] Create `systemPatterns.md`
     -   [x] Create `techContext.md`
-    -   [x] Create `progress.md`
+    -   [x] Create `progress.md` (and update with current date)
     -   [x] Initialize Knowledge Graph with core entities and relationships.
--   [x] **Task 0.2:** Initialize `cline_docs` (Completed 2025-05-09)
+-   [x] **Task 0.2:** Initialize `cline_docs`
     -   [x] Create `projectRoadmap.md` (This document)
     -   [x] Create `currentTask.md`
     -   [x] Create `techStack.md`
-    -   [x] Create `codebaseSummary.md`
+    -   [x] Create `codebaseSummary.md` (Completed 2025-05-09)
 -   [x] **Task 0.3:** Setup Project Repositories & Structure (Completed 2025-05-10)
-    -   [x] Initialize Git repository on GitHub.
-    -   [x] Set up React Native (Expo Bare) project structure (Initial setup SDK 51, then upgraded to SDK 53 on 2025-05-10).
-    -   [x] Set up Next.js API project structure.
-    -   [x] Configure ESLint and Prettier for both projects.
+    -   [x] Initialize Git repository on GitHub. (Includes initial commit of docs & README, 2025-05-09)
+    -   [x] Set up React Native (Expo Bare) project structure. (Aligned to SDK 51, 3 low vulnerabilities, runnable. 2025-05-09)
+    -   [x] Set up Next.js API project structure. (Completed 2025-05-10)
+    -   [x] Configure ESLint and Prettier for both projects. (Completed 2025-05-10)
 
 ### Phase 1: Backend API Proxy (Next.js)
 -   [x] **Task 1.1:** Develop `/api/chat` endpoint. (Completed 2025-05-10)
@@ -53,7 +53,7 @@ Develop a Minimum Viable Product (MVP) of the KhaRom mobile AI chat application,
     -   [x] `react-native-safe-area-context` (Integrated 2025-05-10)
     -   [ ] `react-native-gesture-handler` (Deferred 2025-05-10, to be added if needed for MVP)
     -   [ ] `react-native-reanimated` (Deferred 2025-05-10, to be added if needed for MVP)
--   [x] **Task 2.2:** Develop/Refine `MessageBubble.tsx` component (Feedback icons added 2025-05-10).
+-   [x] **Task 2.2:** Develop/Refine `MessageItem`/`MessageBubble.tsx` component (Feedback icons added 2025-05-10).
 -   [x] **Task 2.3:** Integrate API service for Gemini proxy (Implemented 2025-05-10).
 -   [x] **Task 2.4:** Implement loading states and basic error display (Basic implementation 2025-05-10).
 -   [ ] **Task 2.5:** Ensure Expo Go iOS compatibility (Ongoing).
@@ -64,9 +64,9 @@ Develop a Minimum Viable Product (MVP) of the KhaRom mobile AI chat application,
 -   [ ] **Task 3.3:** Implement UI language toggle.
 
 ### Phase 4: UX Feedback Mechanisms (React Native)
--   [ ] **Task 4.1:** Implement full logic for thumbs-up/down feedback in `MessageBubble.tsx`.
--   [ ] **Task 4.2:** Implement retry mechanism for failed messages.
--   [ ] **Task 4.3:** Refine user-facing error messages for clarity and cultural appropriateness.
+-   [ ] **Task 4.1:** Add thumbs-up/down to `MessageItem`.
+-   [ ] **Task 4.2:** Implement retry mechanism.
+-   [ ] **Task 4.3:** Refine user-facing error messages.
 
 ### Phase 5: Testing & Refinement
 -   [ ] **Task 5.1:** Comprehensive testing in Expo Go.
@@ -76,12 +76,12 @@ Develop a Minimum Viable Product (MVP) of the KhaRom mobile AI chat application,
 ## Completed Tasks
 -   **Task 0.1:** Initialize Memory Bank (All sub-tasks completed on 2025-05-09)
 -   **Task 0.2:** Initialize `cline_docs` (All sub-tasks completed on 2025-05-09)
--   **Task 0.3:** Setup Project Repositories & Structure (Completed 2025-05-10, SDK 53 upgrade 2025-05-10)
+-   **Task 0.3:** Setup Project Repositories & Structure (Completed 2025-05-10)
 -   **Task 1.1:** Develop `/api/chat` endpoint. (Completed 2025-05-10)
 -   **Task 1.2:** Implement secure proxy to Google Gemini. (Completed 2025-05-10)
 -   **Task 1.3:** Implement error handling for Gemini calls. (Completed 2025-05-10)
 -   **Task 1.4:** Deploy to Vercel. (Completed 2025-05-10)
--   **Task 2.1:** Implement Chat Screen UI (Message Input, List) & Upgrade to SDK 53. (Completed 2025-05-10)
+-   **Task 2.1:** Implement Chat Screen UI (Message Input, List). (Completed 2025-05-10)
 -   **Task 2.1.1:** `react-native-safe-area-context` integration. (Completed 2025-05-10)
 -   **Task 2.2:** Refine `MessageBubble.tsx` (Feedback icons). (Completed 2025-05-10)
 -   **Task 2.3:** Integrate API service. (Completed 2025-05-10)

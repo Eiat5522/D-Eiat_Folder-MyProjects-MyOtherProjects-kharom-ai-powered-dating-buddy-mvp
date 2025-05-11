@@ -1,21 +1,14 @@
 import React from 'react';
 import { View, FlatList, StyleSheet } from 'react-native';
 import MessageBubble from './MessageBubble';
+import { ChatMessage } from '../services/GeminiApiService'; // Import ChatMessage type
 
-type Message = {
-  id: string;
-  text: string;
-  isUser: boolean;
-  timestamp: Date;
-};
+interface MessageListProps {
+  messages: ChatMessage[];
+  onFeedback: (messageId: string | undefined, type: 'up' | 'down') => void; // Add onFeedback prop
+}
 
-const MessageList: React.FC = () => {
-  // Temporary mock data - will be replaced with actual data later
-  const messages: Message[] = [
-    { id: '1', text: 'Hello!', isUser: true, timestamp: new Date() },
-    { id: '2', text: 'Hi there! How can I help you today?', isUser: false, timestamp: new Date(Date.now() + 1000) },
-  ];
-
+const MessageList: React.FC<MessageListProps> = ({ messages, onFeedback }) => {
   return (
     <View style={styles.container}>
       <FlatList
@@ -23,9 +16,11 @@ const MessageList: React.FC = () => {
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
           <MessageBubble
+            messageId={item.id} // Pass messageId
             text={item.text}
             isUser={item.isUser}
             timestamp={item.timestamp}
+            onFeedback={onFeedback} // Pass onFeedback prop
           />
         )}
         inverted // To show latest messages at the bottom

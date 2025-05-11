@@ -8,15 +8,11 @@ This document outlines the key technology choices and architectural decisions fo
 -   **Framework:** React Native (Expo Bare Workflow - SDK 53)
     -   **Current Version:** Expo SDK 53.0.0 (e.g., `expo: ^53.0.0`, `react-native: 0.79.2`, `react: 19.0.0`)
     -   **Justification:** Upgraded to SDK 53 for latest features, better stability, and ongoing Expo Go iOS compatibility. The "Bare" workflow (via `expo prebuild`) provides native project access.
--   **Language:** TypeScript (Compatible with Expo SDK 53, e.g., `typescript: ^5.3.0` or as per `npx expo install --fix`)
+-   **Language:** TypeScript (`^5.8.3` or compatible with SDK 53)
     -   **Justification:** Enhances code quality, maintainability, and developer experience through static typing.
 -   **Styling:** React Native `StyleSheet` API (Default)
     -   **Justification:** Standard for React Native. Tailwind CSS might be considered via compatible libraries if a strong preference emerges, but `StyleSheet` is the baseline.
--   **UI Components/Libraries:**
-    -   `react-native-safe-area-context`: For handling safe areas on various devices.
-    -   `react-native-svg`: For using SVG icons (e.g., feedback icons).
-    -   `@expo/vector-icons`: For common icon sets.
--   **Localization:** i18next with `react-i18next` (Planned)
+-   **Localization:** i18next with `react-i18next`
     -   **Justification:** Robust and widely-used library for internationalization, supporting the Thai/English UI toggle requirement.
 
 ### Backend API (Proxy)
@@ -30,16 +26,15 @@ This document outlines the key technology choices and architectural decisions fo
 
 ### AI Service
 -   **Provider:** Google Gemini
-    -   **SDK:** `@google/generative-ai` (e.g., `^0.3.0` or latest compatible) for Node.js in the backend.
     -   **Justification:** Specified as the AI engine for generating Thai language chat responses.
 
 ## Deployment Platforms
 -   **Mobile App (React Native):**
     -   **Testing:** Expo Go (iOS primary)
-    -   **Builds:** EAS Build (Expo Application Services) (Planned for future)
+    -   **Builds:** EAS Build (Expo Application Services)
     -   **Justification:** Standard Expo ecosystem tools for development, testing, and deployment.
--   **Backend API (Next.js):** Vercel
-    -   **Justification:** Specified for its seamless integration with Next.js, serverless capabilities, and ease of environment variable management for API keys. Automatic deployments on merge to `main` branch are configured.
+-   **Backend API (Next.js):** Vercel or Railway
+    -   **Justification:** Specified for their seamless integration with Next.js, serverless capabilities, and ease of environment variable management for API keys. Automatic deployments on merge to `main` branch will be configured.
 
 ## Version Control
     -   **System:** Git
@@ -55,13 +50,13 @@ This document outlines the key technology choices and architectural decisions fo
 -   **`api-server` (Next.js):**
     -   **ESLint:** Default Next.js setup (using flat config `eslint.config.mjs`), extended with `plugin:prettier/recommended`.
     -   **Prettier:** Standard configuration, includes `prettier-plugin-tailwindcss`.
-    -   **Files:** `eslint.config.mjs`, `.prettierrc.js`.
+    -   **Files:** `eslint.config.mjs`, `.prettierrc.js`. (Next.js handles ignores well by default, specific ignore files can be added if needed).
 
 ## Key Architectural Decisions
--   **Decoupled Frontend and Backend:** The React Native app and Next.js API are separate entities, communicating via HTTP requests.
--   **Secure API Proxy:** The Next.js backend acts as a crucial security layer, protecting the Google Gemini API key.
--   **Stateless API:** The Next.js API proxy is designed to be stateless for the MVP.
--   **Expo Go First:** Development and testing prioritize full functionality within the Expo Go iOS environment with SDK 53.
--   **Progressive Complexity for State Management (Frontend):** Start with React's built-in state management.
+-   **Decoupled Frontend and Backend:** The React Native app and Next.js API are separate entities, communicating via HTTP requests. This promotes separation of concerns.
+-   **Secure API Proxy:** The Next.js backend acts as a crucial security layer, protecting the Google Gemini API key. The client application will never directly access or store this key.
+-   **Stateless API:** The Next.js API proxy will be designed to be stateless for the MVP, simplifying scalability and deployment.
+-   **Expo Go First:** Development and testing will prioritize full functionality within the Expo Go iOS environment. Any library or feature considered must be vetted for Expo Go compatibility.
+-   **Progressive Complexity for State Management (Frontend):** Start with React's built-in state management (`useState`, `useReducer`, Context API). More complex solutions (Zustand, Redux Toolkit) will only be considered if application complexity demonstrably requires them post-MVP.
 
 This document will be updated if significant technology decisions change.

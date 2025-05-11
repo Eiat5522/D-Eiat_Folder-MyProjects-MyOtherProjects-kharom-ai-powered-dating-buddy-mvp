@@ -1,64 +1,77 @@
 # Active Context
 
 ## Current Work Focus
--   **Addressing Gemini Language Bias:** The primary focus remains on resolving the issue where the `gemini-1.5-flash-latest` model responds in the user's input language instead of consistently in Thai.
-    -   **Attempted Strategies (2025-05-11):**
-        -   Combined strengthened `systemInstruction` and prompt wrapping (Task ID: `1746904477439`).
-        -   Added chat history priming to the above.
-    -   **Result:** These strategies were **not sufficient**; the model still replied in English to English prompts.
--   **Implemented Strategy (2025-05-11):** Implemented a two-step translation fallback mechanism (Task ID: `1746904295417`) in `api-server/src/app/api/chat/route.ts`. This involves detecting non-Thai responses and making a second Gemini call for translation.
--   **Mobile App (`mobile-app`):** Expo SDK 53. Core chat functionality (Tasks 2.1-2.4) is implemented.
--   **Git:** `main` branch will be updated with the translation fallback logic.
+- Successfully upgraded `mobile-app` to **Expo SDK 53**.
+- Successfully integrated `react-native-safe-area-context` into `mobile-app`.
+- **Core chat functionality (sending messages, receiving AI replies, basic loading/error states, feedback icons) implemented and tested successfully in Expo Go (iOS) as of 2025-05-10.** This covers Task 2.2 (feedback icons), Task 2.3 (API integration), and initial parts of Task 2.4 (loading/error states).
+- Continuing with **Phase 2: Core Chat UI & Logic (React Native)** from `projectRoadmap.md`.
+- Integration of `react-native-gesture-handler` and `react-native-reanimated` remains deferred.
+- Next immediate steps focus on **Phase 3 (Localization)** and further refinement of **Phase 4 (UX Feedback)**.
 
 ## Recent Changes
--   **(2025-05-11 - Implemented Two-Step Translation Fallback):**
-    -   Modified `api-server/src/app/api/chat/route.ts` to include:
-        -   A new system instruction for translation.
-        -   Logic to get the initial AI response.
-        -   A heuristic (character-based) to detect if the response is likely not in Thai.
-        -   If not Thai, a second call to the Gemini model to translate the AI's previous (non-Thai) response into Thai.
-        -   Error handling for the translation step.
-    -   This addresses Task ID: `1746904295417`.
--   **(2025-05-11 - Language Bias Mitigation Attempts - Failed):**
-    -   Implemented and tested chat history priming in `api-server/src/app/api/chat/route.ts`, in addition to strengthened system instructions and prompt wrapping.
-    -   Tested against Vercel deployment; AI still responded in English to English prompts.
--   **(2025-05-11 - Previous - Planning for Language Bias):**
-    -   Investigated the Gemini language bias issue.
-    -   Formulated initial plans (strengthening system instructions, prompt wrapping).
--   **(2025-05-11 - System Prompt & Git - Earlier):**
-    -   Integrated initial system prompt for KhaRom AI persona.
--   **(2025-05-10 - Core Chat Functionality Implementation - Tasks 2.1, 2.2, 2.3, 2.4):**
-    -   Core chat UI and API integration completed.
--   **(2025-05-10 - Dependency Management & SDK 53 Upgrade):**
-    -   `mobile-app` upgraded to Expo SDK 53.
--   **(Previously on 2025-05-10 - Phase 1 Completion):**
-    -   Backend API Proxy (Next.js) completed and deployed.
+- **(2025-05-10 - API Integration, MessageBubble Refinement, Basic States - Tasks 2.2, 2.3, 2.4):**
+    - Created `mobile-app/src/services/GeminiApiService.ts` to handle API calls.
+    - Updated `ChatScreen.tsx` to manage message state, call the API service, and handle loading/error states.
+    - Updated `MessageInput.tsx` to use the `onSend` prop from `ChatScreen.tsx`.
+    - Updated `MessageList.tsx` to display dynamic messages and pass `onFeedback` prop.
+    - Updated `MessageBubble.tsx` to use inline SVGs for feedback icons (after `lucide-react-native` issues) and connect to `onFeedback` handler.
+    - Successfully tested sending messages, receiving AI replies, loading indicators, basic error display, and feedback icon visibility.
+- **(2025-05-10 - Dependency Management Update):**
+    - Decided to defer integration of `react-native-gesture-handler` and `react-native-reanimated`.
+    - Pivoted to using `react-native-svg` for icons due to issues with `lucide-react-native` installation/peer dependencies.
+- **(2025-05-10 - `react-native-safe-area-context` Integration):**
+    - Installed `react-native-safe-area-context`.
+    - Updated `mobile-app/App.tsx` to use `SafeAreaProvider`.
+    - Verified successful integration.
+- **(Previously on 2025-05-10 - SDK 53 Upgrade & Basic Preview):**
+    - **Expo SDK 53 Upgrade:**
+        - Resolved multiple dependency and configuration issues to make `mobile-app` compatible with Expo SDK 53.
+        - Simplified `App.tsx` and `package.json` to a minimal working set:
+            - `expo: "^53.0.0"`
+            - `react: "19.0.0"`
+            - `react-native: "0.79.2"`
+            - `expo-status-bar: "^2.2.3"`
+        - Updated `app.json` to reflect `sdkVersion: "53.0.0"` and removed problematic plugins temporarily.
+        - Updated `babel.config.js` to a minimal configuration.
+        - Ensured `metro.config.js` uses the default Expo config.
+    - **App Previewable:** Confirmed that the `mobile-app` with the simplified setup and SDK 53 can be previewed in Expo Go.
+    - **Task 2.1 "Implement Chat Screen UI (Message Input, List)" remains complete:**
+        - `ChatScreen.tsx`, `MessageList.tsx`, `MessageBubble.tsx`, `MessageInput.tsx` are structurally in place.
+        - `App.tsx` renders `ChatScreen`.
+- **Phase 1 "Backend API Proxy (Next.js)" fully completed:**
+    - Production API endpoint: `https://d-eiat-folder-my-projects-my-other-projects-eiat5522s-projects.vercel.app/api/chat`
 
-## Next Steps (Immediate & Upcoming)
-1.  **Test Two-Step Translation Fallback (Task ID: `1746904295417`):**
-    *   Thoroughly test the implemented fallback mechanism in `api-server/src/app/api/chat/route.ts` with various non-Thai inputs.
-    *   Deploy to Vercel for comprehensive testing.
-    *   Assess effectiveness, latency, and potential cost implications in practice.
-2.  **Update Documentation (Ongoing):**
-    *   Reflect the implementation details and testing outcomes of the fallback mechanism in all relevant `cline_docs` and `memory-bank` files.
-    *   Commit and push all code and documentation updates to GitHub.
-3.  **Proceed with Phase 3: Localization (Task 3.1: Integrate i18next) once language bias is acceptably managed through the fallback.**
-4.  **Proceed with Phase 4: UX Feedback Mechanisms (Task 4.1, 4.2, 4.3) once language bias is acceptably managed.**
-5.  **Ensure Expo Go iOS Compatibility (Task 2.5 - Ongoing).**
+## Next Steps
+1.  **Dependency Integration Status (Task 2.1.1):**
+    *   **`react-native-safe-area-context` (COMPLETED).**
+    *   **`react-native-gesture-handler` and `react-native-reanimated` (DEFERRED).**
+    *   **`react-native-svg` (USED):** Implemented for icons; installation status in `package.json` is problematic but functionally working.
+2.  **Refine `MessageBubble.tsx` (Task 2.2 - Feedback Icons COMPLETED).**
+3.  **Integrate API Service (Task 2.3 - COMPLETED).**
+4.  **Implement Loading States & Basic Error Display (Task 2.4 - Basic implementation COMPLETED).**
+    *   Further refinement of error messages and retry mechanisms will be part of Task 4.2 and 4.3.
+5.  **Proceed with Phase 3: Localization (Task 3.1: Integrate i18next).**
+6.  **Proceed with Phase 4: UX Feedback Mechanisms (Task 4.1: Full Thumbs-up/down logic, Task 4.2: Retry, Task 4.3: Refine errors).**
+7.  **Ensure Expo Go iOS Compatibility (Task 2.5 - Ongoing).**
 
 ## Active Decisions & Considerations
--   **Language Consistency:** Remains the top priority. The current direct prompting methods have proven insufficient.
--   **Two-Step Translation Trade-offs:** Balance the need for Thai-only output against potential increased latency and cost.
--   **Expo Go Compatibility (SDK 53):** Remains critical.
--   **MVP Scope:** Maintain focus on core features.
+- **Expo Go Compatibility (SDK 53):** All development choices must prioritize smooth operation within Expo Go on iOS with the new SDK.
+- **MVP Scope:** Focus strictly on core features: AI chat, language toggle, and UX feedback.
+- **Dependency Management:** Add dependencies one by one and test thoroughly to avoid conflicts with SDK 53.
+- **Thai-Only AI:** The AI interaction is exclusively in Thai.
+- **Security:** API keys for Google Gemini remain environment-protected on Vercel.
 
 ## Important Patterns & Preferences
--   Iterative development and testing.
--   Persistence in problem-solving, exploring alternative solutions when initial approaches fail.
--   Secure API key management.
+- **Iterative Dependency Addition:** Given the challenges with the SDK upgrade, adding and testing dependencies individually is crucial.
+- **API Error Handling Pattern (Backend):** Remains as previously defined.
+- **Response Structure (Backend):** Remains as previously defined.
 
 ## Learnings & Project Insights
-    -   The `gemini-1.5-flash-latest` model is highly persistent in matching the input prompt's language, overriding direct system instructions.
-    -   Direct prompting methods (strengthened system instruction, prompt wrapping, history priming) were insufficient to enforce Thai-only responses.
-    -   A two-step translation fallback has been implemented as a more robust solution, though it may introduce minor latency and additional API cost.
-    -   Continuous documentation is vital for tracking evolving issues, attempted solutions, and plans.
+- Upgrading Expo SDK versions (e.g., from 51 to 53) can be complex and require careful attention to:
+    - Core dependency versions (`expo`, `react`, `react-native`).
+    - Expo package versions (`expo-status-bar`, etc.).
+    - Configuration files (`app.json`, `babel.config.js`, `metro.config.js`).
+    - Plugin compatibility.
+- Starting with a minimal set of dependencies and incrementally adding more is a robust strategy for troubleshooting SDK compatibility issues.
+- Tunneling issues (e.g., Ngrok `EPERM` errors) can sometimes be bypassed by testing on the local network first, then addressing tunneling separately if needed.
+- Clear and explicit `cd` paths in commands are important, especially when working with nested project structures.

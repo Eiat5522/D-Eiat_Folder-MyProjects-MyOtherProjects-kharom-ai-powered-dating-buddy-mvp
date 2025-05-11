@@ -2,14 +2,19 @@ import React, { useState } from 'react';
 import { View, TextInput, TouchableOpacity, StyleSheet, Platform, KeyboardAvoidingView } from 'react-native';
 import { Ionicons } from '@expo/vector-icons'; // Assuming Ionicons is installed or available via Expo
 
-const MessageInput: React.FC = () => {
+interface MessageInputProps {
+  onSend: (text: string) => void;
+  disabled?: boolean; // To disable input while AI is replying
+}
+
+const MessageInput: React.FC<MessageInputProps> = ({ onSend, disabled = false }) => {
   const [message, setMessage] = useState('');
   const [inputHeight, setInputHeight] = useState(40);
 
   const handleSend = () => {
-    if (message.trim().length === 0) return;
-    // TODO: Implement actual send message logic (e.g., call API service)
-    console.log('Sending message:', message);
+    const trimmedMessage = message.trim();
+    if (trimmedMessage.length === 0) return;
+    onSend(trimmedMessage);
     setMessage('');
     setInputHeight(40); // Reset height after sending
   };
@@ -25,26 +30,27 @@ const MessageInput: React.FC = () => {
           style={[styles.input, { height: Math.max(40, inputHeight) }]}
           value={message}
           onChangeText={setMessage}
-          placeholder="Type your message..."
+          placeholder={disabled ? "AI is thinking..." : "Type your message..."}
           placeholderTextColor="#8E8E93"
           multiline
           onContentSizeChange={(event) => {
             setInputHeight(event.nativeEvent.contentSize.height);
           }}
           maxLength={500} // Example character limit
+          editable={!disabled}
         />
         <TouchableOpacity
           style={[
             styles.sendButton,
-            message.trim().length === 0 && styles.sendButtonDisabled
+            (message.trim().length === 0 || disabled) && styles.sendButtonDisabled
           ]}
           onPress={handleSend}
-          disabled={message.trim().length === 0}
+          disabled={message.trim().length === 0 || disabled}
         >
           <Ionicons 
             name="send" 
             size={24} 
-            color={message.trim().length === 0 ? '#8E8E93' : '#007AFF'} 
+            color={(message.trim().length === 0 || disabled) ? '#8E8E93' : '#007AFF'} 
           />
         </TouchableOpacity>
       </View>

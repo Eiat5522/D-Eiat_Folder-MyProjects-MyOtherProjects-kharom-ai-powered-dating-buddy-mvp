@@ -1,31 +1,39 @@
-# Current Task: Integrate System Prompt & Prepare for Phase 3/4
+# Current Task: Phase 2 - Core Chat UI & Logic (SDK 53 Upgrade Complete, Basic Preview Working)
 
 ## Current Objective
-Address the persistent issue where the `gemini-1.5-flash-latest` model (via `api-server`) responds in the user's input language despite multiple prompting strategies. The immediate goal is to evaluate and potentially implement a two-step translation fallback mechanism.
+Core chat functionality (Tasks 2.2, 2.3, 2.4) is now largely implemented and tested in Expo Go. The immediate next steps involve:
+1.  Proceeding with **Phase 3: Localization (Task 3.1: Integrate i18next)**.
+2.  Further refining **Phase 4: UX Feedback Mechanisms (Task 4.1: Full Thumbs-up/down logic, Task 4.2: Retry, Task 4.3: Refine errors)**.
 
 ## Context
 -   **Overall Project:** KhaRom MVP development.
--   **Current Phase:** Focused on resolving AI language consistency.
--   **Problem Status (2025-05-11):** Attempts to enforce Thai-only AI responses using strengthened system instructions, prompt wrapping, and chat history priming have **failed**. The AI continues to respond in English to coherent English prompts.
--   **Previous Steps (Completed 2025-05-11):**
-    -   Implemented and tested combined strategies (strengthened system instruction, prompt wrapping, chat history priming) in `api-server/src/app/api/chat/route.ts`.
-    -   These changes were deployed to Vercel and tested, confirming the issue persists.
--   **Relevant Documents:** `cline_docs/projectRoadmap.md`, `memory-bank/*`.
+-   **Current Phase:** Transitioning from Phase 2 to Phase 3 & 4.
+-   **Previous Steps (Completed 2025-05-10):**
+    -   Successfully integrated API service (`GeminiApiService.ts`).
+    -   Refined `MessageBubble.tsx` with feedback icons (using SVGs).
+    -   Implemented basic loading/error states in `ChatScreen.tsx`.
+    -   Successfully integrated `react-native-safe-area-context`.
+    -   Successfully upgraded `mobile-app` to Expo SDK 53.
+    -   Task 2.1 (Basic Chat Screen UI components) was previously completed.
+-   **Relevant Document:** `cline_docs/projectRoadmap.md` (Tasks 3.1, 4.1, 4.2, 4.3).
 
-## Next Steps (Addressing Language Bias)
-1.  **Implement Two-Step Translation Fallback (Task ID: `1746904295417`):** (Implemented 2025-05-11)
-    *   **Location:** `api-server/src/app/api/chat/route.ts`.
-    *   **Action:**
-        *   Assessed complexity: Moderate. Latency: Potential increase due to a second API call. API Cost: Potential increase. Deemed acceptable for MVP given the critical nature of Thai-only responses.
-        *   Implemented logic to get the initial AI response.
-        *   Added a heuristic (character-based) to detect if the response is likely not in Thai.
-        *   If not Thai, make a second call to the Gemini model with a specific translation system instruction to translate the AI's own previous (non-Thai) response into Thai.
-    *   **Next:** Thoroughly test this fallback mechanism with various non-Thai inputs. Deploy to Vercel for testing.
-2.  **Update Documentation (Ongoing):**
-    *   Document the outcome of the previous attempts and the implementation details of the fallback mechanism in all relevant `cline_docs` and `memory-bank` files.
-    *   Commit and push all documentation updates to GitHub.
-3.  **Proceed to Phase 3 & 4 (Post Successful Testing of Language Bias Resolution):**
-    *   **Phase 3: Localization (Task 3.1: Integrate i18next, etc.)**
-    *   **Phase 4: UX Feedback Mechanisms (Task 4.1: Full Thumbs-up/down logic, etc.)**
-    *   This will proceed once the language bias is acceptably managed, even if via a fallback.
-4.  **Ensure Expo Go iOS Compatibility (Task 2.5 - Ongoing).**
+## Next Steps
+1.  **Dependency Integration Status (Task 2.1.1):**
+    *   `react-native-safe-area-context`: **COMPLETED**.
+    *   `react-native-gesture-handler` and `react-native-reanimated`: **DEFERRED**.
+    *   `react-native-svg`: **USED** (functionally working for icons).
+2.  **Refine `MessageBubble.tsx` (Task 2.2 - Feedback Icons): COMPLETED.**
+3.  **Integrate API Service (Task 2.3): COMPLETED.**
+4.  **Implement Loading States & Basic Error Display (Task 2.4 - Basic implementation): COMPLETED.**
+5.  **Begin Phase 3: Localization**
+    *   **Task 3.1:** Integrate `i18next` and `react-i18next`.
+    *   **Task 3.2:** Create initial Thai/English translation files.
+    *   **Task 3.3:** Implement UI language toggle.
+6.  **Continue Phase 4: UX Feedback Mechanisms**
+    *   **Task 4.1:** Implement full logic for thumbs-up/down feedback (e.g., visual state change, potential logging).
+    *   **Task 4.2:** Implement a retry mechanism for failed messages.
+    *   **Task 4.3:** Refine user-facing error messages for clarity and cultural appropriateness.
+7.  **Update Documentation:**
+    *   Update `memory-bank/progress.md` and `memory-bank/activeContext.md` after each significant step.
+    *   Update `cline_docs/codebaseSummary.md` if new significant patterns emerge.
+8.  **Ensure Expo Go iOS Compatibility (Task 2.5 - Ongoing).**

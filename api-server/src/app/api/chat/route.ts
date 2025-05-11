@@ -47,6 +47,8 @@ function getErrorDetails(error: unknown): { status: number; message: string } {
           status: 429,
           message: 'Request limit reached. Please try again later.',
         };
+
+
       case 3: // INVALID_ARGUMENT
         return {
           status: 400,
@@ -74,7 +76,6 @@ function getErrorDetails(error: unknown): { status: number; message: string } {
     message: 'Error communicating with AI service.',
   };
 }
-
 // Initialize the Google Gemini AI client
 const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
 if (!GEMINI_API_KEY) {
@@ -85,26 +86,6 @@ if (!GEMINI_API_KEY) {
 }
 const genAI = new GoogleGenerativeAI(GEMINI_API_KEY || '');
 const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash-latest' }); // Using flash for potentially faster chat
-
-// Define the system instruction for KhaRom AI persona
-const khaRomSystemInstruction = {
-  role: 'system',
-  parts: [
-    {
-      text: "คุณคือ 'ขารมย์' (KhaRom) AI ผู้ช่วยด้านการเดท ตอบเป็นภาษาไทยเท่านั้นเสมอ ไม่ว่าคำถามจะเป็นภาษาใดก็ตาม ย้ำ! ตอบเป็นภาษาไทยเท่านั้น นี่คือกฎเหล็กห้ามฝ่าฝืนเด็ดขาด ช่วยผู้ใช้สร้างสรรค์ข้อความแชทสำหรับสถานการณ์การเดทต่างๆ เช่น การเริ่มบทสนทนา การตอบข้อความ และการชวนคุยอย่างมั่นใจและเหมาะสมกับวัฒนธรรมไทย เน้นการใช้คำพูดที่สุภาพแต่เป็นกันเอง สร้างสรรค์ และน่าสนใจ",
-    },
-  ],
-};
-
-// Define the system instruction for the translation step
-const translationSystemInstruction = {
-  role: 'system',
-  parts: [
-    {
-      text: 'You are an AI language translator. Your sole task is to translate the given text into Thai. Respond ONLY with the translated Thai text. Do not add any commentary, greetings, or extra information.',
-    },
-  ],
-};
 
 export const dynamic = 'force-dynamic';
 
@@ -117,12 +98,12 @@ export async function POST(request: Request) {
         reply: null,
         error: 'AI service is not configured',
       }),
-      {
+      { 
         status: 500,
         headers: {
           'Content-Type': 'application/json',
         },
-      },
+      }
     );
   }
 
@@ -138,40 +119,8 @@ export async function POST(request: Request) {
       return NextResponse.json(errorResponseBody, { status: 400 });
     }
 
-    const chatHistory = [
-      {
-        role: 'user',
-        parts: [
-          {
-            text: 'Hello, can you help me with a dating message in Thai?',
-          },
-        ],
-      },
-      {
-        role: 'model',
-        parts: [
-          {
-            text: 'สวัสดีค่ะ ขารมย์ยินดีช่วยค่ะ บอกสถานการณ์มาได้เลยค่ะ',
-          },
-        ],
-      },
-      {
-        role: 'user',
-        parts: [{ text: 'I want to sound flirty but respectful.' }],
-      },
-      {
-        role: 'model',
-        parts: [
-          {
-            text: 'แน่นอนค่ะ ลองเริ่มต้นด้วยความเป็นมิตรและชมเชยอย่างจริงใจดูนะคะ เช่น "โปรไฟล์คุณน่าสนใจมากเลยค่ะ โดยเฉพาะเรื่อง..." แล้วค่อยๆหยอดความรู้สึกดีๆเข้าไปค่ะ',
-          },
-        ],
-      },
-    ];
-
     const chat = model.startChat({
-      history: chatHistory,
-      systemInstruction: khaRomSystemInstruction,
+      history: [],
       // generationConfig: { // Optional: configure generation parameters
       //   temperature: 0.9,
       //   topK: 1,
@@ -180,10 +129,7 @@ export async function POST(request: Request) {
       // },
     });
 
-    // Wrap the user's prompt with additional instructions
-    const wrappedPrompt = `ข้อความจากผู้ใช้: '${body.prompt}'\n\nขารมย์ โปรดวิเคราะห์ข้อความนี้และตอบกลับเป็นภาษาไทยเท่านั้น โดยให้คำแนะนำที่เหมาะสมกับวัฒนธรรมการเดทของไทยและยึดมั่นตามคำสั่งของระบบอย่างเคร่งครัด`;
-    console.log('Wrapped prompt with Thai instruction:', wrappedPrompt); // For debugging
-    const result = await chat.sendMessage(wrappedPrompt);
+    const result = await chat.sendMessage(body.prompt);
     const aiResponse = result.response;
 
     // Check for content safety blocks in the prompt feedback
@@ -206,86 +152,9 @@ export async function POST(request: Request) {
       return NextResponse.json(responseBody, { status: 400 });
     }
 
-    const initialResponseText = aiResponse.text();
-    let finalText = initialResponseText;
-
-    // Language detection heuristic
-    const thaiChars = (initialResponseText.match(/[\u0E00-\u0E7F]/g) || []).length;
-    const latinChars = (initialResponseText.match(/[a-zA-Z]/g) || []).length;
-    const totalChars = initialResponseText.length;
-
-    // Trigger translation if:
-    // 1. There are Latin characters, AND
-    // 2. Thai characters are absent or make up a very small percentage of the response.
-    // Threshold: if Thai chars are less than 10% of total (and total > 0) AND Latin chars exist.
-    const needsTranslation =
-      latinChars > 0 &&
-      (thaiChars === 0 || (totalChars > 0 && thaiChars / totalChars < 0.1));
-
-    if (needsTranslation) {
-      console.log(
-        `Initial response (Thai: ${thaiChars}, Latin: ${latinChars}, Total: ${totalChars}) likely not Thai. Attempting translation: "${initialResponseText}"`,
-      );
-      try {
-        // Use a new, simple chat session for translation
-        // Re-use genAI instance, get a model reference
-        const translationModel = genAI.getGenerativeModel({
-          model: 'gemini-1.5-flash-latest',
-        });
-        const translationChat = translationModel.startChat({
-          systemInstruction: translationSystemInstruction,
-          // No history needed for a direct translation task
-        });
-
-        const translationPrompt = `Please translate the following text into Thai: "${initialResponseText}"`;
-        const translationResult =
-          await translationChat.sendMessage(translationPrompt);
-        const translatedText = translationResult.response.text();
-
-        if (translationResult.response.promptFeedback?.blockReason) {
-          console.warn(
-            'Translation prompt was blocked:',
-            translationResult.response.promptFeedback.blockReason,
-            'Using original response.',
-          );
-          // finalText remains initialResponseText
-        } else if (
-          translatedText &&
-          /[\u0E00-\u0E7F]/.test(translatedText) // Check if translation actually produced Thai
-        ) {
-          console.log('Successfully translated to Thai:', translatedText);
-          finalText = translatedText;
-        } else {
-          console.warn(
-            'Translation did not result in Thai text or was empty. Using original response. Translated attempt:',
-            translatedText,
-          );
-          // finalText remains initialResponseText
-        }
-      } catch (translationError) {
-        console.error('Error during translation step:', {
-          error: translationError,
-          type:
-            translationError instanceof Error
-              ? translationError.constructor.name
-              : typeof translationError,
-          message:
-            translationError instanceof Error
-              ? translationError.message
-              : String(translationError),
-        });
-        // Fallback to original response if translation fails
-        // finalText remains initialResponseText
-        console.warn('Translation step failed. Using original response.');
-      }
-    } else {
-      console.log(
-        `Initial response (Thai: ${thaiChars}, Latin: ${latinChars}, Total: ${totalChars}) considered Thai or non-translatable. No translation attempted.`,
-      );
-    }
-
+    const text = aiResponse.text();
     const responseBody: ChatResponseBody = {
-      reply: finalText,
+      reply: text,
       error: null,
     };
     return NextResponse.json(responseBody, { status: 200 });
